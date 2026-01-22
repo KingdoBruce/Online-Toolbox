@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>.htaccess 简介 - 壹资源</title>
+    <meta name="Keywords" content=".htaccess, htaccess简介, Apache配置, 在线工具, 壹资源" />
+    <meta name="Description" content="了解什么是 .htaccess 文件及其在 Apache 服务器中的作用，包括重定向、错误页面自定义等功能。" />
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap 4.6 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --accent-color: #3b82f6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --header-font: 'Outfit', sans-serif;
+            --body-font: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f172a;
+            color: var(--text-primary);
+            font-family: var(--body-font);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            background-image: url('https://picsum.photos/1920/1080?random=103');
+        }
+
+        .bg-overlay.loaded {
+            opacity: 1;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-radius: 8px;
+            padding: 8px 16px !important;
+        }
+
+        .nav-link:hover,
+        .nav-item.active .nav-link {
+            color: #fff !important;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-container {
+            padding: 60px 0;
+            flex: 1;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-family: var(--header-font);
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .footer {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border);
+            padding: 30px 0;
+        }
+
+        .footer p {
+            margin-bottom: 0;
+        }
+
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay"></div>
+
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="../index.html">
+                    <i class="fas fa-tools mr-2"></i>壹资源
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                    <i class="fas fa-bars text-white"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">在线生成</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="guide.html">用法大全</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="introduce.html">文件介绍</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="redirect.html">301重定向</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="error.html">自定义错误</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="rewrite.html">伪静态</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <div class="container">
+            <div class="glass-card">
+                <h2>.htaccess 是什么文件</h2>
+
+                <p><strong>.htaccess 文件</strong> 是 Apache 服务器中的一个配置文件，它负责相关目录下的网页配置。通过 htaccess 文件，可以帮我们实现：网页 301
+                    重定向、自定义 404 错误页面、改变文件扩展名、允许/阻止特定的用户或者目录的访问、禁止目录列表、配置默认文档等功能。</p>
+
+                <p>一般来说，htaccess 文件需要放在网站的根目录下才能控制整个站点，并且在 Linux 系统中，需要把其权限设置为 644
+                    以提高安全性。国内很多主机提供商都通过一定技术手段禁用了该文件，但是国外大多数空间商都是支持该文件的，可以极大的扩展虚拟主机的功能。</p>
+
+                <p>.htaccess 文件中的配置指令作用于 .htaccess 文件所在的目录及其所有子目录。其上级目录也可能会有 .htaccess
+                    文件，而指令是按查找顺序依次生效的。子目录中的指令会覆盖父目录或者主配置文件中的指令。</p>
+
+                <p>在实际应用中，用户最常用其重定向功能与伪静态功能，比如把一个 PHP 的动态页面定义成一个 HTML 后缀的静态页面 URL 形式，这种形式在用户端完全无法看出来，因此，伪静态也是 SEO
+                    的一种重要手段。</p>
+
+                <p>本文件应该由 <strong>UTF-8</strong> 编码。因此，不能使用 Windows 系统自带的记事本程序来编写，推荐使用现代的代码编辑器。</p>
+
+                <p>如果手头没有编辑工具，可以通过本站的 “<a href="index.html">.htaccess 制作生成编辑器</a>”
+                    来自动处理这个文件。我们已经完全重设了这套程序，所有处理均在本地浏览器完成，安全可靠。</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="text-secondary">
+                &copy; <span id="current-year"></span> Jackson Dou. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        window.onload = function () {
+            const bgOverlay = document.querySelector('.bg-overlay');
+            const img = new Image();
+            img.src = 'https://picsum.photos/1920/1080?random=103';
+            img.onload = () => {
+                bgOverlay.classList.add('loaded');
+            };
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>在线进制转换工具 - 二进制、八进制、十进制、十六进制、六十四进制互转 - 壹资源网工具合集</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta name="keywords" content="进制转换, 在线进制转换器, 2进制转10进制, 16进制转换, 64进制转换, 进制换算软件, 壹资源网, 本地计算, 隐私安全" />
+    <meta name="description"
+        content="壹资源网提供的一站式在线进制转换工具，支持 2-64 任意进制互转，带小数点的进制转换亦能完美支持。所有运算均在浏览器本地完成，不上传数据，确保隐私与极致速度。" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="在线进制转换工具 - 2-64任意进制互转 - 壹资源网">
+    <meta property="og:description" content="专业、安全、支持小数的进制转换神器。100% 本地运算，离线可用。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com/jinzhi/">
+    <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+    <link rel="canonical" href="https://tool.iezyw.com/jinzhi/" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #00d2ff;
+            --primary-font: 'Inter', system-ui, -apple-system, sans-serif;
+            --header-font: 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url('https://picsum.photos/1920/1080?random=3');
+            transition: opacity 1.5s ease;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-section {
+            padding: 50px 0 30px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .input-group-text {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--accent-color);
+            border-radius: 12px 0 0 12px;
+            font-weight: 600;
+            min-width: 80px;
+            justify-content: center;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            border-radius: 0 12px 12px 0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(0, 210, 255, 0.25);
+        }
+
+        .btn-action {
+            padding: 8px 16px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-action:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            color: #fff;
+        }
+
+        .btn-copy {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            transition: color 0.3s ease;
+        }
+
+        .btn-copy:hover {
+            color: var(--accent-color);
+        }
+
+        .footer {
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            margin-top: 60px;
+        }
+
+        .section-title {
+            font-family: var(--header-font);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hex-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            border-radius: 8px;
+            padding: 4px 10px;
+        }
+
+        .hex-select option {
+            background: #0f172a;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay"></div>
+
+    <header>
+        <div class="container py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../" class="navbar-brand">
+                    <i class="fas fa-tools mr-2"></i>壹资源工具
+                </a>
+                <div class="d-none d-md-block">
+                    <span class="text-white-50 small">纯网页工具 · 本地处理 · 隐私安全</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <h1>全功能在线进制转换</h1>
+            <p class="lead text-white-50">支持 2-64 任意进制互转，完美适配整数与小数运算。</p>
+        </section>
+
+        <div class="glass-card">
+            <div class="section-title"><i class="fas fa-bolt text-warning"></i>常用进制快速转换</div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">2 进制</span></div>
+                        <input type="text" id="hex-2" class="form-control" placeholder="0101..." oninput="syncFrom(2)">
+                        <button class="btn-copy" onclick="copyValue('hex-2')"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">8 进制</span></div>
+                        <input type="text" id="hex-8" class="form-control" placeholder="0-7..." oninput="syncFrom(8)">
+                        <button class="btn-copy" onclick="copyValue('hex-8')"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="input-group border-primary shadow-sm" style="border-radius: 12px; overflow: hidden;">
+                        <div class="input-group-prepend"><span class="input-group-text"
+                                style="background: rgba(0, 210, 255, 0.1);">10 进制</span></div>
+                        <input type="text" id="hex-10" class="form-control" placeholder="0-9..." oninput="syncFrom(10)">
+                        <button class="btn-copy" onclick="copyValue('hex-10')"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">16 进制</span></div>
+                        <input type="text" id="hex-16" class="form-control" placeholder="0-F..." oninput="syncFrom(16)">
+                        <button class="btn-copy" onclick="copyValue('hex-16')"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">32 进制</span></div>
+                        <input type="text" id="hex-32" class="form-control" placeholder="0-V..." oninput="syncFrom(32)">
+                        <button class="btn-copy" onclick="copyValue('hex-32')"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">64 进制</span></div>
+                        <input type="text" id="hex-64" class="form-control" placeholder="0-@..." oninput="syncFrom(64)">
+                        <button class="btn-copy" onclick="copyValue('hex-64')"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <button class="btn-action" onclick="clearAll()"><i class="fas fa-eraser mr-1"></i>重置</button>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="section-title"><i class="fas fa-exchange-alt text-info"></i>任意进制互转</div>
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-3 mb-lg-0">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="mr-2">从</span>
+                        <select id="custom-in-base" class="hex-select mr-2"></select>
+                        <span>进制</span>
+                    </div>
+                    <textarea id="custom-in-val" class="form-control" rows="3" placeholder="输入源进制数据..."
+                        style="border-radius: 12px;"></textarea>
+                </div>
+                <div class="col-lg-2 text-center mb-3 mb-lg-0">
+                    <button class="btn-action btn-lg" onclick="convertCustom()">
+                        <i class="fas fa-arrow-right d-none d-lg-inline"></i>
+                        <i class="fas fa-arrow-down d-lg-none"></i>
+                    </button>
+                </div>
+                <div class="col-lg-5">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="mr-2">到</span>
+                        <select id="custom-out-base" class="hex-select mr-2"></select>
+                        <span>进制</span>
+                    </div>
+                    <textarea id="custom-out-val" class="form-control" rows="3" readonly placeholder="输出转换后的数据..."
+                        style="border-radius: 12px;"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card mb-0">
+            <div class="section-title"><i class="fas fa-book-open text-success"></i>进制转换小知识</div>
+            <div class="row small text-white-50">
+                <div class="col-md-6">
+                    <p><strong>2进制 (Binary):</strong> 计算机内部计算使用的基本形式。</p>
+                    <p><strong>10进制 (Decimal):</strong> 人类日常生活中最常用的计数方式。</p>
+                    <p><strong>16进制 (Hexadecimal):</strong> 常用于表示颜色（CSS）、内存地址等。</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>64进制 (Base64):</strong>
+                        字符级编码方式，常用于数据在网络中的安全传输。本工具字符序列为：<code>0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_@</code>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span class="text-white-50">Copyright &copy; <span id="current-year">2026</span> <a
+                            href="http://www.iezyw.com" class="text-white-50">壹资源网</a>.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="../" class="text-white-50">更多工具</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        const ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_@";
+
+        // 初始化下拉菜单
+        function initSelects() {
+            const selects = ['custom-in-base', 'custom-out-base'];
+            selects.forEach(id => {
+                const el = document.getElementById(id);
+                for (let i = 2; i <= 64; i++) {
+                    const opt = new Option(i, i);
+                    if (id.includes('in') && i === 10) opt.selected = true;
+                    if (id.includes('out') && i === 16) opt.selected = true;
+                    el.add(opt);
+                }
+            });
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        }
+
+        // 核心转换引擎 (支持小数)
+        function convert(val, fromBase, toBase) {
+            if (!val || val.trim() === "") return "";
+            try {
+                const parts = val.toString().trim().split('.');
+                let integerPart = parts[0];
+                let fractionPart = parts[1] || "";
+
+                // 1. 将源进制转为十进制 (BigInt 处理大整数)
+                let decInt = 0n;
+                for (let char of integerPart) {
+                    let index = ALPHABET.indexOf(char);
+                    if (index === -1 || index >= fromBase) throw "Invalid character";
+                    decInt = decInt * BigInt(fromBase) + BigInt(index);
+                }
+
+                let decFrac = 0;
+                if (fractionPart) {
+                    for (let i = 0; i < fractionPart.length; i++) {
+                        let index = ALPHABET.indexOf(fractionPart[i]);
+                        if (index === -1 || index >= fromBase) throw "Invalid character";
+                        decFrac += index * Math.pow(fromBase, -(i + 1));
+                    }
+                }
+
+                // 2. 将十进制转为目标进制
+                let resInt = "";
+                if (decInt === 0n) resInt = "0";
+                while (decInt > 0n) {
+                    resInt = ALPHABET[Number(decInt % BigInt(toBase))] + resInt;
+                    decInt = decInt / BigInt(toBase);
+                }
+
+                let resFrac = "";
+                if (decFrac > 0) {
+                    resFrac = ".";
+                    let count = 0;
+                    while (decFrac > 0 && count < 20) {
+                        decFrac *= toBase;
+                        let digit = Math.floor(decFrac);
+                        resFrac += ALPHABET[digit];
+                        decFrac -= digit;
+                        count++;
+                    }
+                }
+                return resInt + resFrac;
+            } catch (e) {
+                return "Error";
+            }
+        }
+
+        // 快捷转换同步
+        function syncFrom(base) {
+            const val = document.getElementById(`hex-${base}`).value;
+            if (val === "Error") return;
+            [2, 8, 10, 16, 32, 64].forEach(b => {
+                if (b !== base) {
+                    document.getElementById(`hex-${b}`).value = convert(val, base, b);
+                }
+            });
+        }
+
+        function convertCustom() {
+            const val = document.getElementById('custom-in-val').value;
+            const from = parseInt(document.getElementById('custom-in-base').value);
+            const to = parseInt(document.getElementById('custom-out-base').value);
+            document.getElementById('custom-out-val').value = convert(val, from, to);
+        }
+
+        function clearAll() {
+            [2, 8, 10, 16, 32, 64].forEach(b => document.getElementById(`hex-${b}`).value = "");
+            document.getElementById('custom-in-val').value = "";
+            document.getElementById('custom-out-val').value = "";
+        }
+
+        async function copyValue(id) {
+            const el = document.getElementById(id);
+            if (!el.value) return;
+            try {
+                await navigator.clipboard.writeText(el.value);
+                alert('复制成功！');
+            } catch (err) {
+                el.select();
+                document.execCommand('copy');
+                alert('复制成功！');
+            }
+        }
+
+        initSelects();
+    </script>
+</body>
+
+</html>

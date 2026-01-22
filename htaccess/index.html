@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>.htaccess 文件在线生成器 - 301重定向、404页面、伪静态、访问控制 - 壹资源</title>
+    <meta name="Keywords" content=".htaccess, htaccess在线生成, 301重定向, 404页面, 伪静态规则, 访问控制, 图片防盗链, 在线工具, 壹资源" />
+    <meta name="Description"
+        content="强大的 .htaccess 文件在线生成工具，提供 301 重定向、404 错误页面、伪静态规则、访问控制及图片防盗链等多种实用功能。所有处理均在浏览器本地完成，安全隐私，完全免费。" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jksdou.github.io/html-tools/htaccess/index.html" />
+    <meta property="og:title" content=".htaccess 文件在线生成器 - 壹资源" />
+    <meta property="og:description" content="全自动 .htaccess 文件生成工具，支持 301 跳转、404 自定义、伪静态规则等多种复杂任务，极致流畅。" />
+    <meta property="og:image" content="https://jksdou.github.io/html-tools/assets/img/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://jksdou.github.io/html-tools/htaccess/index.html" />
+    <meta property="twitter:title" content=".htaccess 文件在线生成器 - 壹资源" />
+    <meta property="twitter:description" content="全自动 .htaccess 文件生成工具，支持 301 跳转、404 自定义、伪静态规则等多种复杂任务，极致流畅。" />
+    <meta property="twitter:image" content="https://jksdou.github.io/html-tools/assets/img/og-image.png" />
+
+    <link rel="canonical" href="https://jksdou.github.io/html-tools/htaccess/index.html" />
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap 4.6 (Keep for layout compatibility if needed, but we apply glass styles) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="assets/js/basic.js"></script>
+    <script type="text/javascript" src="assets/js/makeHtaccess.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --accent-color: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --header-font: 'Outfit', sans-serif;
+            --body-font: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f172a;
+            color: var(--text-primary);
+            font-family: var(--body-font);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 1.5s ease;
+            opacity: 0;
+            background-image: url('https://picsum.photos/1920/1080?random=101');
+        }
+
+        .bg-overlay.loaded {
+            opacity: 1;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-radius: 8px;
+            padding: 8px 16px !important;
+        }
+
+        .nav-link:hover,
+        .nav-item.active .nav-link {
+            color: #fff !important;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-container {
+            padding: 60px 0;
+            flex: 1;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .tool-title {
+            font-family: var(--header-font);
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 2.2rem;
+            text-align: center;
+        }
+
+        .tool-desc {
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        /* Nav Tabs Glass Style */
+        .list-group {
+            border: none;
+            background: transparent;
+        }
+
+        .list-group-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            border-radius: 12px !important;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .list-group-item:hover,
+        .list-group-item.active {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: var(--accent-color);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .tab-content .panel {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+        }
+
+        .tab-content .panel-heading {
+            background: transparent;
+            border-bottom: 1px solid var(--glass-border);
+            font-family: var(--header-font);
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-color);
+            color: #fff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-custom {
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-custom:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            color: #fff;
+        }
+
+        textarea.form-control {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .footer {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border);
+            padding: 30px 0;
+            margin-top: auto;
+        }
+
+        .footer p {
+            margin-bottom: 0;
+        }
+
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--glass-border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 992px) {
+            .list-group {
+                display: flex;
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 15px;
+                gap: 10px;
+            }
+
+            .list-group-item {
+                white-space: nowrap;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+
+    <script type="text/javascript">
+        // Client-side download function
+        function subdownload() {
+            const content = document.htaccessform.htaccess.value;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '.htaccess';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        window.onload = function () {
+            const bgOverlay = document.querySelector('.bg-overlay');
+            const img = new Image();
+            img.src = 'https://picsum.photos/1920/1080?random=101';
+            img.onload = () => {
+                bgOverlay.classList.add('loaded');
+            };
+
+            // Initial call to generate content
+            if (typeof doAll === 'function') {
+                doAll();
+            }
+
+            // Sync year
+            if (document.getElementById('current-year')) {
+                document.getElementById('current-year').textContent = new Date().getFullYear();
+            }
+        };
+    </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay"></div>
+
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="../index.html">
+                    <i class="fas fa-tools mr-2"></i>壹资源
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                    <i class="fas fa-bars text-white"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="index.html">.htaccess 生成器</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="introduce.html" target="_blank">文件介绍</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="guide.html" target="_blank">用法大全</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="redirect.html" target="_blank">301重定向</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="error.html" target="_blank">自定义错误</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="rewrite.html" target="_blank">伪静态</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <div class="container">
+            <div class="glass-card">
+                <h1 class="tool-title">.htaccess 文件在线生成</h1>
+                <p class="tool-desc">
+                    自动化生成 `.htaccess` 配置文件。提供 301 跳转、404 页面、防盗链、伪静态等复杂任务配置。<br>
+                    <small class="text-muted"><i class="fas fa-shield-alt mr-1"></i>所有处理均在浏览器本地完成，不会上传数据到服务器。</small>
+                </p>
+
+                <form name="htaccessform" action="" onsubmit="return false;">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="list-group" role="tablist">
+                                <a class="list-group-item active" href="#fileList" data-toggle="tab" role="tab">
+                                    <i class="fas fa-cog mr-2"></i>常规全局设置
+                                </a>
+                                <a class="list-group-item" href="#basic" data-toggle="tab" role="tab">
+                                    <i class="fas fa-lock mr-2"></i>文件夹密码保护
+                                </a>
+                                <a class="list-group-item" href="#errorPage" data-toggle="tab" role="tab">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>自定义错误页面
+                                </a>
+                                <a class="list-group-item" href="#extension" data-toggle="tab" role="tab">
+                                    <i class="fas fa-file-code mr-2"></i>自定义默认文档
+                                </a>
+                                <a class="list-group-item" href="#WWW" data-toggle="tab" role="tab">
+                                    <i class="fas fa-globe mr-2"></i>WWW域名重定向
+                                </a>
+                                <a class="list-group-item" href="#redirect" data-toggle="tab" role="tab">
+                                    <i class="fas fa-exchange-alt mr-2"></i>网页重定向
+                                </a>
+                                <a class="list-group-item" href="#access" data-toggle="tab" role="tab">
+                                    <i class="fas fa-user-shield mr-2"></i>访问权限控制
+                                </a>
+                                <a class="list-group-item" href="#mime" data-toggle="tab" role="tab">
+                                    <i class="fas fa-list mr-2"></i>MIME类型修改
+                                </a>
+                                <a class="list-group-item" href="#image" data-toggle="tab" role="tab">
+                                    <i class="fas fa-image mr-2"></i>设置图片防盗链
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="tab-content">
+                                <!-- 常规全局设置 -->
+                                <div role="tabpanel" class="tab-pane fade show active" id="fileList">
+                                    <div class="panel">
+                                        <div class="panel-heading">常规全局设置</div>
+                                        <div class="panel-body">
+                                            <h3>是否在没有默认文档的目录显示文件列表</h3>
+                                            <p>如果您选择“显示”，则意味着访问有些没有默认文档的目录时，服务器会返回该目录下的文件列表。请您注意，这可能给您的站点带来安全隐患。</p>
+                                            <select name="file_list" class="form-control" onchange="doAll()">
+                                                <option value="" selected>默认</option>
+                                                <option value="true">显示</option>
+                                                <option value="false">隐藏</option>
+                                            </select>
+
+                                            <h3>是否开启站点的图片缓存</h3>
+                                            <p>如果您的站点包含大量的图片，开启此项可以设置图片缓存，加快页面载入速度，减少服务器流量消耗。</p>
+                                            <select name="Pic_cache" class="form-control" onchange="doAll()">
+                                                <option value="" selected>默认</option>
+                                                <option value="t600">开启 10 分钟缓存</option>
+                                                <option value="t3600">开启 1 小时缓存</option>
+                                                <option value="t18000">开启 5 小时缓存</option>
+                                                <option value="t86400">开启 24 小时缓存</option>
+                                                <option value="t604800">开启一周缓存</option>
+                                                <option value="t2592000">开启一个月缓存</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 文件夹密码保护 -->
+                                <div role="tabpanel" class="tab-pane fade" id="basic">
+                                    <div class="panel">
+                                        <div class="panel-heading">文件夹密码保护</div>
+                                        <div class="panel-body">
+                                            <p><b>第一步</b> 制作一个 .htpasswd 文件</p>
+                                            <div class="form-group">
+                                                <label>用户名</label>
+                                                <input name="user" type="text" class="form-control" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>密码</label>
+                                                <input name="pwd1" type="text" class="form-control" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>长度</label>
+                                                <div class="input-group">
+                                                    <select name="taille" class="form-control">
+                                                        <option>6</option>
+                                                        <option>8</option>
+                                                        <option selected>10</option>
+                                                        <option>12</option>
+                                                        <option>15</option>
+                                                    </select>
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-outline-primary"
+                                                            onclick="generation(this.form)">随机密码</button>
+                                                        <button type="button" class="btn btn-outline-success"
+                                                            onclick="this.form.pwd2.value=htpasswd(this.form.user.value, this.form.pwd1.value, this.form.alg)">创建内容</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="alg" value="1" />
+                                            <div class="form-group">
+                                                <label>.htpasswd内容（复制并保存为该文件上传）</label>
+                                                <input name="pwd2" type="text" class="form-control" readonly />
+                                            </div>
+                                            <p><b>第二步</b> 输入上传后的完整路径</p>
+                                            <div class="form-group">
+                                                <input name="sitePathPwd" type="text" class="form-control"
+                                                    placeholder="/home/foo/bar/.htpasswd" onkeyup="doAll()" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 自定义错误页面 -->
+                                <div role="tabpanel" class="tab-pane fade" id="errorPage">
+                                    <div class="panel">
+                                        <div class="panel-heading">自定义错误页面</div>
+                                        <div class="panel-body">
+                                            <p>请输入网址或错误页面的路径（例如：/404.html）</p>
+                                            <div class="row">
+                                                <div class="col-md-6 form-group">
+                                                    <label>400 错误的请求</label>
+                                                    <input name="error400" type="text" class="form-control"
+                                                        onkeyup="doAll()" />
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label>401 认证失败</label>
+                                                    <input name="error401" type="text" class="form-control"
+                                                        onkeyup="doAll()" />
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label>403 禁止访问</label>
+                                                    <input name="error403" type="text" class="form-control"
+                                                        onkeyup="doAll()" />
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label>404 未找到页面</label>
+                                                    <input name="error404" type="text" class="form-control"
+                                                        onkeyup="doAll()" />
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label>500 服务器内部错误</label>
+                                                    <input name="error500" type="text" class="form-control"
+                                                        onkeyup="doAll()" />
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label>503 服务不可用</label>
+                                                    <input name="error503" type="text" class="form-control"
+                                                        onkeyup="doAll()" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 自定义默认文档 -->
+                                <div role="tabpanel" class="tab-pane fade" id="extension">
+                                    <div class="panel">
+                                        <div class="panel-heading">自定义默认文档</div>
+                                        <div class="panel-body">
+                                            <p>请输入文件名（按顺序检查，例如：index.html）</p>
+                                            <div class="row">
+                                                <div class="col-md-6 form-group">
+                                                    <input name="extension1" type="text" class="form-control mb-2"
+                                                        placeholder="文档 1" onkeyup="doAll()" />
+                                                    <input name="extension2" type="text" class="form-control mb-2"
+                                                        placeholder="文档 2" onkeyup="doAll()" />
+                                                    <input name="extension3" type="text" class="form-control mb-2"
+                                                        placeholder="文档 3" onkeyup="doAll()" />
+                                                    <input name="extension4" type="text" class="form-control mb-2"
+                                                        placeholder="文档 4" onkeyup="doAll()" />
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <input name="extension5" type="text" class="form-control mb-2"
+                                                        placeholder="文档 5" onkeyup="doAll()" />
+                                                    <input name="extension6" type="text" class="form-control mb-2"
+                                                        placeholder="文档 6" onkeyup="doAll()" />
+                                                    <input name="extension7" type="text" class="form-control mb-2"
+                                                        placeholder="文档 7" onkeyup="doAll()" />
+                                                    <input name="extension8" type="text" class="form-control"
+                                                        placeholder="文档 8" onkeyup="doAll()" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- WWW域名重定向 -->
+                                <div role="tabpanel" class="tab-pane fade" id="WWW">
+                                    <div class="panel">
+                                        <div class="panel-heading">WWW 域名重定向</div>
+                                        <div class="panel-body">
+                                            <p>请输入您最终决定使用的网址（程序将自动判断重定向类型）</p>
+                                            <input value="http://" name="unifiedURL" type="text" class="form-control"
+                                                onkeyup="doAll()" />
+                                            <p class="mt-2 small"><i
+                                                    class="fas fa-info-circle mr-1"></i>例如输入：http://example.com 或
+                                                http://www.example.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 网页重定向 -->
+                                <div role="tabpanel" class="tab-pane fade" id="redirect">
+                                    <div class="panel">
+                                        <div class="panel-heading">网页重定向 (301 永久)</div>
+                                        <div class="panel-body">
+                                            <div class="form-row mb-2">
+                                                <div class="col"><input name="redirectFrom1" type="text"
+                                                        class="form-control" placeholder="原路径 /old" onkeyup="doAll()" />
+                                                </div>
+                                                <div class="col"><input name="redirectTo1" type="text"
+                                                        class="form-control" placeholder="目标 http://..."
+                                                        onkeyup="doAll()" /></div>
+                                            </div>
+                                            <div class="form-row mb-2">
+                                                <div class="col"><input name="redirectFrom2" type="text"
+                                                        class="form-control" onkeyup="doAll()" /></div>
+                                                <div class="col"><input name="redirectTo2" type="text"
+                                                        class="form-control" onkeyup="doAll()" /></div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col"><input name="redirectFrom3" type="text"
+                                                        class="form-control" onkeyup="doAll()" /></div>
+                                                <div class="col"><input name="redirectTo3" type="text"
+                                                        class="form-control" onkeyup="doAll()" /></div>
+                                            </div>
+
+                                            <p class="mt-4 mb-2"><strong>302 临时重定向</strong></p>
+                                            <div class="form-row mb-2">
+                                                <div class="col"><input name="redirect302From1" type="text"
+                                                        class="form-control" onkeyup="doAll()" /></div>
+                                                <div class="col"><input name="redirect302To1" type="text"
+                                                        class="form-control" onkeyup="doAll()" /></div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col"><input name="redirect302From2" type="text"
+                                                        class="form-control" onkeyup="doAll()" /></div>
+                                                <div class="col"><input name="redirect302To2" type="text"
+                                                        class="form-control" onkeyup="doAll()" /></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 访问权限控制 -->
+                                <div role="tabpanel" class="tab-pane fade" id="access">
+                                    <div class="panel">
+                                        <div class="panel-heading">访问权限控制</div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <p>允许访问的 IP：</p>
+                                                    <input name="blockOK1" type="text" class="form-control mb-2"
+                                                        onkeyup="doAll()" />
+                                                    <input name="blockOK2" type="text" class="form-control mb-2"
+                                                        onkeyup="doAll()" />
+                                                    <input name="blockOK3" type="text" class="form-control"
+                                                        onkeyup="doAll()" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p>拒绝访问的 IP：</p>
+                                                    <input name="blockNG1" type="text" class="form-control mb-2"
+                                                        onkeyup="doAll()" />
+                                                    <input name="blockNG2" type="text" class="form-control mb-2"
+                                                        onkeyup="doAll()" />
+                                                    <input name="blockNG3" type="text" class="form-control"
+                                                        onkeyup="doAll()" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- MIME类型自定义 -->
+                                <div role="tabpanel" class="tab-pane fade" id="mime">
+                                    <div class="panel">
+                                        <div class="panel-heading">MIME 类型自定义</div>
+                                        <div class="panel-body">
+                                            <p>输入您的文件名后缀（不需要加小数点）</p>
+                                            <div class="form-row mb-2">
+                                                <div class="col-4"><input name="MIMEForm1" type="text"
+                                                        class="form-control" placeholder="后缀: webp" onkeyup="doAll()" />
+                                                </div>
+                                                <div class="col-8"><input name="MIME1" type="text" class="form-control"
+                                                        placeholder="类型: image/webp" onkeyup="doAll()" /></div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-4"><input name="MIMEForm2" type="text"
+                                                        class="form-control" onkeyup="doAll()" /></div>
+                                                <div class="col-8"><input name="MIME2" type="text" class="form-control"
+                                                        onkeyup="doAll()" /></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 图片文件防盗链 -->
+                                <div role="tabpanel" class="tab-pane fade" id="image">
+                                    <div class="panel">
+                                        <div class="panel-heading">图片文件防盗链</div>
+                                        <div class="panel-body">
+                                            <p>允许链接您图片的域名 (不带 http://，例如 yoursite.com)</p>
+                                            <input name="PicForm1" type="text" class="form-control mb-2"
+                                                placeholder="域名 1" onkeyup="doAll()" />
+                                            <input name="PicForm2" type="text" class="form-control mb-2"
+                                                placeholder="域名 2" onkeyup="doAll()" />
+
+                                            <p class="mt-4">将非法盗链的图片替换为：</p>
+                                            <input name="Pic1" type="text" class="form-control"
+                                                placeholder="完整图片网址 http://..." onkeyup="doAll()" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <div class="panel-heading bg-transparent border-0 mb-3"><i
+                                class="fas fa-terminal mr-2"></i>.htaccess 文件内容</div>
+                        <textarea name="htaccess" class="form-control" rows="12" spellcheck="false"></textarea>
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-custom btn-lg w-100" onclick="subdownload()">
+                                <i class="fas fa-download mr-2"></i>生成并下载 .htaccess 文件
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="text-secondary">
+                &copy; <span id="current-year"></span>
+                All Rights Reserved. 由 壹资源网的纯网页工具提供
+            </p>
+            <p class="small text-secondary mt-2">
+
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>

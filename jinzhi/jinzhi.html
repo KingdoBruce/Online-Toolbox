@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>在线带小数进制转换 - 2-64位任意进制互转 - 壹资源网工具合集</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="keywords" content="进制转换, 小数进制转换, 2进制转10进制, 16进制转换, 64进制转换, 壹资源网" />
+    <meta name="description" content="壹资源网提供的支持小数点的在线进制转换工具，支持 2-64 任意进制互转。100% 浏览器本地运算，隐私安全。" />
+
+    <link rel="canonical" href="https://tool.iezyw.com/jinzhi/" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #00d2ff;
+            --primary-font: 'Inter', system-ui, -apple-system, sans-serif;
+            --header-font: 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url('https://picsum.photos/1920/1080?random=4');
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #fff;
+            text-decoration: none !important;
+        }
+
+        .hero-section {
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .btn-main {
+            padding: 15px 40px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none !important;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 210, 255, 0.4);
+            color: #fff;
+        }
+
+        .footer {
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            margin-top: 60px;
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay"></div>
+
+    <header>
+        <div class="container py-3">
+            <a href="../" class="navbar-brand">
+                <i class="fas fa-tools mr-2"></i>壹资源工具
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <div class="glass-card">
+                <h1 class="mb-4">全功能进制转换已上线</h1>
+                <p class="lead mb-5 text-white-50">我们已将整数和小阶转换功能合并到更加强大的主工具中，为您提供更流畅的体验。</p>
+                <a href="index.html" class="btn-main">
+                    <i class="fas fa-external-link-alt mr-2"></i>前往使用新版工具
+                </a>
+                <div class="mt-5 small text-white-50">
+                    <p>支持 2, 8, 10, 16, 32, 64 等任意进制实时互转</p>
+                    <p>完美支持带小数点的数值运算</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <span class="text-white-50">Copyright &copy; 2026 <a href="http://www.iezyw.com"
+                    class="text-white-50">壹资源网</a>.</span>
+        </div>
+    </footer>
+</body>
+
+</html>

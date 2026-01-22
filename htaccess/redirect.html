@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>.htaccess 301 重定向实现 - 壹资源</title>
+    <meta name="Keywords" content=".htaccess, 301重定向, 301跳转, 域名跳转, 在线工具, 壹资源" />
+    <meta name="Description" content="通过 .htaccess 文件实现网页的 301 永久重定向或 302 临时重定向，优化 SEO 并保持域名权重。" />
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap 4.6 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --accent-color: #3b82f6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --header-font: 'Outfit', sans-serif;
+            --body-font: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f172a;
+            color: var(--text-primary);
+            font-family: var(--body-font);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            background-image: url('https://picsum.photos/1920/1080?random=104');
+        }
+
+        .bg-overlay.loaded {
+            opacity: 1;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-radius: 8px;
+            padding: 8px 16px !important;
+        }
+
+        .nav-link:hover,
+        .nav-item.active .nav-link {
+            color: #fff !important;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-container {
+            padding: 60px 0;
+            flex: 1;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-family: var(--header-font);
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h3 {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            word-break: break-all;
+        }
+
+        .footer {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border);
+            padding: 30px 0;
+        }
+
+        .footer p {
+            margin-bottom: 0;
+        }
+
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay"></div>
+
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="../index.html">
+                    <i class="fas fa-tools mr-2"></i>壹资源
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                    <i class="fas fa-bars text-white"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">在线生成</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="guide.html">用法大全</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="introduce.html">文件介绍</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="redirect.html">301重定向</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="error.html">自定义错误</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="rewrite.html">伪静态</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <div class="container">
+            <div class="glass-card">
+                <h2>通过 .htaccess 实现 301 重定向</h2>
+
+                <p>在很多情况下，网站都需要进行 301 或 302 重定向。301 为永久重定向，302 为临时重定向。比如网站更换域名、目录迁移或需要将某个域名的权重传递到另一个域名时，重定向是非常有效的手段。</p>
+
+                <p>我们强烈建议使用本站的 <a href="index.html">.htaccess 生成工具</a> 来自动处理这些复杂的指令，以避免人为错误。在手动编辑之前，务必备份原有的文件。</p>
+
+                <h3>1. 将不带 WWW 的域名重定向至带 WWW</h3>
+                <p>这对于 SEO 非常有利，可以集中页面权重：</p>
+                <div class="alert-info">
+                    RewriteEngine On<br>
+                    RewriteCond %{HTTP_HOST} !^www\.example\.com$ [NC]<br>
+                    RewriteRule ^(.*)$ http://www.example.com/$1 [L,R=301]
+                </div>
+
+                <h3>2. 将带 WWW 的域名重定向至不带 WWW</h3>
+                <div class="alert-info">
+                    RewriteEngine On<br>
+                    RewriteCond %{HTTP_HOST} !^example\.com$ [NC]<br>
+                    RewriteRule ^(.*)$ http://example.com/$1 [L,R=301]
+                </div>
+
+                <h3>3. 全站老域名跳转至新域名</h3>
+                <p>如果网页内容与结构不变，仅更换域名：</p>
+                <div class="alert-info">
+                    RewriteEngine On<br>
+                    RewriteBase /<br>
+                    RewriteCond %{HTTP_HOST} !olddomain\.com$ [NC]<br>
+                    RewriteRule ^(.*)$ http://newdomain.com/$1 [L,R=301]
+                </div>
+
+                <p>这些指令对主流搜索引擎（如 Google、百度）非常友好，能帮助搜索引擎快速识别你的意图并保留原有的 PR 值或权重。</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="text-secondary">
+                &copy; <span id="current-year"></span> Jackson Dou. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        window.onload = function () {
+            const bgOverlay = document.querySelector('.bg-overlay');
+            const img = new Image();
+            img.src = 'https://picsum.photos/1920/1080?random=104';
+            img.onload = () => {
+                bgOverlay.classList.add('loaded');
+            };
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

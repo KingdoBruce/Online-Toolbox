@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>文本去空格回车换行工具 - PDF复制文本修复 - 壹资源网工具合集</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta name="keywords" content="去空格, 去回车, 去换行, 文本精简, PDF文本修复, 标点符号转换, 壹资源网, 在线工具, 隐私安全" />
+    <meta name="description"
+        content="壹资源网提供的文本处理工具，可一键删除文本中的所有空格、回车及换行符，并支持标点自动转换。特别适用于修复从 PDF 中复制的断行文本。100% 浏览器本地处理，隐私安全。" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="文本去空格回车换行工具 - 极简、高效的文本处理 - 壹资源网">
+    <meta property="og:description" content="一键清理文本中的断行与空格，支持标点中文化，PDF 文档处理好帮手。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com/html-sp/">
+    <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+    <link rel="canonical" href="https://tool.iezyw.com/html-sp/" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #00d2ff;
+            --primary-font: 'Inter', system-ui, -apple-system, sans-serif;
+            --header-font: 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url('https://picsum.photos/1920/1080?random=2');
+            transition: opacity 1.5s ease;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-section {
+            padding: 50px 0 30px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            resize: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(0, 210, 255, 0.25);
+        }
+
+        .btn-action {
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary-action {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            border: none;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .btn-primary-action:hover {
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        }
+
+        .custom-control-label::before {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+        }
+
+        .custom-control-input:checked~.custom-control-label::before {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .footer {
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            margin-top: 60px;
+        }
+
+        .label-title {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 8px;
+            font-weight: 600;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .btn-action {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay"></div>
+
+    <header>
+        <div class="container py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../" class="navbar-brand">
+                    <i class="fas fa-tools mr-2"></i>壹资源工具
+                </a>
+                <div class="d-none d-md-block">
+                    <span class="text-white-50 small">纯网页工具 · 本地处理 · 隐私安全</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <h1>文本去空格与排版修复</h1>
+            <p class="lead text-white-50">一键清理 PDF/网页复制文本中的断行与空格，修复排版问题。</p>
+        </section>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="glass-card">
+                    <label class="label-title"><i class="fas fa-file-alt mr-2"></i>待处理文本</label>
+                    <textarea id="source" class="form-control" rows="12" placeholder="在此输入需要清理的原始文本..."></textarea>
+                    <div class="mt-3 d-flex align-items-center justify-content-between">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="enTocn" checked>
+                            <label class="custom-control-label small" for="enTocn">标点中文化</label>
+                        </div>
+                        <button onclick="handleProcess()" class="btn-action btn-primary-action">
+                            <i class="fas fa-magic mr-2"></i>立即清理
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="glass-card">
+                    <label class="label-title"><i class="fas fa-check-circle mr-2"></i>处理结果</label>
+                    <textarea id="result" class="form-control" rows="12" placeholder="等待处理结果..."></textarea>
+                    <div class="mt-3 text-right">
+                        <button onclick="handleCopy()" class="btn-action">
+                            <i class="fas fa-copy mr-2"></i>复制结果
+                        </button>
+                        <button onclick="handleClear()" class="btn-action">
+                            <i class="fas fa-trash-alt mr-2"></i>全部清空
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-info bg-transparent border-info text-info rounded-lg mb-0"
+            style="backdrop-filter: blur(5px);">
+            <i class="fas fa-lightbulb mr-2"></i>
+            <strong>小贴士：</strong> PDF 中复制的代码或长句常有断行，使用本工具可迅速合成整句，方便阅读或翻译。
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span class="text-white-50">Copyright &copy; <span id="current-year">2026</span> <a
+                            href="http://www.iezyw.com" class="text-white-50">壹资源网</a>.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="../" class="text-white-50">更多工具</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        const source = document.getElementById('source');
+        const result = document.getElementById('result');
+        const enTocnBtn = document.getElementById('enTocn');
+
+        // 设置年份
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        function handleProcess() {
+            let text = source.value;
+            if (!text.trim()) {
+                alert('请先输入内容！');
+                return;
+            }
+
+            // 执行清理逻辑
+            let clean = iGetInnerText(text);
+
+            // 执行标点转换
+            if (enTocnBtn.checked) {
+                clean = repSign(clean);
+            }
+
+            result.value = clean;
+        }
+
+        function iGetInnerText(testStr) {
+            let res = testStr;
+            res = res.replace(/<\/?[^>]*>/g, ''); // 去除HTML tag
+            res = res.replace(/&nbsp;/ig, '');    // 去掉&nbsp;
+            res = res.replace(/[ ]/g, "");         // 去掉所有空格
+            res = res.replace(/[\r\n]/g, "");     // 去掉回车换行
+            return res;
+        }
+
+        function repSign(s) {
+            const signs = {
+                ',': '，', '.': '。', '?': '？', '!': '！',
+                '(': '（', ')': '）', ';': '；', ':': '：'
+            };
+            return s.replace(/[\,\.\?\!\(\)\;\:]/g, m => signs[m] || m);
+        }
+
+        async function handleCopy() {
+            if (!result.value.trim()) {
+                alert('没有内容可以复制！');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(result.value);
+                alert('已成功复制到剪贴板！');
+            } catch (err) {
+                result.select();
+                document.execCommand('copy');
+                alert('复制成功！');
+            }
+        }
+
+        function handleClear() {
+            if (confirm('确定要清空输入和输出吗？')) {
+                source.value = '';
+                result.value = '';
+            }
+        }
+    </script>
+</body>
+
+</html>

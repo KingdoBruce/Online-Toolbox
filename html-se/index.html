@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>HTML 源代码在线加密混淆 - 网页源代码保护工具 - 壹资源网工具合集</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta name="keywords" content="HTML加密, HTML代码混淆, 网页加密, 源代码保护, 在线加密工具, 壹资源网, 本地加密, 隐私安全" />
+    <meta name="description"
+        content="壹资源网提供的 HTML 源代码加密解密工具，支持本地混淆处理，有效防止网页源代码被直接抓取。所有数据处理均在浏览器本地完成，不上传服务器，保护隐私，安全高效。" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="HTML 源代码在线加密混淆 - 网页源代码保护工具 - 壹资源网">
+    <meta property="og:description" content="专业网页代码混淆与还原工具，100% 本地处理，确保您的代码逻辑安全。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com/html-se/">
+    <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+    <link rel="canonical" href="https://tool.iezyw.com/html-se/" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #00d2ff;
+            --primary-font: 'Inter', system-ui, -apple-system, sans-serif;
+            --header-font: 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url('https://picsum.photos/1920/1080?random=1');
+            transition: opacity 1.5s ease;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-section {
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            border-radius: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            resize: none;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(0, 210, 255, 0.25);
+        }
+
+        .btn-action {
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn-primary-action {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            border: none;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            color: #fff;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary-action:hover {
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        }
+
+        .footer {
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .btn-action {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay"></div>
+
+    <header>
+        <div class="container py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../" class="navbar-brand">
+                    <i class="fas fa-tools mr-2"></i>壹资源工具
+                </a>
+                <div class="d-none d-md-block">
+                    <span class="text-white-50 small">纯网页工具 · 本地处理 · 隐私安全</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <h1>HTML 源代码加密与混淆</h1>
+            <p class="lead text-white-50">通过编码转换混淆您的 HTML 代码，增加抓取成本，100% 本地处理。</p>
+        </section>
+
+        <div class="glass-card">
+            <div class="form-group">
+                <textarea id="code-editor" class="form-control" rows="15" placeholder="请在此粘贴您的 HTML 源代码..."></textarea>
+            </div>
+            <div class="text-center mt-4">
+                <button onclick="handleGenerate()" class="btn-action btn-primary-action">
+                    <i class="fas fa-lock mr-2"></i>立即加密
+                </button>
+                <button onclick="handleUncompile()" class="btn-action">
+                    <i class="fas fa-unlock-alt mr-2"></i>还原代码
+                </button>
+                <button onclick="handleSelect()" class="btn-action">
+                    <i class="fas fa-mouse-pointer mr-2"></i>全选代码
+                </button>
+                <button onclick="handlePreview()" class="btn-action">
+                    <i class="fas fa-eye mr-2"></i>预览效果
+                </button>
+                <button onclick="handleClear()" class="btn-action">
+                    <i class="fas fa-trash-alt mr-2"></i>清空输入
+                </button>
+            </div>
+        </div>
+
+        <div class="alert alert-info bg-transparent border-info text-info rounded-lg"
+            style="backdrop-filter: blur(5px);">
+            <i class="fas fa-info-circle mr-2"></i>
+            <strong>提示：</strong> 加密后的代码包含 JavaScript 脚本，请确保在使用时宿主环境支持 JS 运行。
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span class="text-white-50">Copyright &copy; <span id="current-year">2026</span> <a
+                            href="http://www.iezyw.com" class="text-white-50">壹资源网</a>.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="../" class="text-white-50">更多工具</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        const editor = document.getElementById('code-editor');
+
+        // 设置年份
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // 核心功能逻辑
+        function handleGenerate() {
+            const code = editor.value;
+            if (!code.trim()) {
+                alert('请输入需要加密的代码！');
+                return;
+            }
+            const compiled = escape(code);
+            editor.value = `<script>\n<!--\ndocument.write(unescape("${compiled}"));\n//-->\n<\/script>`;
+            alert('代码已混淆加密完成！');
+        }
+
+        function handleUncompile() {
+            const code = editor.value;
+            if (!code.trim()) {
+                alert('没有可还原的内容！');
+                return;
+            }
+            try {
+                // 尝试从模板中提取内容
+                const match = code.match(/unescape\("([^"]+)"\)/);
+                if (match && match[1]) {
+                    editor.value = unescape(match[1]);
+                    alert('代码已还原成功！');
+                } else {
+                    // 如果不是标准模板，尝试直接 unescape
+                    editor.value = unescape(code);
+                    alert('尝试直接还原完成。');
+                }
+            } catch (e) {
+                alert('还原失败，请检查输入格式。');
+            }
+        }
+
+        function handleSelect() {
+            if (editor.value.length > 0) {
+                editor.focus();
+                editor.select();
+            }
+        }
+
+        function handlePreview() {
+            const code = editor.value;
+            if (!code.trim()) {
+                alert('没有可预览的内容！');
+                return;
+            }
+            const pr = window.open("", "Preview", "width=800,height=600,scrollbars=1");
+            pr.document.write(code);
+            pr.document.close();
+        }
+
+        function handleClear() {
+            if (confirm('确定要清空所有内容吗？')) {
+                editor.value = '';
+            }
+        }
+    </script>
+</body>
+
+</html>
