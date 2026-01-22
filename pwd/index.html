@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <title>现代密码生成器 - 安全、隐私、100%本地计算的专业工具 | 壹资源网</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta content="telephone=no,email=no" name="format-detection" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="author" content="Jackson Dou" />
+  <meta name="keywords" content="密码生成器, 密码计算器, 随机密码, 网络安全, 隐私工具, 壹资源网, 离线加密, 记忆密码" />
+  <meta name="description" content="基于推演算法的现代密码生成工具，所有操作均在浏览器本地完成，不上传任何数据。通过“记忆密码+区分代码”模式，让您轻松管理复杂且唯一的安全密码。" />
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="现代密码生成器 - 安全、隐私、100%本地计算的专业工具">
+  <meta property="og:description" content="基于记忆密码的本地密码推演工具，100% 本地处理，安全隐私。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tool.iezyw.com/pwd/">
+  <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+  <link rel="canonical" href="https://tool.iezyw.com/pwd/" />
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+  <!-- Bootstrap 4.6 -->
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.15);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      --text-color: #ffffff;
+      --accent-color: #00d2ff;
+      --primary-font: 'Inter', system-ui, -apple-system, sans-serif;
+      --header-font: 'Outfit', sans-serif;
+    }
+
+    body {
+      font-family: var(--primary-font);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background: #0f172a;
+      min-height: 100vh;
+    }
+
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: opacity 1.5s ease;
+      opacity: 0;
+    }
+
+    .bg-overlay.loaded {
+      opacity: 1;
+    }
+
+    .bg-overlay::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+    }
+
+    header {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--glass-border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-brand {
+      font-family: var(--header-font);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      font-size: 1.5rem;
+      background: linear-gradient(to right, #ffffff, #94a3b8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-section {
+      padding: 60px 0 30px;
+      text-align: center;
+    }
+
+    .hero-section h1 {
+      font-family: var(--header-font);
+      font-weight: 700;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-section p.lead {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      box-shadow: var(--glass-shadow);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+
+    .input-group-text {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+    }
+
+    .form-control,
+    .custom-select {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+    }
+
+    .custom-select option {
+      background-color: #1e293b;
+      color: #fff;
+    }
+
+    .form-control:focus,
+    .custom-select:focus {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent-color);
+      color: #fff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 210, 255, 0.25);
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-action {
+      padding: 12px 30px;
+      border-radius: 12px;
+      background: var(--accent-color);
+      background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 210, 255, 0.6);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Footer glass */
+    .footer {
+      margin-top: 60px;
+      padding: 40px 0;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .footer span,
+    .footer a {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+
+    .footer a:hover {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb {
+      background: transparent;
+      padding-left: 0;
+    }
+
+    .breadcrumb-item a {
+      color: var(--accent-color);
+    }
+
+    .breadcrumb-item.active {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .alert-glass {
+      background: rgba(255, 193, 7, 0.1);
+      border: 1px solid rgba(255, 193, 7, 0.3);
+      color: #ffc107;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-section h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+  <div class="bg-overlay" id="dynamic-bg"></div>
+
+  <header>
+    <div class="container py-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <a href="../" class="navbar-brand">
+          <i class="fas fa-tools mr-2"></i>壹资源工具
+        </a>
+        <div class="d-none d-md-block">
+          <span class="text-white-50 small">纯网页工具 · 本地处理 · 隐私安全</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <nav aria-label="breadcrumb" class="mt-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="../">首页</a></li>
+          <li class="breadcrumb-item active" aria-current="page">密码生成工具</li>
+        </ol>
+      </nav>
+
+      <section class="hero-section">
+        <h1>现代密码生成器</h1>
+        <p class="lead">所有数据处理均在浏览器本地完成，不向服务器发送任何数据。保护您的隐私安全，生成的密码不存储在任何地方。</p>
+      </section>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+          <div class="glass-card">
+            <div class="alert alert-glass mb-4" role="alert">
+              <i class="fas fa-info-circle mr-2"></i><strong>使用说明</strong>
+              <ol class="mt-2 mb-0 pl-3">
+                <li><strong>本地计算：</strong>密码推演全部在本地浏览器进行，绝不上传服务器。</li>
+                <li><strong>记忆密码：</strong>输入一个您个人专属的、固定的主密码。</li>
+                <li><strong>区分代码：</strong>为不同的应用设置关键词，如“qq”、“github”、“email”。</li>
+              </ol>
+            </div>
+
+            <form>
+              <!--记忆密码-->
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-key"></i></span>
+                  <span class="input-group-text">记忆密码</span>
+                </div>
+                <input type="password" class="form-control" id="pwd" placeholder="输入您记忆的主密码" value="" />
+                <div class="input-group-append">
+                  <button class="btn btn-secondary" type="button" onclick="change_show_status('pwd')">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!--区分代码-->
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                  <span class="input-group-text">区分代码</span>
+                </div>
+                <input type="text" class="form-control" id="key" placeholder="例如: qq, wechat, alipay" value="" />
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="pwd_length"><i class="fas fa-ruler-horizontal"></i></label>
+                      <label class="input-group-text" for="pwd_length">长度</label>
+                    </div>
+                    <select class="custom-select" id="pwd_length">
+                      <option value="10">10 位</option>
+                      <option value="11">11 位</option>
+                      <option value="12">12 位</option>
+                      <option value="13">13 位</option>
+                      <option value="14">14 位</option>
+                      <option value="15">15 位</option>
+                      <option value="16" selected>16 位</option>
+                      <option value="17">17 位</option>
+                      <option value="18">18 位</option>
+                      <option value="19">19 位</option>
+                      <option value="20">20 位</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text"><i class="fas fa-cog"></i></label>
+                    </div>
+                    <select class="custom-select" id="rule_of_punctuation">
+                      <option value="1" selected>使用标点</option>
+                      <option value="-1">禁用标点</option>
+                    </select>
+                    <select class="custom-select" id="rule_of_letter">
+                      <option value="1" selected>区分大小写</option>
+                      <option value="-1">全小写</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center mt-3 mb-4">
+                <button class="btn btn-action shadow" type="button" id="btn_gencode">
+                  <i class="fas fa-magic mr-2"></i>生成现代密码
+                </button>
+              </div>
+
+              <hr style="border-top:1px solid var(--glass-border)">
+
+              <!-- 复制密码 -->
+              <div class="form-group mt-4">
+                <label class="text-white-50 small mb-2">生成结果</label>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control font-weight-bold" id="code" placeholder="等待生成..." value=""
+                    readonly />
+                  <div class="input-group-append">
+                    <button class="btn btn-action" type="button" id="btn_copy" data-clipboard-target="#code">
+                      <i class="fas fa-copy mr-1"></i> 复制
+                    </button>
+                  </div>
+                </div>
+                <div class="progress" style="height: 10px; border-radius: 5px; background: rgba(255,255,255,0.05);">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" id="quality_progress"
+                    role="progressbar" style="width: 0%"></div>
+                </div>
+                <div class="text-right mt-2">
+                  <small id="quality_text" class="text-white-50">强度检测待运行</small>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container text-center text-md-left">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <span>Copyright &copy; <span id="current-year">2026</span> <a href="http://www.iezyw.com"
+              target="_blank">壹资源网</a>. All rights reserved.</span>
+        </div>
+        <div class="col-md-6 text-md-right mt-3 mt-md-0">
+          <a href="#">回到顶部</a>
+          <span class="mx-2">|</span>
+          <a href="http://www.iezyw.com" target="_blank">关于我们</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/clipboard.min.js"></script>
+  <script type="text/javascript" src="js/sha512.min.js"></script>
+  <script type="text/javascript" src="js/PasswordQualityCalculator.min.js"></script>
+  <script type="text/javascript" src="js/seek_password.min.js"></script>
+
+  <script type="text/javascript">
+    // 设置动态年份
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // 随机背景逻辑
+    const bgOverlay = document.getElementById('dynamic-bg');
+    const bgImages = [
+      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80',
+      'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80',
+      'https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&w=1920&q=80',
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80'
+    ];
+
+    function setRandomBg() {
+      const randomUrl = `https://picsum.photos/1920/1080?random=${Date.now()}`;
+      const img = new Image();
+      img.src = randomUrl;
+      img.onload = () => {
+        bgOverlay.style.backgroundImage = `url('${randomUrl}')`;
+        bgOverlay.classList.add('loaded');
+      };
+      const fallbackImg = bgImages[Math.floor(Math.random() * bgImages.length)];
+      setTimeout(() => {
+        if (!bgOverlay.classList.contains('loaded')) {
+          bgOverlay.style.backgroundImage = `url('${fallbackImg}')`;
+          bgOverlay.classList.add('loaded');
+        }
+      }, 2000);
+    }
+    setRandomBg();
+
+    // 密码生成与强度逻辑
+    var clipboard = new ClipboardJS("#btn_copy");
+    clipboard.on('success', function (e) {
+      const btn = document.getElementById('btn_copy');
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+      btn.classList.replace('btn-action', 'btn-success');
+      setTimeout(() => {
+        btn.innerHTML = originalHtml;
+        btn.classList.replace('btn-success', 'btn-action');
+      }, 2000);
+    });
+
+    document.getElementById("btn_gencode").onclick = function () {
+      var sk_pwd = generate_password();
+      if (sk_pwd) {
+        document.getElementById("code").value = sk_pwd;
+
+        //密码强度
+        const quality = PasswordQualityCalculator(sk_pwd);
+        var quality_progress = document.getElementById("quality_progress");
+        var quality_text = document.getElementById("quality_text");
+
+        quality_progress.className = "progress-bar progress-bar-striped progress-bar-animated";
+
+        let pct = (quality / 120) * 100;
+        quality_progress.style.width = pct + "%";
+
+        if (quality <= 64) {
+          quality_progress.classList.add("bg-danger");
+          quality_text.innerText = "强度: 极弱";
+          quality_text.className = "text-danger small";
+        } else if (quality <= 80) {
+          quality_progress.classList.add("bg-warning");
+          quality_text.innerText = "强度: 弱";
+          quality_text.className = "text-warning small";
+        } else if (quality <= 112) {
+          quality_progress.classList.add("bg-info");
+          quality_text.innerText = "强度: 强";
+          quality_text.className = "text-info small";
+        } else {
+          quality_progress.classList.add("bg-success");
+          quality_text.innerText = "强度: 极强";
+          quality_text.className = "text-success small";
+        }
+      }
+    };
+
+    //显示&隐藏密码
+    function change_show_status(input_id) {
+      var input = document.getElementById(input_id);
+      var icon = event.currentTarget.querySelector('i');
+      if (input.getAttribute("type") == "password") {
+        input.setAttribute("type", "text");
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        input.setAttribute("type", "password");
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    }
+  </script>
+</body>
+
+</html>

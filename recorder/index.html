@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>在线录音机 - 纯网页 MP3 录制工具 - 隐私安全 - 壹资源网 - tool.iezyw.com</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="author" content="Jackson Dou" />
+    <meta name="keywords" content="在线录音, MP3录制, 网页录音机, 本地录音, 隐私安全工具, 壹资源网" />
+    <meta name="description" content="壹资源网提供纯网页在线录音工具，支持实时录制并导出 MP3 格式。所有音频处理均在浏览器本地完成，不上传服务器，保护您的隐私安全。" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="在线录音机 - 纯网页 MP3 录制工具 - 隐私安全 - 壹资源网">
+    <meta property="og:description" content="基于网页端实时录音，100% 本地处理导出 MP3，安全隐私，极致流畅。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com/recorder/">
+    <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+    <link rel="canonical" href="https://tool.iezyw.com/recorder/" />
+    <link rel="icon" href="../favicon.ico" mce_href="../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../favicon.ico" mce_href="../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts: Inter & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap 4.6 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #00d2ff;
+            --primary-font: 'Inter', system-ui, -apple-system, sans-serif;
+            --header-font: 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: opacity 1.5s ease;
+            opacity: 0;
+        }
+
+        .bg-overlay.loaded {
+            opacity: 1;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            padding: 30px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .hero-title {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-custom {
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 10px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
+        }
+
+        .btn-start:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 210, 255, 0.5);
+            color: white;
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
+        }
+
+        .btn-stop:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 65, 108, 0.5);
+            color: white;
+        }
+
+        .btn-custom:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        #recordingslist {
+            margin-top: 30px;
+        }
+
+        .recording-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        audio {
+            height: 40px;
+            border-radius: 20px;
+        }
+
+        .download-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .download-link:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .debug-info {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 20px;
+            font-family: monospace;
+        }
+
+        /* Footer glass */
+        .footer {
+            margin-top: auto;
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer span,
+        .footer a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .footer a:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .recording-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            audio {
+                width: 100%;
+            }
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay" id="dynamic-bg"></div>
+
+    <header>
+        <div class="container py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../" class="navbar-brand">
+                    <i class="fas fa-tools mr-2"></i>壹资源工具
+                </a>
+                <div class="d-none d-md-block">
+                    <span class="text-white-50 small">纯网页工具 · 本地处理 · 隐私安全</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="glass-card">
+                    <h1 class="hero-title"><i class="fas fa-microphone"></i> 在线录音机</h1>
+                    <p class="text-center text-white-50 mb-4">基于浏览器的音频采集，实时录制并保存为 MP3 格式，不经过服务器，安全隐私。</p>
+
+                    <div id="status-alert" class="alert alert-warning d-none" role="alert">
+                        <strong>提示：</strong> <span id="alert-msg"></span>
+                    </div>
+
+                    <div class="text-center control-panel">
+                        <button onclick="funStart(this);" id="btnStart" class="btn-custom btn-start">
+                            <i class="fas fa-play"></i> 开始录制
+                        </button>
+                        <button onclick="funStop(this);" id="btnStop" class="btn-custom btn-stop" disabled>
+                            <i class="fas fa-stop"></i> 停止录制
+                        </button>
+                    </div>
+
+                    <div id="recordingslist"></div>
+
+                    <div class="mt-4">
+                        <h6 class="text-white-50 small mb-2">系统状态：</h6>
+                        <div id="debug-log" class="debug-info"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span>Copyright &copy; <span id="current-year">2026</span> <a href="http://www.iezyw.com"
+                            target="_blank">壹资源网</a>. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="../">回到首页</a>
+                    <span class="mx-2">|</span>
+                    <a href="http://www.iezyw.com" target="_blank">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/recordmp3.js"></script>
+    <script>
+        // 设置动态年份
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // 随机背景
+        const bgOverlay = document.getElementById('dynamic-bg');
+        function setRandomBg() {
+            const randomUrl = `https://picsum.photos/1920/1080?random=${Date.now()}`;
+            const img = new Image();
+            img.src = randomUrl;
+            img.onload = () => {
+                bgOverlay.style.backgroundImage = `url('${randomUrl}')`;
+                bgOverlay.classList.add('loaded');
+            };
+            setTimeout(() => {
+                if (!bgOverlay.classList.contains('loaded')) {
+                    bgOverlay.style.backgroundImage = `url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80')`;
+                    bgOverlay.classList.add('loaded');
+                }
+            }, 2000);
+        }
+        setRandomBg();
+
+        // 环境预检
+        function checkEnvironment() {
+            var isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            var isFileProtocol = window.location.protocol === 'file:';
+
+            if (!window.isSecureContext && !isLocalhost) {
+                var protocolMsg = '录音功能仅在 HTTPS 环境或 Localhost 下可用。';
+                if (isFileProtocol) {
+                    protocolMsg = '【重要限制】浏览器禁止在本地文件 (file://) 访问时使用麦克风和 Web Worker。请通过本地服务器访问，或部署到 HTTPS 环境后测试。';
+                }
+                showAlert(protocolMsg);
+                return false;
+            }
+            return true;
+        }
+
+        // 延迟检查，给浏览器一点初始化时间
+        setTimeout(checkEnvironment, 500);
+
+        // 录音逻辑
+        var recorder = new MP3Recorder({
+            debug: true,
+            funOk: function () {
+                log('系统状态：麦克风连接成功，录音引擎就绪。');
+                hideAlert();
+            },
+            funCancel: function (msg) {
+                log('错误：' + msg);
+                showAlert(msg);
+                document.getElementById('btnStart').disabled = false;
+            }
+        });
+        var mp3Blob;
+
+        function funStart(button) {
+            if (!checkEnvironment()) return;
+
+            document.getElementById('btnStart').disabled = true;
+            log('正在发起录音请求...');
+
+            recorder.start();
+
+            // 监听状态，切换按钮
+            var checkInterval = setInterval(function () {
+                if (recorder.isRecording()) {
+                    document.getElementById('btnStop').disabled = false;
+                    clearInterval(checkInterval);
+                }
+            }, 300);
+
+            // 15秒超时提示
+            setTimeout(function () {
+                if (!recorder.isRecording() && document.getElementById('btnStart').disabled) {
+                    log('请求超时，请检查麦克风权限是否已授予。');
+                    document.getElementById('btnStart').disabled = false;
+                    clearInterval(checkInterval);
+                }
+            }, 15000);
+        }
+
+        function funStop(button) {
+            recorder.stop();
+            document.getElementById('btnStart').disabled = false;
+            document.getElementById('btnStop').disabled = true;
+            log('录音已停止，正在生成 MP3 文件...');
+
+            recorder.getMp3Blob(function (blob) {
+                log('MP3 文件生成成功！');
+                mp3Blob = blob;
+                var url = URL.createObjectURL(mp3Blob);
+                var container = document.getElementById('recordingslist');
+
+                var div = document.createElement('div');
+                div.className = 'recording-item';
+
+                var timestamp = new Date().toLocaleString();
+                var fileName = '录音_' + new Date().getTime() + '.mp3';
+
+                div.innerHTML = `
+                    <div class="small text-white-50 w-100 mb-2">${timestamp}</div>
+                    <audio controls src="${url}"></audio>
+                    <a href="${url}" download="${fileName}" class="download-link">
+                        <i class="fas fa-download"></i> 下载 MP3
+                    </a>
+                `;
+
+                container.insertBefore(div, container.firstChild);
+            });
+        }
+
+        function showAlert(msg) {
+            const alertDiv = document.getElementById('status-alert');
+            const alertMsg = document.getElementById('alert-msg');
+            alertMsg.textContent = msg;
+            alertDiv.classList.remove('d-none');
+        }
+
+        function hideAlert() {
+            document.getElementById('status-alert').classList.add('d-none');
+        }
+
+        function log(str) {
+            const logDiv = document.getElementById('debug-log');
+            if (!logDiv) return;
+            const time = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${time}] ${str}<br/>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+    </script>
+</body>
+
+</html>

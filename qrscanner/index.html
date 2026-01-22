@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>在线二维码识别 - 安全、隐私、100%本地计算的专业工具 | 壹资源网</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="author" content="Jackson Dou" />
+    <meta name="keywords" content="二维码识别, 在线二维码扫描, 隐私安全, 本地二维码解析, 壹资源网, 程序员工具, 在线扫描器" />
+    <meta name="description" content="壹资源网在线二维码识别工具，提供极速、安全的二维码扫描服务。所有计算均在浏览器本地完成，数据不上传服务器，100%保护隐私。支持图片拖拽识别、手机拍摄识别。" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="在线二维码识别 - 安全、隐私、100%本地计算的专业工具">
+    <meta property="og:description" content="100% 本地处理，安全隐私。支持拖拽识别、图片上传识别。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com/qrscanner/">
+    <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+    <link rel="canonical" href="https://tool.iezyw.com/qrscanner/" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts: Inter & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap 4.6 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #00d2ff;
+            --primary-font: 'Inter', system-ui, -apple-system, sans-serif;
+            --header-font: 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: opacity 1.5s ease;
+            opacity: 0;
+        }
+
+        .bg-overlay.loaded {
+            opacity: 1;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-section {
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        #qrfile {
+            border: 2px dashed var(--glass-border);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        #qrfile:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        #qr-canvas {
+            max-width: 100%;
+            height: auto !important;
+            border-radius: 10px;
+            display: none;
+            /* Hidden by default until image loaded */
+            margin: 0 auto 20px;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        #qrcode_content {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            word-break: break-all;
+            min-height: 60px;
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            font-family: inherit;
+        }
+
+        .copy-btn {
+            margin-top: 15px;
+            padding: 8px 20px;
+            border-radius: 8px;
+            background: var(--accent-color);
+            border: none;
+            color: white;
+            font-weight: 600;
+            display: none;
+            /* Hidden until content is decoded */
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .instructions {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .instructions li {
+            margin-bottom: 12px;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer span,
+        .footer a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+
+            #qrfile {
+                padding: 20px;
+            }
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay" id="dynamic-bg"></div>
+
+    <header>
+        <div class="container py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../" class="navbar-brand">
+                    <i class="fas fa-tools mr-2"></i>壹资源工具
+                </a>
+                <div class="d-none d-md-block">
+                    <span class="text-white-50 small">纯网页工具 · 本地处理 · 隐私安全</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <h1>在线二维码识别</h1>
+            <p class="lead text-white-50">100% 本地运算，无需上传，保护您的隐私。</p>
+        </section>
+
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="glass-card">
+                    <div id="qrfile">
+                        <div id="canvas_ext_h2">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <h4>将二维码图片拖入此处</h4>
+                            <p class="text-white-50">或点击区域选择文件</p>
+                        </div>
+                        <canvas id="qr-canvas"></canvas>
+                        <div id="canvas_ext_div">
+                            <input type="file" name="files" accept="image/*" onchange="handleFiles(this.files);"
+                                title="点击选择识别的二维码">
+                        </div>
+                    </div>
+
+                    <div id="qrcode_content_wrapper">
+                        <div id="qrcode_content">二维码识别之后的内容显示在此处...</div>
+                        <button id="copy-btn" class="copy-btn" onclick="copyContent()"><i class="far fa-copy"></i>
+                            复制内容</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="glass-card instructions">
+                    <h5 class="mb-4"><i class="fas fa-info-circle text-info"></i> 使用说明</h5>
+                    <ol class="pl-3">
+                        <li><strong>本地处理：</strong> 识别过程完全在您的浏览器中完成，不会将图片上传到任何服务器，确保隐私安全。</li>
+                        <li><strong>多种方式：</strong> 您可以直接将二维码图片拖入左侧区域，或者点击区域选择本地文件。</li>
+                        <li><strong>一键复制：</strong> 识别成功后，识别出的文本内容将显示在下方的黑色框内，并支持一键复制。</li>
+                        <li><strong>安全防诈：</strong> 扫描未知来源二维码前，建议先使用本工具查看链接，防止恶意自动跳转。</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer mt-auto">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span>Copyright &copy; <span id="current-year">2026</span> <a href="http://www.iezyw.com"
+                            target="_blank">壹资源网</a>. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="../">返回首页</a>
+                    <span class="mx-2">|</span>
+                    <a href="http://www.iezyw.com" target="_blank">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/llqrcode.js"></script>
+    <script type="text/javascript" src="js/webqr.js"></script>
+    <script type="text/javascript">
+        // 设置动态年份
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // 随机背景
+        const bgOverlay = document.getElementById('dynamic-bg');
+        function setRandomBg() {
+            const randomUrl = `https://picsum.photos/1920/1080?random=${Date.now()}`;
+            const img = new Image();
+            img.src = randomUrl;
+            img.onload = () => {
+                bgOverlay.style.backgroundImage = `url('${randomUrl}')`;
+                bgOverlay.classList.add('loaded');
+            };
+        }
+        setRandomBg();
+
+        // 初始化 QR 识别
+        load();
+
+        // 增强 read 回调以显示复制按钮并美化显示
+        const originalRead = qrcode.callback;
+        qrcode.callback = function (a) {
+            // 显示 Canvas
+            document.getElementById("qr-canvas").style.display = "block";
+
+            // 调用原始逻辑
+            read(a);
+
+            // 显示复制按钮
+            document.getElementById("copy-btn").style.display = "inline-block";
+        };
+
+        // 一键复制功能
+        function copyContent() {
+            const content = document.getElementById("qrcode_content").innerText;
+            // 简单处理：如果是 HTML 链接，只取链接文本
+            const tempInput = document.createElement("textarea");
+            tempInput.value = content;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            const btn = document.getElementById("copy-btn");
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+            btn.classList.replace('btn-primary', 'btn-success');
+            setTimeout(() => {
+                btn.innerHTML = originalHtml;
+                btn.classList.replace('btn-success', 'btn-primary');
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>
