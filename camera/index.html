@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <!-- SEO Optimization -->
+    <title>在线摄像头工具 - 网页录像、在线拍照、隐私安全测试 - 壹资源网</title>
+    <meta name="keywords" content="在线摄像头, 网页拍照, 摄像头测试, HTML5摄像头, 隐私安全, 壹资源网, 纯网页工具, 在线录像" />
+    <meta name="description" content="壹资源网提供的纯网页摄像头工具。支持在线预览、拍照截图与保存。所有数据处理均在浏览器本地完成，不上传服务器，保护隐私，极致流畅。" />
+    <link rel="canonical" href="https://iezyw.com/camera/index.html" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="在线摄像头工具 - 壹资源网" />
+    <meta property="og:description" content="纯网页摄像头拍照工具，保护隐私，本地处理。" />
+    <meta property="og:url" content="https://iezyw.com/camera/index.html" />
+    <meta property="og:site_name" content="壹资源网" />
+
+    <!-- Style Dependencies -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --header-font: 'Outfit', sans-serif;
+            --body-font: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background: #0f172a;
+            color: #fff;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: opacity 1.5s ease;
+            opacity: 0;
+        }
+
+        .bg-overlay.loaded {
+            opacity: 1;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-container {
+            padding: 40px 0;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .tool-title {
+            font-family: var(--header-font);
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 2rem;
+        }
+
+        #video-container {
+            position: relative;
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto 20px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--glass-border);
+            background: #000;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        #canvas-container {
+            width: 100%;
+            max-width: 640px;
+            margin: 20px auto;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+
+        canvas {
+            width: 100%;
+            display: block;
+        }
+
+        .btn-glass {
+            background: var(--accent-color);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .btn-glass:hover {
+            background: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .privacy-hint {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        .footer {
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.8);
+            border-top: 1px solid var(--glass-border);
+            margin-top: auto;
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar navbar-dark px-0 py-3">
+                <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                    <i class="fas fa-camera-retro mr-2"></i>
+                    <span>壹资源摄像头</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="container">
+            <div class="glass-card">
+                <h1 class="tool-title">在线摄像头/拍照工具</h1>
+
+                <div id="video-container">
+                    <video id="video" autoplay playsinline></video>
+                </div>
+
+                <div class="controls">
+                    <button id="snap" class="btn-glass">
+                        <i class="fas fa-camera"></i> 拍摄当前照片
+                    </button>
+                    <a id="download" class="btn-glass btn-outline" style="display: none;">
+                        <i class="fas fa-download"></i> 下载照片
+                    </a>
+                </div>
+
+                <div id="canvas-container">
+                    <canvas id="canvas" width="640" height="480"></canvas>
+                </div>
+
+                <p class="privacy-hint">
+                    <i class="fas fa-user-shield mr-1"></i>
+                    隐私声明：摄像头画面仅在浏览器本地处理，绝不上传至任何服务器。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-white-50">
+                    <span>Copyright &copy; <span id="current-year">2026</span> <a href="http://www.iezyw.com"
+                            target="_blank" class="text-white-50">壹资源网</a>. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="../index.html" class="text-white-50 mr-3">网站首页</a>
+                    <span class="text-white-50">|</span>
+                    <a href="http://www.iezyw.com" target="_blank" class="text-white-50 ml-3">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 动态年份
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // 随机背景
+        const bgOverlay = document.createElement('div');
+        bgOverlay.className = 'bg-overlay';
+        document.body.prepend(bgOverlay);
+
+        function setRandomBg() {
+            const randomUrl = `https://picsum.photos/1920/1080?random=${Date.now()}`;
+            const img = new Image();
+            img.src = randomUrl;
+            img.onload = () => {
+                bgOverlay.style.backgroundImage = `url('${randomUrl}')`;
+                bgOverlay.classList.add('loaded');
+            };
+            setTimeout(() => {
+                if (!bgOverlay.classList.contains('loaded')) {
+                    bgOverlay.style.backgroundImage = `url('https://images.unsplash.com/photo-1493238792040-e7141f15ec81?auto=format&fit=crop&w=1920&q=80')`;
+                    bgOverlay.classList.add('loaded');
+                }
+            }, 2000);
+        }
+        setRandomBg();
+
+        // 摄像头逻辑
+        window.addEventListener("DOMContentLoaded", function () {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const snap = document.getElementById('snap');
+            const download = document.getElementById('download');
+            const canvasContainer = document.getElementById('canvas-container');
+            const context = canvas.getContext('2d');
+
+            const mediaConfig = {
+                video: {
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 },
+                    facingMode: "user"
+                }
+            };
+
+            // 获取摄像头权限
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia(mediaConfig).then(function (stream) {
+                    video.srcObject = stream;
+                    video.play();
+                }).catch(function (err) {
+                    console.error("无法开启摄像头: ", err);
+                    alert("无法访问摄像头，请确保已授予权限或且您的浏览器支持。");
+                });
+            } else {
+                alert("您的浏览器不支持 getUserMedia API");
+            }
+
+            // 拍照
+            snap.addEventListener('click', function () {
+                // 动态调整 canvas 尺寸以匹配视频流
+                canvas.width = video.videoWidth || 640;
+                canvas.height = video.videoHeight || 480;
+
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                canvasContainer.style.display = 'block';
+                download.style.display = 'inline-flex';
+
+                // 准备下载
+                const dataURL = canvas.toDataURL('image/png');
+                download.href = dataURL;
+                download.download = `snap_${new Date().getTime()}.png`;
+
+                // 自动滚动到预览区
+                canvasContainer.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+
+</html>

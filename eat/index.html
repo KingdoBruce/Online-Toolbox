@@ -1,0 +1,362 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <!-- SEO Optimization -->
+    <title>今天吃啥 - 在线随机用餐推荐工具、选择困难症克星 - 壹资源网</title>
+    <meta name="keywords" content="今天吃啥, 随机推荐, 午餐吃什么, 晚餐吃什么, 选择困难症, 壹资源网, 纯网页工具, 趣味工具, 在线点餐建议" />
+    <meta name="description" content="壹资源网提供的“今天吃啥”随机推荐工具。帮助您快速决定下一餐，支持自定义列表。所有数据处理均在浏览器本地完成，保护隐私，极致流畅。" />
+    <link rel="canonical" href="https://iezyw.com/eat/index.html" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="今天吃啥 - 壹资源网" />
+    <meta property="og:description" content="用餐推荐小工具，再也不用为吃什么发愁。保护隐私，趣味无限。" />
+    <meta property="og:url" content="https://iezyw.com/eat/index.html" />
+    <meta property="og:site_name" content="壹资源网" />
+
+    <!-- Style Dependencies -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --header-font: 'Outfit', sans-serif;
+            --body-font: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background: #0f172a;
+            color: #fff;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-container {
+            padding: 60px 0;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            box-shadow: var(--glass-shadow);
+            padding: 50px 30px;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .tool-title {
+            font-family: var(--header-font);
+            font-weight: 700;
+            margin-bottom: 40px;
+            font-size: 2.2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        #what {
+            font-size: 3.5rem;
+            font-weight: 800;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            color: #3b82f6;
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            font-family: var(--header-font);
+        }
+
+        .btn-main {
+            background: var(--accent-color);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-main:hover {
+            background: var(--accent-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .settings-area {
+            margin-top: 40px;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 30px;
+        }
+
+        .settings-toggle {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .settings-toggle:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        #list {
+            width: 100%;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: #ccc;
+            padding: 15px;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            display: none;
+            resize: none;
+        }
+
+        .temp-word {
+            position: absolute;
+            pointer-events: none;
+            z-index: 5;
+            white-space: nowrap;
+            font-weight: 600;
+            animation: fadeAndMove 1.5s ease-out forwards;
+        }
+
+        @keyframes fadeAndMove {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+
+            20% {
+                opacity: 0.6;
+            }
+
+            80% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) scale(1.2);
+            }
+        }
+
+        .footer {
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.8);
+            border-top: 1px solid var(--glass-border);
+            margin-top: auto;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 576px) {
+            #what {
+                font-size: 2.5rem;
+            }
+
+            .tool-title {
+                font-size: 1.8rem;
+            }
+
+            .glass-card {
+                padding: 40px 20px;
+                border-radius: 20px;
+            }
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar navbar-dark px-0 py-3">
+                <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                    <i class="fas fa-utensils mr-2"></i>
+                    <span>今天吃啥</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="container px-4">
+            <div class="glass-card">
+                <h1 class="tool-title">吃什么好呢？</h1>
+                <div id="what">准备好了吗？</div>
+
+                <div class="actions">
+                    <button id="start" class="btn-main">开始</button>
+                    <button id="restart" class="btn-main" style="display: none;">不行，我要吃饭！</button>
+                </div>
+
+                <div class="settings-area">
+                    <div class="settings-toggle" onclick="$('#list').slideToggle()">
+                        <i class="fas fa-cog mr-1"></i> 自定义菜单列表 (用空格分隔)
+                    </div>
+                    <textarea
+                        id="list">馄饨 拉面 烩面 热干面 刀削面 油泼面 炸酱面 炒面 重庆小面 米线 酸辣粉 土豆粉 螺狮粉 凉皮儿 麻辣烫 肉夹馍 羊肉汤 炒饭 盖浇饭 卤肉饭 烤肉饭 黄焖鸡米饭 驴肉火烧 川菜 麻辣香锅 火锅 酸菜鱼 烤串 披萨 烤鸭 汉堡 炸鸡 寿司 蟹黄包 粽子 煎饼果子 生煎 炒年糕 盖浇饭 砂锅 大排档 米线 满汉全席 西餐 麻辣烫 自助餐 炒面 快餐 水果 西北风 馄饨 火锅 烧烤 泡面 速冻水饺 日本料理 涮羊肉 味千拉面 肯德基 面包 扬州炒饭 自助餐 茶餐厅 海底捞 咖啡 比萨 麦当劳 兰州拉面 沙县小吃 烤鱼 海鲜 铁板烧 韩国料理 粥 快餐 东南亚菜 甜点 农家菜 川菜 粤菜 湘菜 本帮菜 竹笋烤肉</textarea>
+                </div>
+
+                <div class="mt-4 text-white-50 small">
+                    <i class="fas fa-lock mr-1"></i> 本地处理，隐私安全
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-white-50">
+                    <span>Copyright &copy; <span id="current-year">2026</span> <a href="http://www.iezyw.com"
+                            target="_blank" class="text-white-50">壹资源网</a>. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="../index.html" class="text-white-50 mr-3">网站首页</a>
+                    <span class="text-white-50">|</span>
+                    <a href="http://www.iezyw.com" target="_blank" class="text-white-50 ml-3">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.staticfile.org/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        // 动态年份
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // 默认背景透明度提升以增强毛玻璃效果
+        document.body.style.background = "#0f172a";
+
+        // 核心逻辑
+        $(function () {
+            var run = 0;
+            var timer = null;
+            var i = 0;
+
+            $("#start").click(function () {
+                var listStr = $("#list").val().trim();
+                var list = listStr.replace(/ +/g, " ").split(" ");
+
+                if (!run) {
+                    i++;
+                    if (i >= 10) {
+                        $('#start').hide();
+                        $('#restart').show();
+                        $('#what').html('<span style="color:#ef4444">挑食？饿着！</span>');
+                        return;
+                    }
+
+                    $(this).text("停止");
+                    timer = setInterval(function () {
+                        var r = Math.floor(Math.random() * list.length);
+                        var food = list[r];
+                        $("#what").text(food);
+
+                        // 生成浮动文字
+                        var rTop = Math.floor(Math.random() * ($(window).height() - 50));
+                        var rLeft = Math.floor(Math.random() * ($(window).width() - 100));
+                        var rSize = Math.floor(Math.random() * (22 - 12) + 12);
+                        var rOpacity = (Math.random() * 0.3 + 0.1).toFixed(2);
+
+                        var $word = $('<div class="temp-word"></div>').text(food).css({
+                            "top": rTop,
+                            "left": rLeft,
+                            "color": `rgba(255, 255, 255, ${rOpacity})`,
+                            "fontSize": rSize + "px"
+                        }).appendTo("body");
+
+                        // 及时清理单体 DOM
+                        setTimeout(function () {
+                            $word.fadeOut(300, function () { $(this).remove(); });
+                        }, 1000);
+
+                    }, 80);
+                    run = 1;
+                } else {
+                    $(this).text("换一个");
+                    clearInterval(timer);
+                    run = 0;
+                }
+            });
+
+            $('#restart').click(function () {
+                i = 0;
+                $('#restart').hide();
+                $('#start').show().text("再试一次");
+                $("#start").trigger("click");
+            });
+
+            // 回车键支持
+            $(document).keydown(function (e) {
+                if (e.keyCode == 13 && i < 10) {
+                    $("#start").trigger("click");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
