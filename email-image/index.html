@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <!-- SEO Optimization -->
+    <title>邮箱LOGO在线制作 - 免费邮箱图标生成器、点阵式邮箱美化工具 - 壹资源网</title>
+    <meta name="keywords" content="邮箱LOGO制作, 邮箱图标生成, 邮箱美化, 在线LOGO设计, 壹资源网, 纯网页工具, Canvas绘图, 前端开发工具" />
+    <meta name="description"
+        content="壹资源网提供的免费邮箱 LOGO 在线制作工具。支持自定义文字颜色、边框及多种主流邮箱图标。纯前端处理，无需上传服务器，保护隐私安全，支持一键下载，完美适配 GitHub Pages。" />
+    <link rel="canonical" href="https://iezyw.com/email-image/index.html" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="邮箱LOGO在线制作 - 壹资源网" />
+    <meta property="og:description" content="零门槛在线制作漂亮的邮箱图标，纯本地处理，支持一键下载。" />
+    <meta property="og:url" content="https://iezyw.com/email-image/index.html" />
+    <meta property="og:site_name" content="壹资源网" />
+
+    <!-- Style Dependencies -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        /* Custom Font Loading for Canvas */
+        @font-face {
+            font-family: 'custom-arial';
+            src: url('assets/fonts/arial.ttf');
+        }
+
+        @font-face {
+            font-family: 'custom-itckrist';
+            src: url('assets/fonts/itckrist.ttf');
+        }
+
+        @font-face {
+            font-family: 'custom-segoesc';
+            src: url('assets/fonts/segoesc.ttf');
+        }
+
+        @font-face {
+            font-family: 'custom-tahoma';
+            src: url('assets/fonts/tahoma.ttf');
+        }
+
+        @font-face {
+            font-family: 'custom-verdana';
+            src: url('assets/fonts/verdana.ttf');
+        }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --header-font: 'Outfit', sans-serif;
+            --body-font: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background: #0f172a;
+            color: #fff;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 1.5s ease;
+            opacity: 0;
+        }
+
+        .bg-overlay.loaded {
+            opacity: 1;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-container {
+            padding: 40px 0;
+            flex: 1;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .tool-title {
+            font-family: var(--header-font);
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .preview-area {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px dashed var(--glass-border);
+            border-radius: 16px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        #preview-canvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .config-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .config-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control-glass {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            border-radius: 12px;
+            padding: 10px 15px;
+            height: auto;
+            transition: all 0.3s;
+        }
+
+        .form-control-glass option {
+            background-color: #0f172a;
+            color: #fff;
+        }
+
+        .form-control-glass:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-color);
+            color: #fff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .color-presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .color-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .color-dot:hover {
+            transform: scale(1.2);
+        }
+
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding-right: 10px;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .logo-item:hover,
+        .logo-item.active {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .logo-item img {
+            max-width: 100px;
+            height: auto;
+        }
+
+        .btn-glass {
+            background: var(--accent-color);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-glass:hover {
+            background: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .footer {
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.8);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--glass-border);
+            border-radius: 10px;
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar navbar-dark px-0 py-3">
+                <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                    <i class="fas fa-id-badge mr-2"></i>
+                    <span>壹资源 邮箱图标制作</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="container">
+            <div class="glass-card">
+                <h1 class="tool-title">邮箱 LOGO 在线制作</h1>
+
+                <div class="preview-area">
+                    <canvas id="preview-canvas"></canvas>
+                    <div class="text-white-50 small">所有处理均在浏览器本地完成，不上传服务器</div>
+                </div>
+
+                <div class="config-panel">
+                    <!-- Text & Font Panel -->
+                    <div class="left-col">
+                        <div class="control-group">
+                            <label class="control-label">邮箱用户名</label>
+                            <input type="text" id="email_username" class="form-control-glass w-100"
+                                placeholder="例如: webtools" maxlength="50" oninput="draw()" value="Jackson Dou">
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">选择字体</label>
+                            <select id="font_family" class="form-control-glass w-100" onchange="draw()">
+                                <option value="custom-arial">默认 Arial</option>
+                                <option value="custom-verdana">Verdana</option>
+                                <option value="custom-tahoma">Tahoma</option>
+                                <option value="custom-segoesc">行书体</option>
+                                <option value="custom-itckrist">卡通体</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">文字颜色</label>
+                            <input type="color" id="text_color" class="form-control-glass w-100 p-1"
+                                style="height: 40px;" oninput="draw()" value="#666666">
+                            <div class="color-presets" id="text-presets"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="control-label">显示边框</label>
+                                <div class="custom-control custom-switch mt-2">
+                                    <input type="checkbox" class="custom-control-input" id="have_border" checked
+                                        onchange="draw()">
+                                    <label class="custom-control-label" for="have_border">启用</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label">边框颜色</label>
+                                <input type="color" id="border_color" class="form-control-glass w-100 p-1"
+                                    style="height: 40px;" oninput="draw()" value="#cccccc">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Icon & Export Panel -->
+                    <div class="right-col">
+                        <div class="control-group">
+                            <label class="control-label">选择邮箱图标</label>
+                            <div class="logo-grid" id="logo-list">
+                                <div class="logo-item" onclick="setLogo('blank')" data-id="blank">
+                                    <span class="text-white-50 small">不带图标</span>
+                                </div>
+                                <!-- Logos will be injected via JS -->
+                            </div>
+                        </div>
+                        <div class="control-group mt-4 pt-2">
+                            <button id="download-btn" class="btn-glass" onclick="downloadLogo()">
+                                <i class="fas fa-download"></i> 下载 PNG 图片
+                            </button>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">HTML 代码引用 (静态)</label>
+                            <input type="text" id="pichtml" class="form-control-glass w-100 mb-2" readonly
+                                onclick="this.select()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-white-50">
+                    <span>Copyright &copy; <span id="current-year">2026</span> <a href="http://www.iezyw.com"
+                            target="_blank" class="text-white-50">壹资源网</a>. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="../index.html" class="text-white-50 mr-3">网站首页</a>
+                    <span class="text-white-50">|</span>
+                    <a href="http://www.iezyw.com" target="_blank" class="text-white-50 ml-3">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data & State
+        const LOGO_DOMAINS = [
+            "gmail.com", "gmail", "live.com", "livecom", "live.cn", "tw.live.com",
+            "hotmail.com", "hotmail", "hotmailnew", "msn.com", "msn", "163.com",
+            "163com", "vip163com", "vip.163.com", "yeah.net", "yeahnetzx", "yeahnet",
+            "neteasecom", "126com", "163.net", "yahoo.cn", "yahoocom", "yahoo.com",
+            "yahoocomcn", "yahoo.com.cn", "yahoo.com.tw", "yahoo.sg", "qq.com",
+            "qqcom", "vip.qq.com", "sina.com", "vipsinacom", "2008.sina.com",
+            "vip.sina.com", "sinacn", "sohu.com", "vip.sohu.com", "sogoucom", "chinahencom",
+            "139.com", "aol.com", "lycos.com", "inbox.com", "21cn.com", "21cnnet",
+            "aolcom", "attcom", "tom.com", "tomcom", "188.com", "263.net", "263net",
+            "3126", "foxmail.com", "xinhuanet.com", "51.com", "xuite.net", "china.com",
+            "chinacom", "mail.china.com", "mailchinacom", "etang.com", "etangcom",
+            "56com", "enet", "mailenet", "bigfootcom", "eyou.com", "eyowcom",
+            "donews.com", "citiz.net", "bokee.com", "eastdaycom", "elomgcom",
+            "emailcomcn", "enorthcomcn", "mailcom", "homggncom", "rocketmailcom",
+            "vip371com", "x.cn"
+        ];
+
+        const COLOR_PRESETS = [
+            '000000', '333333', '666666', '999999', 'cccccc',
+            'ffcc33', '009900', 'ff6600', '99cc00', '0099ff',
+            '0264ad', '660066', 'ff0099', '996666', 'cc0000'
+        ];
+
+        let currentDomain = "gmail.com";
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+        const logoImgs = {};
+
+        // Initialization
+        window.addEventListener('load', () => {
+            initUI();
+            preloadFonts().then(() => {
+                preloadLogos().then(() => {
+                    draw();
+                });
+            });
+        });
+
+        function initUI() {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Text Color Presets
+            const presetContainer = document.getElementById('text-presets');
+            COLOR_PRESETS.forEach(hex => {
+                const dot = document.createElement('div');
+                dot.className = 'color-dot';
+                dot.style.background = '#' + hex;
+                dot.onclick = () => {
+                    document.getElementById('text_color').value = '#' + hex;
+                    draw();
+                };
+                presetContainer.appendChild(dot);
+            });
+
+            // Logo Grid
+            const grid = document.getElementById('logo-list');
+            LOGO_DOMAINS.forEach(domain => {
+                const item = document.createElement('div');
+                item.className = 'logo-item' + (domain === currentDomain ? ' active' : '');
+                item.dataset.id = domain;
+                item.onclick = () => setLogo(domain);
+                const img = document.createElement('img');
+                img.src = `assets/logo/${domain}.gif`;
+                item.appendChild(img);
+                grid.appendChild(item);
+            });
+
+            // Random Background
+            const bgOverlay = document.createElement('div');
+            bgOverlay.className = 'bg-overlay';
+            document.body.prepend(bgOverlay);
+            const randomUrl = `https://picsum.photos/1920/1080?random=${Date.now()}`;
+            const img = new Image();
+            img.src = randomUrl;
+            img.onload = () => { bgOverlay.style.backgroundImage = `url('${randomUrl}')`; bgOverlay.classList.add('loaded'); };
+        }
+
+        async function preloadFonts() {
+            if (document.fonts && document.fonts.ready) {
+                await document.fonts.ready;
+            }
+        }
+
+        async function preloadLogos() {
+            const promises = LOGO_DOMAINS.map(domain => {
+                return new Promise(resolve => {
+                    const img = new Image();
+                    img.src = `assets/logo/${domain}.gif`;
+                    img.onload = () => { logoImgs[domain] = img; resolve(); };
+                    img.onerror = () => resolve();
+                });
+            });
+            return Promise.all(promises);
+        }
+
+        function setLogo(domain) {
+            currentDomain = domain;
+            document.querySelectorAll('.logo-item').forEach(el => el.classList.remove('active'));
+            if (domain !== 'blank') {
+                document.querySelector(`.logo-item[data-id="${domain}"]`).classList.add('active');
+            }
+            draw();
+        }
+
+        function draw() {
+            const username = document.getElementById('email_username').value || "Jackson Dou";
+            const fontName = document.getElementById('font_family').value;
+            const textColor = document.getElementById('text_color').value;
+            const borderColor = document.getElementById('border_color').value;
+            const haveBorder = document.getElementById('have_border').checked;
+
+            const fontSize = 12;
+            ctx.font = `${fontSize}px "${fontName}"`;
+
+            const textMetrics = ctx.measureText(username);
+            const textWidth = Math.ceil(textMetrics.width);
+            const textHeight = 12; // Base height estimate
+
+            let logoWidth = 0;
+            let logoHeight = 0;
+            if (currentDomain !== 'blank' && logoImgs[currentDomain]) {
+                logoWidth = logoImgs[currentDomain].width;
+                logoHeight = logoImgs[currentDomain].height;
+            }
+
+            const paddingX = 15;
+            const paddingY = 8;
+            const finalWidth = textWidth + (currentDomain !== 'blank' ? logoWidth + 10 : 0) + paddingX;
+            const finalHeight = Math.max(logoHeight, textHeight) + paddingY;
+
+            canvas.width = finalWidth;
+            canvas.height = finalHeight;
+
+            // Background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, finalWidth, finalHeight);
+
+            // Border
+            if (haveBorder) {
+                ctx.strokeStyle = borderColor;
+                ctx.lineWidth = 1;
+                ctx.strokeRect(0.5, 0.5, finalWidth - 1, finalHeight - 1);
+            }
+
+            // Draw Text
+            ctx.fillStyle = textColor;
+            ctx.font = `${fontSize}px "${fontName}"`;
+            ctx.textBaseline = 'middle';
+            const textY = finalHeight / 2 + 1; // Adjustment
+            ctx.fillText(username, 6, textY);
+
+            // Draw Logo
+            if (currentDomain !== 'blank' && logoImgs[currentDomain]) {
+                const logoX = textWidth + 10;
+                const logoY = (finalHeight - logoHeight) / 2;
+                ctx.drawImage(logoImgs[currentDomain], logoX, logoY);
+            }
+
+            // Update HTML sample
+            document.getElementById('pichtml').value = `<img src="emaillogo.png" alt="Email Icon" />`;
+        }
+
+        function downloadLogo() {
+            const link = document.createElement('a');
+            link.download = `emaillogo_${Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+
+</html>
