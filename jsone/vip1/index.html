@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>JSON 在线视图编辑器 (Lite) - 壹资源网工具合集</title>
+    <meta name="keywords" content="JSON在线编辑器, JSON格式化, JSON验证, JSON Editor Online, 壹资源网, 轻量级开发工具" />
+    <meta name="description" content="壹资源网提供的轻量级 JSON 在线视图编辑器。支持基本的格式化、代码对比及树形解析功能。100% 浏览器本地处理，隐私放心。" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="JSON 在线视图编辑器 (Lite) - 壹资源网">
+    <meta property="og:description" content="轻巧、极简的 JSON 处理工具，具备实时视图解析功能。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com/jsone/vip1/">
+    <link rel="canonical" href="https://tool.iezyw.com/jsone/vip1/" />
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/app.css" />
+    <script type="text/javascript" src="assets/js/app.js"></script>
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --accent-color: #38bdf8;
+            --text-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif !important;
+            background: #020617;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            background-image: url('https://picsum.photos/1920/1080?random=13');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        #body-wrapper {
+            background: transparent !important;
+        }
+
+        #header {
+            background: rgba(15, 23, 42, 0.5) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border) !important;
+            height: 60px !important;
+            padding: 0 20px !important;
+            display: flex;
+            align-items: center;
+        }
+
+        #logo {
+            height: 26px !important;
+            filter: brightness(0) invert(1);
+        }
+
+        #content-wrapper {
+            top: 60px !important;
+            bottom: 40px !important;
+            background: transparent !important;
+        }
+
+        #jsonformatter,
+        #jsoneditor {
+            background: #0f172a !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
+        }
+
+        #splitter {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: none !important;
+        }
+
+        #copyright-wrapper {
+            background: rgba(15, 23, 42, 0.7) !important;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border) !important;
+            height: 40px !important;
+            line-height: 40px !important;
+            padding: 0 !important;
+        }
+
+        #copyright-text {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        #copyright-link a {
+            color: var(--accent-color) !important;
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay"></div>
+    <div id="body-wrapper">
+        <div id="header">
+            <a href="../../"><img id="logo" src="assets/img/logo.png" alt="Logo"></a>
+            <span class="ml-4 small opacity-50 d-none d-md-inline">JSON Editor Lite - 简洁高效</span>
+        </div>
+
+        <div id="content-wrapper">
+            <div id="jsonformatter"></div>
+            <div id="splitter"></div>
+            <div id="jsoneditor"></div>
+            <div class="clear"></div>
+        </div>
+
+        <div id="copyright-wrapper">
+            <div id="copyright">
+                <ul id="copyright-link">
+                    <li><a href="http://www.iezyw.com" target="_blank">壹资源网</a></li>
+                    <li><a href="https://tool.iezyw.com" target="_blank">工具中心</a></li>
+                </ul>
+                <div id="copyright-text">&copy;2026 壹资源网 &bull; Jackson Dou</div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            app.load();
+            try { app.resize(); } catch (e) { }
+        </script>
+    </div>
+</body>
+
+</html>

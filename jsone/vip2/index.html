@@ -1,0 +1,338 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" manifest="./cache.manifest">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>JSON Pro 在线编辑器 - 实时格式化与树形视图 - 壹资源网工具合集</title>
+    <meta name="description"
+        content="壹资源网提供的专业级 JSON 在线编辑工具。支持代码与树形视图双向转换、实时格式化预览及文件导入导出。100% 本地运算，致力于为开发者提供最纯净、安全的 JSON 解析体验。">
+    <meta name="keywords" content="JSON编辑器, JSON在线编辑, JSON代码格式化, JSON树形视图, AceEditor在线, 壹资源网, 隐私安全, 开发者工具">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="JSON Pro 在线编辑器 - 壹资源网">
+    <meta property="og:description" content="极致玻璃拟态设计的 JSON 一站式工具：编辑、格式化、校验、树形视图展示。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com/jsone/vip2/">
+    <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+    <link rel="canonical" href="https://tool.iezyw.com/jsone/vip2/" />
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- External Assets -->
+    <link href="css/app.css" rel="stylesheet" type="text/css">
+    <link href="css/fileretriever.css" rel="stylesheet" type="text/css">
+    <link href="lib/jsoneditor/css/jsoneditor.css" rel="stylesheet" type="text/css">
+    <link href="lib/jsoneditor/css/menu.css" rel="stylesheet" type="text/css">
+    <link href="lib/jsoneditor/css/searchbox.css" rel="stylesheet" type="text/css">
+    <link href="lib/jsoneditor/css/contextmenu.css" rel="stylesheet" type="text/css">
+
+    <!-- Google Fonts & Icons -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #00d2ff;
+            --editor-bg: #0f172a;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif !important;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            background: #020617;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Background Overlay */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            background-image: url('https://picsum.photos/1920/1080?random=12');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 6, 23, 0.88);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+        }
+
+        /* Header Redesign */
+        #header {
+            background: rgba(15, 23, 42, 0.5) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border) !important;
+            display: flex;
+            align-items: center;
+            height: 60px !important;
+            padding: 0 20px !important;
+        }
+
+        #logo {
+            height: 28px !important;
+            margin-right: 30px !important;
+            filter: brightness(0) invert(1);
+        }
+
+        #menu ul li a {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            color: #cbd5e1 !important;
+            padding: 6px 15px !important;
+            border-radius: 8px !important;
+            transition: all 0.2s !important;
+        }
+
+        #menu ul li a:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: var(--accent-color) !important;
+        }
+
+        #menu ul li ul {
+            background: rgba(15, 23, 42, 0.95) !important;
+            border: 1px solid var(--glass-border) !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+            border-radius: 12px !important;
+            top: 45px !important;
+        }
+
+        /* Main Workspace */
+        #auto {
+            top: 60px !important;
+            bottom: 40px !important;
+            background: transparent !important;
+        }
+
+        #contents {
+            border: none !important;
+        }
+
+        /* Panels */
+        #codeEditor,
+        #treeEditor {
+            background: var(--editor-bg) !important;
+            border-radius: 12px !important;
+            border: 1px solid var(--glass-border) !important;
+            overflow: hidden !important;
+        }
+
+        /* Splitter */
+        #splitter {
+            background: rgba(255, 255, 255, 0.02) !important;
+            width: 50px !important;
+        }
+
+        #drag {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .convert {
+            background: rgba(56, 189, 248, 0.2) !important;
+            border: 1px solid rgba(56, 189, 248, 0.4) !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.2s !important;
+        }
+
+        .convert:hover {
+            background: rgba(56, 189, 248, 0.4) !important;
+            border-color: var(--accent-color) !important;
+            transform: scale(1.1);
+        }
+
+        .convert div {
+            border-color: #fff !important;
+        }
+
+        /* Footer */
+        #footer {
+            background: rgba(15, 23, 42, 0.7) !important;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border) !important;
+            height: 40px !important;
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        #footer-inner {
+            padding-top: 10px !important;
+        }
+
+        #footer a {
+            color: #38bdf8 !important;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* JSONEditor Overrides */
+        .jsoneditor-menu {
+            background-color: #1e293b !important;
+            border-bottom: 1px solid var(--glass-border) !important;
+        }
+
+        .jsoneditor {
+            border: none !important;
+        }
+
+        .jsoneditor-tree {
+            background-color: var(--editor-bg) !important;
+        }
+
+        .ace-jsoneditor {
+            background-color: var(--editor-bg) !important;
+        }
+    </style>
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="lib/jsoneditor/js/jsoneditor.js"></script>
+    <script type="text/javascript" src="lib/jsoneditor/js/treeeditor.js"></script>
+    <script type="text/javascript" src="lib/jsoneditor/js/texteditor.js"></script>
+    <script type="text/javascript" src="lib/jsoneditor/js/node.js"></script>
+    <script type="text/javascript" src="lib/jsoneditor/js/appendnode.js"></script>
+    <script type="text/javascript" src="lib/jsoneditor/js/contextmenu.js"></script>
+    <script type="text/javascript" src="lib/jsoneditor/js/history.js"></script>
+    <script type="text/javascript" src="lib/jsoneditor/js/searchbox.js"></script>
+    <script type="text/javascript" src="lib/jsoneditor/js/modebox.js"></script>
+    <script type="text/javascript" src="lib/jsoneditor/js/highlighter.js"></script>
+    <script type="text/javascript" src="lib/jsoneditor/js/util.js"></script>
+    <script type="text/javascript" src="lib/jsoneditor/js/module.js"></script>
+    <script type="text/javascript" src="js/queryparams.js"></script>
+    <script type="text/javascript" src="js/ajax.js"></script>
+    <script type="text/javascript" src="js/fileretriever.js"></script>
+    <script type="text/javascript" src="js/notify.js"></script>
+    <script type="text/javascript" src="js/splitter.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="lib/jsonlint/jsonlint.js"></script>
+    <script type="text/javascript" src="lib/ace/ace.js"></script>
+    <script type="text/javascript" src="lib/ace/mode-json.js"></script>
+    <script type="text/javascript" src="lib/ace/theme-textmate.js"></script>
+    <script type="text/javascript" src="lib/ace/theme-jsoneditor.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay"></div>
+
+    <div id="header">
+        <a href="../../" title="Back to Tools Home">
+            <img alt="壹资源网" src="img/logo.png" id="logo">
+        </a>
+        <div id="menu">
+            <ul>
+                <li>
+                    <a id="clear" title="Clear contents"><i class="fas fa-trash-alt mr-1"></i>清除</a>
+                </li>
+                <li>
+                    <a id="open" title="从本地上传文件"><i class="fas fa-folder-open mr-1"></i>打开<span id="openMenuButton"
+                            title="远程URL文件">&#x25BC;</span></a>
+                    <ul id="openMenu">
+                        <li>
+                            <a id="menuOpenFile" title="Open file from disk">选择本地文件</a>
+                        </li>
+                        <li>
+                            <a id="menuOpenUrl" title="Open file from url">从 URL 获取</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a id="save" title="Save file to disk"><i class="fas fa-save mr-1"></i>保存</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="ml-auto d-none d-md-block small opacity-50">
+            <i class="fas fa-shield-alt mr-1"></i>隐私安全：本地运行，绝不上传
+        </div>
+    </div>
+
+    <div id="auto">
+        <div id="contents">
+            <div id="codeEditor"></div>
+
+            <div id="splitter">
+                <div id="buttons">
+                    <div>
+                        <button id="toTree" class="convert" title="复制代码到树形编辑器">
+                            <div class="convert-right"></div>
+                        </button>
+                    </div>
+                    <div>
+                        <button id="toCode" class="convert" title="复制树形到代码编辑器">
+                            <div class="convert-left"></div>
+                        </button>
+                    </div>
+                </div>
+                <div id="drag"></div>
+            </div>
+
+            <div id="treeEditor"></div>
+
+            <script type="text/javascript">
+                app.load();
+                app.resize();
+            </script>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div id="footer-inner">
+            Copyright &copy; <span id="currentYear"></span> &bull; <a href="http://www.iezyw.com" target="_blank"
+                class="footer">壹资源网</a>
+            &bull;
+            <a href="https://tool.iezyw.com" class="footer">工具中心</a>
+            &bull;
+            <span class="ml-2 font-weight-bold" style="color: var(--accent-color);">BY ACE & JSONEditor</span>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        app.resize();
+    </script>
+</body>
+
+</html>

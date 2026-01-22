@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>中国亲属关系图 - 三代血亲称呼速查 - 壹资源网工具合集</title>
+    <meta name="description"
+        content="壹资源网提供的可视化三代亲属关系图。帮助用户快速理解直系血亲与旁系血亲关系，清晰展示中国传统称谓表，适用于法律学习及日常社交参考。100% 本地展示，隐私安全。" />
+    <meta name="keywords" content="亲属关系图, 中国亲戚称呼, 三代血亲关系图, 称谓表, 法律学习关系图, 壹资源网, 隐私安全, 开发者工具" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="可视化亲属关系图 - 壹资源网">
+    <meta property="og:description" content="三代以内直系与旁系血亲关系一目了然，极简、专业、本地化处理。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com/kinship/">
+    <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+    <link rel="canonical" href="https://tool.iezyw.com/kinship/" />
+    <link rel="shortcut icon" href="../favicon.ico">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.98);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --accent-color: #f06292;
+            --primary-font: 'Inter', system-ui, sans-serif;
+            --header-font: 'Outfit', sans-serif;
+            --node-bg: #ffc0cb;
+            --node-border: #ffb1bc;
+            --node-text: #880e4f;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            margin: 0;
+            padding: 0;
+            background: #020617;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            background: #020617 url('https://picsum.photos/1920/1080?random=20') no-repeat center center / cover;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #00d2ff !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none !important;
+        }
+
+        main {
+            flex: 1;
+            padding: 40px 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .tool-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            width: 98%;
+            max-width: 1100px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .scroll-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            background: #ffffff;
+            border: 1px solid #eee;
+            padding: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.02);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .kinship-img {
+            max-width: 85%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.05));
+        }
+
+        /* Essential scrollbar styling */
+        .scroll-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: #ffc0cb;
+            border-radius: 10px;
+        }
+
+
+        footer {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        footer a {
+            color: #00d2ff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .tool-card {
+                padding: 15px;
+            }
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay"></div>
+
+    <header>
+        <div class="container">
+            <a class="navbar-brand" href="../">
+                <i class="fas fa-sitemap mr-2"></i>壹资源网工具
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container d-flex justify-content-center">
+            <div class="tool-card">
+                <h1 class="h3 font-weight-bold mb-4" style="font-family: var(--header-font); text-align: center;">
+                    中国三代亲属关系图
+                </h1>
+
+                <div class="scroll-container">
+                    <img src="./shitu.png" alt="中国三代亲属关系图" class="kinship-img">
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div>Copyright &copy; <span id="currentYear"></span> <a href="http://www.iezyw.com" target="_blank">壹资源网</a>
+                &bull; <a href="https://tool.iezyw.com">工具中心</a></div>
+            <div class="mt-1 opacity-50">极致简约 · 极致安全</div>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>
