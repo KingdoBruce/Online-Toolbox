@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>代码空白行与注释清理工具 - 100%本地处理隐私安全 - 壹资源网</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="keywords" content="去空白行,去注释,代码清理,代码格式化,本地工具,隐私安全,壹资源网">
+    <meta name="description" content="专业的在线代码清理工具,一键去除空白行、注释和多余空格。支持多种编程语言注释格式,所有操作均在浏览器本地完成,绝不上传数据,确保代码安全。">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="代码空白行与注释清理工具 - 壹资源网">
+    <meta property="og:description" content="快速清理代码中的空白行、注释和空格,100% 本地处理,隐私安全。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com/removeblank/">
+    <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+    <link rel="canonical" href="https://tool.iezyw.com/removeblank/" />
+
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #00d2ff;
+            --primary-font: 'Inter', system-ui, -apple-system, sans-serif;
+            --header-font: 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #0f172a;
+            overflow-x: hidden;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .bg-overlay.loaded {
+            opacity: 1;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-container {
+            padding: 40px 0;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card-title {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-title i {
+            color: var(--accent-color);
+        }
+
+        .form-group label {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-radius: 12px;
+            padding: 12px 18px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: var(--accent-color);
+            color: #fff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 210, 255, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-control:read-only {
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+        }
+
+        .custom-control-label::before {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .custom-control-input:checked~.custom-control-label::before {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        }
+
+        .btn-outline-light {
+            border-radius: 12px;
+            padding: 12px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer {
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            margin-top: 40px;
+        }
+
+        .stats-badge {
+            display: inline-block;
+            background: rgba(0, 210, 255, 0.2);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            color: var(--accent-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .card-title {
+                font-size: 1.25rem;
+            }
+
+            .glass-card {
+                padding: 20px;
+            }
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay" id="dynamic-bg"></div>
+
+    <header>
+        <div class="container py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../" class="navbar-brand">
+                    <i class="fas fa-tools mr-2"></i>壹资源工具
+                </a>
+                <div class="d-none d-md-block">
+                    <span class="text-white-50 small">代码清理工具 · 100% 本地处理 · 隐私安全</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="glass-card">
+                        <div class="card-title">
+                            <i class="fas fa-eraser"></i> 代码清理选项
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-3 mb-4">
+                            <div class="custom-control custom-checkbox mr-4">
+                                <input type="checkbox" class="custom-control-input" id="removeBlankLines" checked>
+                                <label class="custom-control-label" for="removeBlankLines">去除空白行</label>
+                            </div>
+                            <div class="custom-control custom-checkbox mr-4">
+                                <input type="checkbox" class="custom-control-input" id="removeComments" checked>
+                                <label class="custom-control-label" for="removeComments">去除注释 (// # /* */)</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="removeSpaces">
+                                <label class="custom-control-label" for="removeSpaces">去除行首尾空格</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input">
+                                <i class="fas fa-code mr-2"></i>输入代码或文本
+                            </label>
+                            <textarea id="input" class="form-control" rows="12"
+                                placeholder="在此粘贴您的代码或文本...&#10;&#10;支持多种编程语言注释格式:&#10;- JavaScript/Java/C++: // 和 /* */&#10;- Python/Shell: #&#10;- 所有操作均在浏览器本地完成,不会上传任何数据"></textarea>
+                        </div>
+
+                        <div class="text-center mb-4">
+                            <button class="btn btn-primary mr-3" onclick="process()">
+                                <i class="fas fa-play mr-2"></i>开始处理
+                            </button>
+                            <button class="btn btn-outline-light text-white" onclick="clearAll()">
+                                <i class="fas fa-trash mr-2"></i>清空内容
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="output">
+                                <i class="fas fa-check-circle mr-2"></i>处理结果
+                            </label>
+                            <textarea id="output" class="form-control" rows="12" readonly
+                                placeholder="处理后的结果将显示在这里..."></textarea>
+                            <div id="stats" class="stats-badge" style="display: none;">
+                                <i class="fas fa-chart-line mr-2"></i><span id="statsText"></span>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button class="btn btn-outline-light text-white" onclick="copyResult()" id="copyBtn"
+                                style="display: none;">
+                                <i class="fas fa-copy mr-2"></i>复制结果
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="card-title">
+                            <i class="fas fa-info-circle"></i> 使用说明
+                        </div>
+                        <div class="text-white-50">
+                            <p class="mb-2"><strong class="text-white">功能特点:</strong></p>
+                            <ul class="mb-3">
+                                <li>支持去除代码中的空白行,让代码更紧凑</li>
+                                <li>智能识别并删除多种注释格式 (//、#、/* */)</li>
+                                <li>可选去除行首尾空格,统一代码格式</li>
+                                <li>100% 浏览器本地处理,不上传任何数据</li>
+                            </ul>
+                            <p class="mb-2"><strong class="text-white">适用场景:</strong></p>
+                            <ul class="mb-0">
+                                <li>代码压缩前的预处理</li>
+                                <li>清理调试注释和临时代码</li>
+                                <li>统一代码格式,提升可读性</li>
+                                <li>减少文件大小,优化传输效率</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span class="text-white-50">Copyright &copy; 2026 <a href="http://www.iezyw.com" target="_blank"
+                            class="text-white">壹资源网</a>. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="../" class="text-white-50">返回首页</a>
+                    <span class="mx-2 text-white-50">|</span>
+                    <span class="text-white-50">数据本地处理 · 隐私安全</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function process() {
+            let text = document.getElementById('input').value;
+
+            if (!text) {
+                alert('请输入要处理的文本');
+                return;
+            }
+
+            const removeBlankLines = document.getElementById('removeBlankLines').checked;
+            const removeComments = document.getElementById('removeComments').checked;
+            const removeSpaces = document.getElementById('removeSpaces').checked;
+
+            const originalLines = text.split('\n');
+            let lines = [...originalLines];
+
+            // 去除注释
+            if (removeComments) {
+                lines = lines.map(line => {
+                    // 去除 // 注释
+                    line = line.replace(/\/\/.*$/, '');
+                    // 去除 /* */ 注释（简单处理单行）
+                    line = line.replace(/\/\*.*?\*\//g, '');
+                    // 去除 # 注释
+                    line = line.replace(/#.*$/, '');
+                    return line;
+                });
+            }
+
+            // 去除空格
+            if (removeSpaces) {
+                lines = lines.map(line => line.trim());
+            }
+
+            // 去除空白行
+            if (removeBlankLines) {
+                lines = lines.filter(line => line.trim() !== '');
+            }
+
+            const result = lines.join('\n');
+            document.getElementById('output').value = result;
+
+            // 显示统计信息
+            const removedLines = originalLines.length - lines.length;
+            const statsText = `原始: ${originalLines.length} 行 → 处理后: ${lines.length} 行 (删除 ${removedLines} 行)`;
+            document.getElementById('statsText').textContent = statsText;
+            document.getElementById('stats').style.display = 'inline-block';
+            document.getElementById('copyBtn').style.display = 'inline-block';
+        }
+
+        function clearAll() {
+            document.getElementById('input').value = '';
+            document.getElementById('output').value = '';
+            document.getElementById('stats').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'none';
+        }
+
+        function copyResult() {
+            const output = document.getElementById('output');
+            output.select();
+            document.execCommand('copy');
+
+            const btn = document.getElementById('copyBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check mr-2"></i>已复制!';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+            }, 2000);
+        }
+
+        // Set dynamic background
+        function setBg() {
+            const bgOverlay = document.getElementById('dynamic-bg');
+            const randomUrl = `https://picsum.photos/1920/1080?random=${Date.now()}`;
+            const img = new Image();
+            img.src = randomUrl;
+            img.onload = () => {
+                bgOverlay.style.backgroundImage = `url('${randomUrl}')`;
+                bgOverlay.classList.add('loaded');
+            };
+        }
+
+        window.onload = () => {
+            setBg();
+        };
+    </script>
+</body>
+
+</html>

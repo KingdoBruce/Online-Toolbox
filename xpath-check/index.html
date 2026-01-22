@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>XPath 在线测试工具 - XML/HTML 在线解析与匹配 - 壹资源网</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="keywords" content="XPath测试, XPath在线匹配, XML解析, HTML路径提取, 爬虫工具, 在线XPath调试, 隐私安全, 本地处理, 壹资源网" />
+    <meta name="description"
+        content="提供专业、极简的 XPath 在线测试工具。支持 XML/HTML 实时匹配与解析，所有处理均在浏览器本地完成，不上传服务器，保护您的隐私。爬虫工程师调试利器。" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="XPath 在线测试工具 - XML/HTML 在线解析与匹配">
+    <meta property="og:description" content="专业、安全的 XPath 在线调试工具，100% 本地处理，保护隐私。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com/xpath-check/">
+    <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+    <link rel="canonical" href="https://tool.iezyw.com/xpath-check/" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap 4.6 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #00d2ff;
+            --primary-font: 'Inter', system-ui, -apple-system, sans-serif;
+            --header-font: 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #0f172a;
+            position: relative;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .bg-overlay.loaded {
+            opacity: 1;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-container {
+            padding: 40px 0;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .tool-title {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            border-radius: 12px;
+            padding: 12px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-color);
+            color: #fff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 210, 255, 0.25);
+        }
+
+        textarea.form-control {
+            height: 250px;
+            resize: vertical;
+        }
+
+        .btn-group-custom {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-custom {
+            padding: 12px 25px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+            opacity: 0.9;
+        }
+
+        .btn-secondary-custom {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary-custom:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .result-area {
+            margin-top: 25px;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 30px 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer span,
+        .footer a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .btn-group-custom {
+                flex-direction: column;
+            }
+
+            .btn-custom {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay" id="dynamic-bg"></div>
+
+    <header>
+        <div class="container py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/" class="navbar-brand">
+                    <i class="fas fa-tools mr-2"></i>壹资源工具
+                </a>
+                <div class="d-none d-md-block">
+                    <span class="text-white-50 small">纯网页工具 · 本地处理 · 隐私安全</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="container">
+            <div class="glass-card">
+                <h1 class="tool-title"><i class="fas fa-network-wired mr-2"></i>XPath 在线测试工具</h1>
+
+                <div class="form-group">
+                    <label for="source"><i class="fas fa-file-code"></i> 1. 待匹配文本 (XML/HTML)</label>
+                    <textarea id="source" class="form-control" placeholder="在此输入或粘贴待匹配的 XML 或 HTML 代码..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="textPattern"><i class="fas fa-search"></i> 2. XPath 表达式</label>
+                    <input type="text" id="textPattern" class="form-control" placeholder="例如: //div[@class='example']">
+                </div>
+
+                <div class="btn-group-custom">
+                    <button class="btn-custom btn-primary-custom" onclick="onMatch()">
+                        <i class="fas fa-play"></i> 测试匹配
+                    </button>
+                    <button class="btn-custom btn-secondary-custom" onclick="showDemo()">
+                        <i class="fas fa-lightbulb"></i> 测试用例
+                    </button>
+                    <button class="btn-custom btn-secondary-custom" onclick="resetForm()">
+                        <i class="fas fa-trash-alt"></i> 清空
+                    </button>
+                </div>
+
+                <div class="result-area">
+                    <label for="result"><i class="fas fa-poll-h"></i> 匹配结果</label>
+                    <textarea id="result" class="form-control" readonly placeholder="匹配结果将显示在此处..."></textarea>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span>Copyright &copy; <span id="current-year">2026</span> <a href="http://www.iezyw.com"
+                            target="_blank">壹资源网</a>. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="/">回到首页</a>
+                    <span class="mx-2">|</span>
+                    <a href="http://www.iezyw.com" target="_blank">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // Set dynamic year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Helper function
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+        // Logic functions
+        function resetForm() {
+            $('source').value = '';
+            $('textPattern').value = '';
+            $('result').value = '';
+        }
+
+        function onMatch() {
+            const xmlstr = $('source').value.trim();
+            const pattern = $('textPattern').value.trim();
+            const resultArea = $('result');
+
+            if (!xmlstr || !pattern) {
+                alert('请填写待匹配文本和 XPath 表达式');
+                return;
+            }
+
+            try {
+                const parser = new DOMParser();
+                // 优化类型检测：检测是否包含常见的 HTML 标签或声明
+                const isHtmlInput = xmlstr.toLowerCase().startsWith('<!doctype html') ||
+                    xmlstr.toLowerCase().includes('<html') ||
+                    xmlstr.toLowerCase().includes('<body') ||
+                    xmlstr.toLowerCase().includes('<div') ||
+                    xmlstr.toLowerCase().includes('<p');
+
+                const type = isHtmlInput ? "text/html" : "text/xml";
+                const xmldom = parser.parseFromString(xmlstr, type);
+
+                // 处理 XML 解析错误
+                if (type === "text/xml") {
+                    const parseError = xmldom.getElementsByTagName("parsererror");
+                    if (parseError.length > 0) {
+                        resultArea.value = "XML 解析错误: 请检查格式是否正确。\n" + parseError[0].textContent;
+                        return;
+                    }
+                }
+
+                // 使用 ANY_TYPE 以支持数字、字符串、布尔值及节点集
+                const result = xmldom.evaluate(pattern, xmldom, null, XPathResult.ANY_TYPE, null);
+
+                if (result.resultType === XPathResult.NUMBER_TYPE) {
+                    resultArea.value = "结果类型: 数字 (Number)\n结果值: " + result.numberValue;
+                } else if (result.resultType === XPathResult.STRING_TYPE) {
+                    resultArea.value = "结果类型: 字符串 (String)\n结果值: " + result.stringValue;
+                } else if (result.resultType === XPathResult.BOOLEAN_TYPE) {
+                    resultArea.value = "结果类型: 布尔值 (Boolean)\n结果值: " + (result.booleanValue ? "true" : "false");
+                } else {
+                    // 处理节点集 (Iterator)
+                    let matches = [];
+                    let node = result.iterateNext();
+
+                    const serializer = new XMLSerializer();
+                    while (node) {
+                        let content = '';
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            content = node.outerHTML || serializer.serializeToString(node);
+                        } else if (node.nodeType === Node.ATTRIBUTE_NODE) {
+                            content = `${node.name}="${node.value}"`;
+                        } else if (node.nodeType === Node.TEXT_NODE) {
+                            content = node.textContent;
+                        } else if (node.nodeType === Node.COMMENT_NODE) {
+                            content = `<!--${node.textContent}-->`;
+                        } else {
+                            content = serializer.serializeToString(node);
+                        }
+                        matches.push(content);
+                        node = result.iterateNext();
+                    }
+
+                    if (matches.length === 0) {
+                        resultArea.value = "未找到匹配项 (节点集为空)";
+                    } else {
+                        resultArea.value = `共找到 ${matches.length} 个匹配项:\n\n` + matches.join('\n' + '-'.repeat(30) + '\n');
+                    }
+                }
+            } catch (e) {
+                resultArea.value = "XPath 错误: " + e.message;
+            }
+        }
+
+        function showDemo() {
+            $('source').value = '<webinfo>\n    <site dig="1">\n        <domain><![CDATA[http://sssss.com/]]></domain>\n        <title>LayUI前端社区</title>\n    </site>\n    <site dig="2">\n        <domain><![CDATA[http://www.bbbbbb.com/]]></domain>\n        <title>JSON在线解析工具</title>\n    </site>\n</webinfo>';
+            $('textPattern').value = '//site/title';
+            onMatch();
+        }
+
+        // Random Background logic
+        const bgOverlay = $('dynamic-bg');
+        function setRandomBg() {
+            const randomUrl = `https://picsum.photos/1920/1080?random=${Date.now()}`;
+            const img = new Image();
+            img.src = randomUrl;
+            img.onload = () => {
+                bgOverlay.style.backgroundImage = `url('${randomUrl}')`;
+                bgOverlay.classList.add('loaded');
+            };
+
+            // Fallback pictures
+            setTimeout(() => {
+                if (!bgOverlay.classList.contains('loaded')) {
+                    bgOverlay.style.backgroundImage = "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80')";
+                    bgOverlay.classList.add('loaded');
+                }
+            }, 3000);
+        }
+        setRandomBg();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>参考文献格式生成器 - 在线自动生成 GB/T 7714 标准格式 - 壹资源网</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="keywords" content="参考文献生成器, GB/T 7714, 论文格式, 参考文献在线生成, 本地处理, 隐私安全, 壹资源网" />
+    <meta name="description"
+        content="壹资源网参考文献格式生成器，支持期刊、图书、学位论文等多种类型。所有数据在浏览器本地处理，不上传服务器，保护您的隐私安全。一键生成符合 GB/T 7714 标准的参考文献。" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="参考文献格式生成器 - 在线自动生成 GB/T 7714 标准格式">
+    <meta property="og:description" content="支持期刊、图书、学位论文等多类参考文献一键生成，100% 本地处理，安全隐私。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com/referance/">
+    <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+    <link rel="canonical" href="https://tool.iezyw.com/referance/" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts: Inter & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap 4.6 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #00d2ff;
+            --primary-font: 'Inter', system-ui, -apple-system, sans-serif;
+            --header-font: 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: opacity 1.5s ease;
+            opacity: 0;
+        }
+
+        .bg-overlay.loaded {
+            opacity: 1;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-section {
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-section p.lead {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            padding: 35px;
+            margin-bottom: 30px;
+        }
+
+        .card-title {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+        }
+
+        .card-title i {
+            color: var(--accent-color);
+        }
+
+        /* Form Styling */
+        .form-group label {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-group .required {
+            color: #ff4d4d;
+            margin-left: 4px;
+        }
+
+        .form-control,
+        .custom-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 12px;
+            padding: 12px 15px;
+            height: auto;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus,
+        .custom-select:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(0, 210, 255, 0.2);
+            color: #fff;
+        }
+
+        .custom-select option {
+            background: #1e293b;
+            color: #fff;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 30px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.4);
+            filter: brightness(1.1);
+        }
+
+        /* Result List Styling */
+        .resultDiv {
+            min-height: 200px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .resultItem {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .resultItem:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .referanceContent {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-right: 80px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .resultItem .actions {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .resultItem:hover .actions {
+            opacity: 1;
+        }
+
+        .action-link {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-decoration: none !important;
+            transition: all 0.2s ease;
+        }
+
+        .action-link.delete {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        .action-link.delete:hover {
+            background: rgba(255, 107, 107, 0.2);
+        }
+
+        .action-link.edit {
+            color: var(--accent-color);
+            background: rgba(0, 210, 255, 0.1);
+        }
+
+        .action-link.edit:hover {
+            background: rgba(0, 210, 255, 0.2);
+        }
+
+        .hint-text {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            margin-top: 15px;
+        }
+
+        /* Examples Section */
+        .examples-section {
+            padding-bottom: 60px;
+        }
+
+        .example-group {
+            margin-bottom: 25px;
+        }
+
+        .example-group .ptitle {
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .example-group p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .example-group .format-rule {
+            color: rgba(255, 255, 255, 0.4);
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        /* Footer glass */
+        .footer {
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer span,
+        .footer a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .footer a:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.22rem;
+            }
+
+            .glass-card {
+                padding: 20px;
+            }
+        }
+    </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay" id="dynamic-bg"></div>
+
+    <header>
+        <div class="container py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/" class="navbar-brand">
+                    <i class="fas fa-tools mr-2"></i>壹资源工具
+                </a>
+                <div class="d-none d-md-block">
+                    <span class="text-white-50 small">纯网页工具 · 本地处理 · 隐私安全</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="hero-section">
+                <h1>参考文献格式生成器</h1>
+                <p class="lead">在线快速生成符合 GB/T 7714 标准的参考文献格式。支持各类文献类型，所有处理均在本地完成。</p>
+            </section>
+
+            <div class="row">
+                <!-- Tool Input -->
+                <div class="col-lg-5">
+                    <div class="glass-card">
+                        <div class="card-title">
+                            <i class="fas fa-edit"></i> 文献信息录入
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="typeSelector">文献类型</label>
+                            <select id="typeSelector" class="custom-select"></select>
+                        </div>
+                        <hr style="border-top: 1px solid rgba(255,255,255,0.1); margin: 25px 0;">
+                        <form id="inputForm"></form>
+                        <div class="mt-4 d-flex align-items-center justify-content-between">
+                            <span class="hint-text text-muted">("* "为必填项)</span>
+                            <button id="addBtn" class="btn btn-primary">
+                                <i class="fas fa-plus mr-2"></i>添加到列表
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool Output -->
+                <div class="col-lg-7">
+                    <div class="glass-card">
+                        <div class="card-title">
+                            <i class="fas fa-list-ul"></i> 生成结果
+                        </div>
+                        <div id="resultDiv" class="resultDiv"></div>
+                        <p class="hint-text text-center mt-3">
+                            <i class="fas fa-info-circle mr-2"></i> 可直接双击进入编辑模式，或复制到 Word 及其它文档中
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Examples -->
+            <section class="examples-section mt-5">
+                <div class="glass-card">
+                    <div class="card-title">
+                        <i class="fas fa-book"></i> GB/T 7714 标准格式示例
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="example-group">
+                                <span class="ptitle">a. 专著、论文集、学位论文、报告</span>
+                                <div class="format-rule">[序号]主要责任者.文献题名[文献类型标识].出版地:出版者,出版年.起止页码(任选).</div>
+                                <p>[1] 黄梯云.管理信息系统[M].北京:高等教育出版社,2004.24-25.</p>
+                                <p>[2] 辛希孟.信息技术和信息服务国际研讨会论文集:A集[C].北京:中国社会科学出版社,1994.</p>
+                                <p>[3] 张弛.基于产业链治理的集群国际竞争力提升研究[D].浙江:浙江大学,2011.</p>
+                                <p>[4] 冯西桥.核反应堆压力管道和压力容器的LBB分析[R].北京:清华大学核能技术设计研究院,1997.</p>
+                            </div>
+                            <div class="example-group">
+                                <span class="ptitle">b. 期刊文章</span>
+                                <div class="format-rule">[序号]主要责任者.文献题名[J].刊名,年,卷(期):起止页码.</div>
+                                <p>[5] 徐建敏,任荣明.产业集群创新效应及政策建议[J].科学学与科学技术管理,2006,(12):67-73.</p>
+                                <p>[6] 金显贺,王昌长,王忠东,等.一种用于在线检测局部放电的数字滤波技术[J].清华大学学报(自然科学版)，1993,33(4):62-67.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="example-group">
+                                <span class="ptitle">c. 报纸文章</span>
+                                <div class="format-rule">[序号]主要责任者.文献题名[N].报纸名,出版日期(版次).</div>
+                                <p>[7] 谢希德.创造学习的新思路[N].人民日报,1998-12-25(10).</p>
+                            </div>
+                            <div class="example-group">
+                                <span class="ptitle">d. 电子文献</span>
+                                <div class="format-rule">[序号]主要责任者.电子文献题名[文献类型/载体].获取地址,发布/引用日期.</div>
+                                <p>[8] 万锦坤.中国大学学报论文文摘(1983-1993).英文版[DB/CD].北京:中国大百科全书出版社,1996</p>
+                            </div>
+                            <div class="example-group">
+                                <span class="ptitle">英文参考文献说明</span>
+                                <p>① 作者姓名采用"姓在前名在后"原则：姓, 名字的首字母. 如：Malcolm Richard Cowley 应为 Cowley, M.R.</p>
+                                <p>② 书名、报刊名使用斜体字，如：<i>Mastering English Literature</i>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span>Copyright &copy; <span id="current-year">2026</span> <a href="http://www.iezyw.com"
+                            target="_blank">壹资源网</a>. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="#">回到顶部</a>
+                    <span class="mx-2">|</span>
+                    <a href="http://www.iezyw.com" target="_blank">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+    <!-- Original Logic -->
+    <script src="referance.js" type="text/javascript"></script>
+
+    <script>
+        // Customizations for the new UI to satisfy referance.js expectations
+
+        // Ensure Referance is defined (from referance.js)
+        if (typeof Referance !== 'undefined') {
+
+            // Override showInputs to use Bootstrap structure
+            Referance.ctrl.showInputs = function (typeName) {
+                this.selectType = typeName;
+                var template = '<div class="form-group mb-3">' +
+                    '<label>{inputName}<span class="required">{required}</span></label>' +
+                    '<input type="text" name="{inputName}" class="form-control" value=""/>' +
+                    '{desc}' +
+                    '</div>';
+                var that = this
+                    , items = this.getItems(typeName)
+                    , html = '';
+                _.each(items, function (item, i) {
+                    var obj = {
+                        inputName: item,
+                        required: that.isRequired(item, typeName) ? '*' : '',
+                        desc: ''
+                    };
+                    if (that.descriptions[item]) {
+                        obj.desc = '<small class="form-text text-muted">' + that.descriptions[item] + '</small>';
+                    }
+                    html += _.tmpl(template, obj);
+                });
+                this.inputForm.innerHTML = html;
+            };
+
+            // Override addContent to use the new action buttons style
+            Referance.ctrl.addContent = function () {
+                var formEls = this.inputForm.elements, formContent = {}, result, html;
+                _.each(formEls, function (item) {
+                    if (item.name) {
+                        formContent[item.name] = item.value;
+                    }
+                });
+                result = this.formatReferance(this.selectType, formContent);
+                if (!result || result.trim().length < 5) return; // Simple validation
+
+                html = '<div class="resultItem">' +
+                    '<div class="referanceContent">' + result + '</div>' +
+                    '<div class="actions">' +
+                    '<a href="javascript:" class="action-link edit"><i class="fas fa-edit"></i> 编辑</a>' +
+                    '<a href="javascript:" class="action-link delete"><i class="fas fa-trash-alt"></i> 删除</a>' +
+                    '</div>' +
+                    '</div>';
+                this.resultDiv.innerHTML += html;
+                this.cleanForm();
+            };
+
+            // Override event listener for the result div
+            Referance.ctrl.listenResultDivEvents = function (e) {
+                e = e || window.event;
+                var target = e.target || e.srcElement;
+                if (target.tagName.toLowerCase() === 'i') target = target.parentElement;
+
+                const isDelete = target.classList.contains('delete');
+                const isEdit = target.classList.contains('edit');
+
+                if (isDelete || isEdit) {
+                    const item = target.closest('.resultItem');
+                    if (!item) return;
+
+                    if (isDelete) {
+                        item.remove();
+                    } else if (isEdit) {
+                        const contentEl = item.querySelector('.referanceContent');
+                        if (contentEl) {
+                            contentEl.setAttribute('contentEditable', true);
+                            contentEl.focus();
+                            contentEl.onblur = function () {
+                                contentEl.removeAttribute('contentEditable');
+                            };
+                        }
+                    }
+                }
+            };
+
+            // Initialize the tool
+            new Referance();
+        }
+
+        // Static year and resilient background
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        const bgOverlay = document.getElementById('dynamic-bg');
+        function setRandomBg() {
+            const fallbackImg = 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80';
+            const randomUrl = `https://picsum.photos/1920/1080?random=${Date.now()}`;
+
+            // Set fallback immediately
+            bgOverlay.style.backgroundImage = `url('${fallbackImg}')`;
+            bgOverlay.classList.add('loaded');
+
+            const img = new Image();
+            img.src = randomUrl;
+            img.onload = () => {
+                bgOverlay.style.backgroundImage = `url('${randomUrl}')`;
+            };
+        }
+        setRandomBg();
+    </script>
+</body>
+
+</html>

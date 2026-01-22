@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>壹资源网工具合集 - 极简、安全、高效的纯网页在线工具箱 - tool.iezyw.com</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="author" content="Jackson Dou" />
+    <meta name="baidu-site-verification" content="code-2zQTA2OudC" />
+    <meta name="keywords" content="在线工具, 壹资源网, 纯网页工具, JSON编辑器, 在线图片压缩, Base64加解密, 密码生成, 二维码生成, 程序员工具, 极简工具箱, 壹资源网" />
+    <meta name="description"
+        content="壹资源网纯网页工具合集，提供 JSON 编辑器、图片压缩、Base64 加解密、口算生成、密码生成、二维码识别等多款实用工具。所有数据处理均在浏览器本地完成，不上传服务器，保护隐私，极致流畅。" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="壹资源网工具合集 - 极简、安全、高效的纯网页在线工具箱">
+    <meta property="og:description" content="包含 JSON 编辑器、图片压缩、密码生成等数十款实用工具，100% 本地处理，安全隐私。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tool.iezyw.com">
+    <meta property="og:image" content="https://tool.iezyw.com/favicon.ico">
+    <link rel="canonical" href="https://tool.iezyw.com" />
+    <link rel="icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts: Inter & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap 4.6 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #00d2ff;
+            --primary-font: 'Inter', system-ui, -apple-system, sans-serif;
+            --header-font: 'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: #0f172a;
+            /* Fallback */
+            min-height: 100vh;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: opacity 1.5s ease;
+            opacity: 0;
+        }
+
+        .bg-overlay.loaded {
+            opacity: 1;
+        }
+
+        .bg-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-section {
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-family: var(--header-font);
+            font-weight: 700;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-section p.lead {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            text-decoration: none !important;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 45px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .card-title {
+            color: #fff;
+            font-family: var(--header-font);
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        .card-text {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .btn-action {
+            margin-top: 20px;
+            padding: 10px 24px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .glass-card:hover .btn-action {
+            background: var(--accent-color);
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            border-color: transparent;
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        }
+
+        /* Bento Grid Style Spacing */
+        .tools-grid {
+            padding-bottom: 60px;
+        }
+
+        .tool-item {
+            margin-bottom: 30px;
+        }
+
+        /* Footer glass */
+        .footer {
+            margin-top: 60px;
+            padding: 40px 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer span,
+        .footer a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .footer a:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        /* Links section */
+        .links-card {
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .links-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .friend-link {
+            color: rgba(255, 255, 255, 0.7);
+            margin-right: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .friend-link:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-section {
+                padding: 40px 0 20px;
+            }
+        }
+    </style>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+     crossorigin="anonymous"></script> 
+</head>
+
+<body>
+    <div class="bg-overlay" id="dynamic-bg"></div>
+
+    <header>
+        <div class="container py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/" class="navbar-brand">
+                    <i class="fas fa-tools mr-2"></i>壹资源工具
+                </a>
+                <div class="d-none d-md-block">
+                    <span class="text-white-50 small">纯网页工具 · 本地处理 · 隐私安全</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="hero-section">
+                <h1>在线工具合集</h1>
+                <p class="lead">数据的处理和计算以及文件处理均在您的浏览器中完成，无需上传服务器，安全快捷。</p>
+            </section>
+
+            <div class="row tools-grid">
+                <!-- Tool Cards -->
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="jsone/vip1" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-code"></i> JSON编辑器 V1.0</div>
+                        <p class="card-text">专业的 JSON 在线编辑、格式化与验证工具，极简高效。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="jsone/vip2" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-file-code"></i> JSON编辑器 V2.0</div>
+                        <p class="card-text">基于 Web 的增强版 JSON 视图工具，支持更复杂的编辑需求。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="https://img.iezyw.com" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-file-code"></i> 在线图片压缩工具</div>
+                        <p class="card-text">所有图片处理均在浏览器本地完成，不会上传到服务器，保护您的隐私安全。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="base_64" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-shield-alt"></i> BASE64加密解密</div>
+                        <p class="card-text">简单的 Base64 编码与解码工具，由于所有操作均在本地进行，安全放心。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="htaccess" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-server"></i> HTACCESS生成</div>
+                        <p class="card-text">自动生成 .htaccess 文件，轻松实现 301 重定向、404 错误页等任务。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="eat" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-utensils"></i> 今天吃啥</div>
+                        <p class="card-text">选择困难症救星！随机推荐美食，让您的每一餐充满惊喜。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="oral" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-calculator"></i> 口算生成器</div>
+                        <p class="card-text">一键生成各种难度的口算作业，支持在线打印与保存成品图片。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="pwd" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-key"></i> 现代密码生成</div>
+                        <p class="card-text">基于记忆密码的高安全性密码生成方案，不存储任何数据，仅靠算法推演。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="wordage" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-font"></i> 在线字数统计</div>
+                        <p class="card-text">精确统计文字中的字符、字节、汉字及标点符号数量。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="html-se" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-file-contract"></i> HTML 加解密</div>
+                        <p class="card-text">对您的 HTML 脚本进行前端混淆与还原，保护代码逻辑。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="css" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-magic"></i> CSS 压缩格式化</div>
+                        <p class="card-text">极速压缩 CSS 体积或进行代码美化，提升前端开发效率。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="calendar" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-calendar-alt"></i> 万年历</div>
+                        <p class="card-text">提供公历、农历、节日、黄历等全面信息查询，简约不简单。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="json" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-vial"></i> JSON可视化</div>
+                        <p class="card-text">将枯燥的 JSON 字符串转换为直观的树状结构或图表。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <!-- More tools row -->
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="kinship" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-users"></i> 亲属关系图</div>
+                        <p class="card-text">轻松厘清复杂的亲属称呼与关系，逢年过节不再尴尬。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="regex" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-search"></i> 正则测试</div>
+                        <p class="card-text">在线编写并实时调试正则表达式，让正则不再难懂。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="qrgenerator" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-qrcode"></i> 二维码生成</div>
+                        <p class="card-text">将链接、文本快速转化为二维码，支持多种自定义选项。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="qrscanner" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-expand"></i> 二维码识别</div>
+                        <p class="card-text">直接通过网页摄像头或图片文件识别二维码中的信息内容。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="words" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-language"></i> 繁简转换</div>
+                        <p class="card-text">快速在简体中文与繁体中文之间进行高准确度的转换。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="removeblank" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-eraser"></i> 去空白行注释</div>
+                        <p class="card-text">一键清理代码中的多余空格、空白行和不必要的注释。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="xpath-check" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-network-wired"></i> XPath调试</div>
+                        <p class="card-text">为爬虫工程师打造的在线 XPath 验证与逻辑调试工具。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="html-space" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-text-width"></i> 文本精简</div>
+                        <p class="card-text">自动删除文本中的空格、回车与换行符，深度定制排版。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="words-to-pinyin" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-spell-check"></i> 汉字转拼音</div>
+                        <p class="card-text">将整段汉字迅速转换为拼音，支持多种标注格式。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="words-no-repeat" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-clone"></i> 内容去重</div>
+                        <p class="card-text">自动扫描并剔除文本中重复的行或关键词，保持简洁。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="words-flip" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-redo"></i> 字母翻转</div>
+                        <p class="card-text">趣味性工具，将文字或字母进行镜像或颠倒处理。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="jinzhi" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-exchange-alt"></i> 进制转换</div>
+                        <p class="card-text">支持 2、8、10、16 进制及自定义进制间的快速互转。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="recorder" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-microphone"></i> 在线录音</div>
+                        <p class="card-text">基于浏览器的音频采集，实时录制并保存为 MP3 格式。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 tool-item">
+                    <a href="camera" target="_blank" class="glass-card">
+                        <div class="card-title"><i class="fas fa-camera"></i> 在线摄像头</div>
+                        <p class="card-text">调用系统摄像头进行拍照或录像，功能强大且隐私受控。</p>
+                        <div class="btn-action">立即使用</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 友情链接区域 -->
+            <div class="links-card">
+                <div class="links-title">友情链接</div>
+                <div class="d-flex flex-wrap">
+                    <a href="http://www.iezyw.com" target="_blank" class="friend-link">壹资源网</a>
+                    <a href="https://crogram.com" target="_blank" class="friend-link">Crogram</a>
+                    <a href="https://github.com/jksdou/html-tools" target="_blank" class="friend-link">GitHub 源码</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center text-md-left">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span>Copyright &copy; <span id="current-year">2026</span> <a href="http://www.iezyw.com"
+                            target="_blank">壹资源网</a>. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-md-right mt-3 mt-md-0">
+                    <a href="#">回到顶部</a>
+                    <span class="mx-2">|</span>
+                    <a href="http://www.iezyw.com" target="_blank">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <script>
+        // 设置动态年份
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // 随机背景逻辑
+        const bgOverlay = document.getElementById('dynamic-bg');
+        const bgImages = [
+            'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80',
+            'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80',
+            'https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&w=1920&q=80',
+            'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80',
+            'https://picsum.photos/1920/1080?blur=2'
+        ];
+
+        // 随机选择一个并预加载
+        function setRandomBg() {
+            const randomUrl = `https://picsum.photos/1920/1080?random=${Date.now()}`;
+            const img = new Image();
+            img.src = randomUrl;
+            img.onload = () => {
+                bgOverlay.style.backgroundImage = `url('${randomUrl}')`;
+                bgOverlay.classList.add('loaded');
+            };
+
+            // 如果 picsum 加载太慢，先用预设的备用图
+            const fallbackImg = bgImages[Math.floor(Math.random() * bgImages.length)];
+            setTimeout(() => {
+                if (!bgOverlay.classList.contains('loaded')) {
+                    bgOverlay.style.backgroundImage = `url('${fallbackImg}')`;
+                    bgOverlay.classList.add('loaded');
+                }
+            }, 2000);
+        }
+
+        setRandomBg();
+    </script>
+</body>
+
+</html>
