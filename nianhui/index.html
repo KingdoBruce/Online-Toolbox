@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -93,7 +94,9 @@
         }
     </style>
 </head>
-<body class="font-inter bg-gradient-to-br from-primary/10 to-secondary/10 min-h-screen flex flex-col transition-all duration-500">
+
+<body
+    class="font-inter bg-gradient-to-br from-primary/10 to-secondary/10 min-h-screen flex flex-col transition-all duration-500">
     <!-- 右键菜单 -->
     <div id="contextMenu" class="fixed hidden z-50 bg-white rounded-lg shadow-xl border border-gray-200 py-1 w-48">
         <div class="context-menu-item px-4 py-2 hover:bg-gray-100 cursor-pointer" data-action="startLottery">
@@ -129,27 +132,45 @@
         <!-- 抽奖区域 -->
         <main class="flex-1 flex items-center justify-center p-6">
             <div id="lotteryContainer" class="w-full max-w-4xl h-full flex items-center justify-center">
-                <div id="lotteryName" class="text-[clamp(3rem,10vw,6rem)] font-bold text-dark text-center text-shadow-lg">准备开始</div>
+                <div id="lotteryName"
+                    class="text-[clamp(3rem,10vw,6rem)] font-bold text-dark text-center text-shadow-lg">准备开始</div>
             </div>
         </main>
 
         <!-- 控制区域 -->
         <footer class="py-8 px-6 text-center">
             <div class="flex justify-center gap-4 flex-wrap">
-                <button id="startButton" class="px-8 py-4 bg-primary hover:bg-primary/90 text-white text-xl font-bold rounded-lg transition-colors shadow-lg hover:shadow-xl transform hover:scale-105">
+                <button id="startButton"
+                    class="px-8 py-4 bg-primary hover:bg-primary/90 text-white text-xl font-bold rounded-lg transition-colors shadow-lg hover:shadow-xl transform hover:scale-105">
                     <i class="fa fa-play mr-2"></i>开始抽奖
                 </button>
-                <button id="stopButton" class="hidden px-8 py-4 bg-red-500 hover:bg-red-600 text-white text-xl font-bold rounded-lg transition-colors shadow-lg hover:shadow-xl transform hover:scale-105">
+                <button id="stopButton"
+                    class="hidden px-8 py-4 bg-red-500 hover:bg-red-600 text-white text-xl font-bold rounded-lg transition-colors shadow-lg hover:shadow-xl transform hover:scale-105">
                     <i class="fa fa-stop mr-2"></i>停止抽奖
                 </button>
-                <button id="viewWinnersButton" class="px-8 py-4 bg-accent hover:bg-accent/90 text-white text-xl font-bold rounded-lg transition-colors shadow-lg hover:shadow-xl transform hover:scale-105">
+                <button id="viewWinnersButton"
+                    class="px-8 py-4 bg-accent hover:bg-accent/90 text-white text-xl font-bold rounded-lg transition-colors shadow-lg hover:shadow-xl transform hover:scale-105">
                     <i class="fa fa-trophy mr-2"></i>中奖名单
                 </button>
-                <button id="manageNamesButton" class="px-8 py-4 bg-secondary hover:bg-secondary/90 text-white text-xl font-bold rounded-lg transition-colors shadow-lg hover:shadow-xl transform hover:scale-105">
+                <button id="manageNamesButton"
+                    class="px-8 py-4 bg-secondary hover:bg-secondary/90 text-white text-xl font-bold rounded-lg transition-colors shadow-lg hover:shadow-xl transform hover:scale-105">
                     <i class="fa fa-users mr-2"></i>名单管理
                 </button>
             </div>
         </footer>
+
+        <!-- 广告位置 -->
+        <div class="max-w-4xl mx-auto w-full px-6 mb-8 text-center">
+            <script async
+                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+                crossorigin="anonymous"></script>
+            <!-- iezyw自适应 -->
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8251016534296673"
+                data-ad-slot="8508409086" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
     </div>
 
     <!-- 中奖名单界面 -->
@@ -157,7 +178,8 @@
         <div class="p-6">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark">中奖名单</h2>
-                <button id="backToMainButton" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors">
+                <button id="backToMainButton"
+                    class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors">
                     <i class="fa fa-arrow-left mr-2"></i>返回
                 </button>
             </div>
@@ -165,10 +187,12 @@
                 <!-- 中奖名单将在这里动态生成 -->
             </div>
             <div class="flex justify-center gap-4 mt-8">
-                <button id="clearWinnersButton" class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
+                <button id="clearWinnersButton"
+                    class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
                     <i class="fa fa-trash mr-2"></i>清空中奖名单
                 </button>
-                <button id="printWinnersButton" class="px-6 py-3 bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition-colors">
+                <button id="printWinnersButton"
+                    class="px-6 py-3 bg-gray-700 hover:bg-gray-800 text-white rounded-lg transition-colors">
                     <i class="fa fa-print mr-2"></i>打印名单
                 </button>
             </div>
@@ -180,29 +204,37 @@
         <div class="p-6">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark">名单管理</h2>
-                <button id="backFromNamesButton" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors">
+                <button id="backFromNamesButton"
+                    class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors">
                     <i class="fa fa-arrow-left mr-2"></i>返回
                 </button>
             </div>
-            
+
             <!-- 参与者名单管理 -->
             <div class="mb-8">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-bold text-dark">参与者名单</h3>
-                    <span id="participantsCount" class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">0人</span>
+                    <span id="participantsCount"
+                        class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">0人</span>
                 </div>
-                <textarea id="participantsInput" class="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all mb-4 resize-none" placeholder="请输入参与者名单，支持顿号分隔或每行一个格式"></textarea>
+                <textarea id="participantsInput"
+                    class="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all mb-4 resize-none"
+                    placeholder="请输入参与者名单，支持顿号分隔或每行一个格式"></textarea>
                 <div class="flex flex-wrap gap-2">
-                    <button id="addParticipantsButton" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors">
+                    <button id="addParticipantsButton"
+                        class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors">
                         <i class="fa fa-plus mr-2"></i>添加名单
                     </button>
-                    <button id="clearParticipantsButton" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors">
+                    <button id="clearParticipantsButton"
+                        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors">
                         <i class="fa fa-eraser mr-2"></i>清空输入
                     </button>
-                    <button id="deleteAllParticipantsButton" class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-colors">
+                    <button id="deleteAllParticipantsButton"
+                        class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-colors">
                         <i class="fa fa-trash mr-2"></i>删除全部
                     </button>
-                    <button id="loadExampleParticipantsButton" class="px-4 py-2 bg-secondary/10 hover:bg-secondary/20 text-secondary rounded-lg transition-colors">
+                    <button id="loadExampleParticipantsButton"
+                        class="px-4 py-2 bg-secondary/10 hover:bg-secondary/20 text-secondary rounded-lg transition-colors">
                         <i class="fa fa-file-text-o mr-2"></i>加载示例
                     </button>
                 </div>
@@ -210,22 +242,28 @@
                     <!-- 参与者列表将在这里动态生成 -->
                 </div>
             </div>
-            
+
             <!-- 领导名单管理 -->
             <div>
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-bold text-dark">领导名单</h3>
-                    <span id="leadersCount" class="text-sm bg-secondary/10 text-secondary px-3 py-1 rounded-full">0人</span>
+                    <span id="leadersCount"
+                        class="text-sm bg-secondary/10 text-secondary px-3 py-1 rounded-full">0人</span>
                 </div>
-                <textarea id="leadersInput" class="w-full h-24 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-all mb-4 resize-none" placeholder="请输入领导名单，支持顿号分隔或每行一个格式"></textarea>
+                <textarea id="leadersInput"
+                    class="w-full h-24 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-all mb-4 resize-none"
+                    placeholder="请输入领导名单，支持顿号分隔或每行一个格式"></textarea>
                 <div class="flex flex-wrap gap-2">
-                    <button id="addLeadersButton" class="px-4 py-2 bg-secondary hover:bg-secondary/90 text-white rounded-lg transition-colors">
+                    <button id="addLeadersButton"
+                        class="px-4 py-2 bg-secondary hover:bg-secondary/90 text-white rounded-lg transition-colors">
                         <i class="fa fa-plus mr-2"></i>添加领导
                     </button>
-                    <button id="clearLeadersButton" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors">
+                    <button id="clearLeadersButton"
+                        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors">
                         <i class="fa fa-eraser mr-2"></i>清空输入
                     </button>
-                    <button id="deleteAllLeadersButton" class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-colors">
+                    <button id="deleteAllLeadersButton"
+                        class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-colors">
                         <i class="fa fa-trash mr-2"></i>删除全部
                     </button>
                 </div>
@@ -241,44 +279,50 @@
         <div class="p-6">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark">系统设置</h2>
-                <button id="closeSettingsButton" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors">
+                <button id="closeSettingsButton"
+                    class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors">
                     <i class="fa fa-times mr-2"></i>关闭
                 </button>
             </div>
-            
+
             <div class="max-w-3xl mx-auto space-y-8">
                 <!-- 抽奖设置 -->
                 <div class="bg-gray-50 p-6 rounded-xl">
                     <h3 class="text-xl font-bold text-dark mb-4">抽奖设置</h3>
-                    
+
                     <!-- 中奖人数 -->
                     <div class="mb-6">
                         <label class="block text-gray-700 mb-2">中奖人数: <span id="winnersCountValue">3</span>人</label>
-                        <input type="range" id="winnersCount" min="1" max="100" value="3" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary">
+                        <input type="range" id="winnersCount" min="1" max="100" value="3"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary">
                     </div>
-                    
+
                     <!-- 抽奖速度 -->
                     <div class="mb-6">
                         <label class="block text-gray-700 mb-2">抽奖速度: <span id="lotterySpeedValue">5</span></label>
-                        <input type="range" id="lotterySpeed" min="1" max="10" value="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary">
+                        <input type="range" id="lotterySpeed" min="1" max="10" value="5"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary">
                     </div>
-                    
+
                     <!-- 字体大小 -->
                     <div class="mb-6">
                         <label class="block text-gray-700 mb-2">字体大小: <span id="fontSizeValue">10</span></label>
-                        <input type="range" id="fontSize" min="1" max="20" value="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary">
+                        <input type="range" id="fontSize" min="1" max="20" value="10"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary">
                     </div>
-                    
+
                     <!-- 抽奖模式 -->
                     <div class="mb-6">
                         <label class="block text-gray-700 mb-2">抽奖模式</label>
                         <div class="flex space-x-4">
                             <label class="flex items-center">
-                                <input type="radio" name="lotteryMode" value="random" checked class="w-4 h-4 text-primary focus:ring-primary">
+                                <input type="radio" name="lotteryMode" value="random" checked
+                                    class="w-4 h-4 text-primary focus:ring-primary">
                                 <span class="ml-2 text-gray-700">单次循环抽奖</span>
                             </label>
                             <label class="flex items-center">
-                                <input type="radio" name="lotteryMode" value="sequential" class="w-4 h-4 text-primary focus:ring-primary">
+                                <input type="radio" name="lotteryMode" value="sequential"
+                                    class="w-4 h-4 text-primary focus:ring-primary">
                                 <span class="ml-2 text-gray-700">预设顺序抽奖</span>
                             </label>
                         </div>
@@ -288,96 +332,111 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- 特效设置 -->
                 <div class="bg-gray-50 p-6 rounded-xl">
                     <h3 class="text-xl font-bold text-dark mb-4">特效设置</h3>
-                    
+
                     <!-- 音效开关 -->
                     <div class="flex items-center justify-between mb-4">
                         <label class="text-gray-700">抽奖音效</label>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" id="enableDrawSound" checked class="sr-only peer">
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                            <div
+                                class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
+                            </div>
                         </label>
                     </div>
-                    
+
                     <div class="flex items-center justify-between mb-4">
                         <label class="text-gray-700">中奖音效</label>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" id="enableWinSound" checked class="sr-only peer">
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                            <div
+                                class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
+                            </div>
                         </label>
                     </div>
-                    
+
                     <!-- 烟花特效 -->
                     <div class="flex items-center justify-between mb-4">
                         <label class="text-gray-700">烟花特效</label>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" id="enableFireworks" checked class="sr-only peer">
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                            <div
+                                class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
+                            </div>
                         </label>
                     </div>
                 </div>
-                
+
                 <!-- 显示设置 -->
                 <div class="bg-gray-50 p-6 rounded-xl">
                     <h3 class="text-xl font-bold text-dark mb-4">显示设置</h3>
-                    
+
                     <!-- 主标题 -->
                     <div class="mb-6">
                         <label class="block text-gray-700 mb-2">主标题</label>
-                        <input type="text" id="titleInput" value="智能抽奖系统" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
+                        <input type="text" id="titleInput" value="智能抽奖系统"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
                     </div>
-                    
+
                     <!-- 副标题 -->
                     <div class="mb-6">
                         <label class="block text-gray-700 mb-2">副标题</label>
-                        <input type="text" id="subtitleInput" value="点击开始按钮或按Enter键开始抽奖" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
+                        <input type="text" id="subtitleInput" value="点击开始按钮或按Enter键开始抽奖"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
                     </div>
-                    
+
                     <!-- 背景模式 -->
                     <div class="mb-6">
                         <label class="block text-gray-700 mb-2">背景模式</label>
                         <div class="flex space-x-4">
                             <label class="flex items-center">
-                                <input type="radio" name="backgroundMode" value="solid" checked class="w-4 h-4 text-primary focus:ring-primary">
+                                <input type="radio" name="backgroundMode" value="solid" checked
+                                    class="w-4 h-4 text-primary focus:ring-primary">
                                 <span class="ml-2 text-gray-700">纯色背景</span>
                             </label>
                             <label class="flex items-center">
-                                <input type="radio" name="backgroundMode" value="image" class="w-4 h-4 text-primary focus:ring-primary">
+                                <input type="radio" name="backgroundMode" value="image"
+                                    class="w-4 h-4 text-primary focus:ring-primary">
                                 <span class="ml-2 text-gray-700">壁纸背景</span>
                             </label>
                         </div>
                     </div>
-                    
+
                     <!-- 背景颜色 -->
                     <div class="mb-6" id="backgroundColorContainer">
                         <label class="block text-gray-700 mb-2">背景颜色</label>
                         <div class="flex space-x-3">
                             <div class="w-full flex-1">
-                                <input type="color" id="backgroundColor" value="#4F46E5" class="w-full h-10 border border-gray-300 rounded-lg cursor-pointer">
+                                <input type="color" id="backgroundColor" value="#4F46E5"
+                                    class="w-full h-10 border border-gray-300 rounded-lg cursor-pointer">
                             </div>
                             <div class="w-full flex-1">
-                                <input type="color" id="backgroundGradient" value="#7C3AED" class="w-full h-10 border border-gray-300 rounded-lg cursor-pointer">
+                                <input type="color" id="backgroundGradient" value="#7C3AED"
+                                    class="w-full h-10 border border-gray-300 rounded-lg cursor-pointer">
                             </div>
                         </div>
                         <p class="text-xs text-gray-500 mt-2">选择渐变背景的两种颜色</p>
                     </div>
-                    
+
                     <!-- 背景图片URL -->
                     <div class="mb-6 hidden" id="backgroundImageContainer">
                         <label class="block text-gray-700 mb-2">背景图片URL</label>
-                        <input type="text" id="backgroundImage" value="https://picsum.photos/id/1067/1920/1080" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
+                        <input type="text" id="backgroundImage" value="https://picsum.photos/id/1067/1920/1080"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
                     </div>
                 </div>
             </div>
-            
+
             <div class="flex justify-center gap-4 mt-8">
-                <button id="resetSettingsButton" class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors">
+                <button id="resetSettingsButton"
+                    class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors">
                     <i class="fa fa-refresh mr-2"></i>重置设置
                 </button>
-                <button id="saveSettingsButton" class="px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors">
+                <button id="saveSettingsButton"
+                    class="px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors">
                     <i class="fa fa-save mr-2"></i>保存设置
                 </button>
             </div>
@@ -439,14 +498,14 @@
             stopButton: document.getElementById('stopButton'),
             viewWinnersButton: document.getElementById('viewWinnersButton'),
             manageNamesButton: document.getElementById('manageNamesButton'),
-            
+
             // 中奖名单界面元素
             winnersScreen: document.getElementById('winnersScreen'),
             backToMainButton: document.getElementById('backToMainButton'),
             winnersList: document.getElementById('winnersList'),
             clearWinnersButton: document.getElementById('clearWinnersButton'),
             printWinnersButton: document.getElementById('printWinnersButton'),
-            
+
             // 名单管理界面元素
             namesManagementScreen: document.getElementById('namesManagementScreen'),
             backFromNamesButton: document.getElementById('backFromNamesButton'),
@@ -463,7 +522,7 @@
             addLeadersButton: document.getElementById('addLeadersButton'),
             clearLeadersButton: document.getElementById('clearLeadersButton'),
             deleteAllLeadersButton: document.getElementById('deleteAllLeadersButton'),
-            
+
             // 设置界面元素
             settingsScreen: document.getElementById('settingsScreen'),
             closeSettingsButton: document.getElementById('closeSettingsButton'),
@@ -485,10 +544,10 @@
             enableDrawSound: document.getElementById('enableDrawSound'),
             enableWinSound: document.getElementById('enableWinSound'),
             enableFireworks: document.getElementById('enableFireworks'),
-            
+
             // 右键菜单
             contextMenu: document.getElementById('contextMenu'),
-            
+
             // 音效元素
             drawSound: document.getElementById('drawSound'),
             winSound: document.getElementById('winSound')
@@ -498,30 +557,30 @@
         function updateSettingsDisplay() {
             elements.winnersCount.value = data.settings.winnersCount;
             elements.winnersCountValue.textContent = data.settings.winnersCount;
-            
+
             elements.lotterySpeed.value = data.settings.lotterySpeed;
             elements.lotterySpeedValue.textContent = data.settings.lotterySpeed;
-            
+
             elements.fontSize.value = data.settings.fontSize;
             elements.fontSizeValue.textContent = data.settings.fontSize;
-            
+
             elements.titleInput.value = data.settings.mainTitle;
             elements.subtitleInput.value = data.settings.subtitle;
-            
+
             elements.backgroundColor.value = data.settings.backgroundColor;
             elements.backgroundGradient.value = data.settings.backgroundGradient;
             elements.backgroundImage.value = data.settings.backgroundImage;
-            
+
             elements.enableDrawSound.checked = data.settings.enableDrawSound;
             elements.enableWinSound.checked = data.settings.enableWinSound;
             elements.enableFireworks.checked = data.settings.enableFireworks;
-            
+
             // 设置抽奖模式
             document.querySelector(`input[name="lotteryMode"][value="${data.settings.lotteryMode}"]`).checked = true;
-            
+
             // 设置背景模式
             document.querySelector(`input[name="backgroundMode"][value="${data.settings.backgroundMode}"]`).checked = true;
-            
+
             // 更新背景模式相关UI
             if (data.settings.backgroundMode === 'solid') {
                 elements.backgroundColorContainer.classList.remove('hidden');
@@ -530,14 +589,14 @@
                 elements.backgroundColorContainer.classList.add('hidden');
                 elements.backgroundImageContainer.classList.remove('hidden');
             }
-            
+
             // 应用背景
             updateBackground();
-            
+
             // 应用标题
             elements.mainTitle.textContent = data.settings.mainTitle;
             elements.subtitle.textContent = data.settings.subtitle;
-            
+
             // 应用字体大小
             const fontSizeMultiplier = 0.5 + (data.settings.fontSize * 0.05);
             elements.lotteryName.style.fontSize = `clamp(${2 * fontSizeMultiplier}rem, ${8 * fontSizeMultiplier}vw, ${5 * fontSizeMultiplier}rem)`;
@@ -558,13 +617,13 @@
             data.settings.enableDrawSound = elements.enableDrawSound.checked;
             data.settings.enableWinSound = elements.enableWinSound.checked;
             data.settings.enableFireworks = elements.enableFireworks.checked;
-            
+
             // 应用设置
             updateSettingsDisplay();
-            
+
             // 保存到本地存储
             saveData();
-            
+
             // 关闭设置界面
             elements.settingsScreen.classList.add('hidden');
         }
@@ -588,10 +647,10 @@
                     backgroundGradient: '#7C3AED',
                     backgroundImage: 'https://picsum.photos/id/1067/1920/1080'
                 };
-                
+
                 // 更新显示
                 updateSettingsDisplay();
-                
+
                 // 保存到本地存储
                 saveData();
             }
@@ -601,15 +660,15 @@
         function updateParticipantsList() {
             elements.participantsList.innerHTML = '';
             elements.participantsCount.textContent = `${data.participants.length}人`;
-            
+
             if (data.participants.length === 0) {
                 elements.participantsList.innerHTML = '<p class="text-gray-400 text-sm">暂无参与者</p>';
                 return;
             }
-            
+
             const list = document.createElement('div');
             list.className = 'flex flex-wrap gap-2';
-            
+
             data.participants.forEach((name, index) => {
                 const tag = document.createElement('div');
                 tag.className = 'bg-primary/20 text-primary text-sm px-2 py-1 rounded-full flex items-center gap-1 border border-primary/30';
@@ -619,7 +678,7 @@
                 `;
                 list.appendChild(tag);
             });
-            
+
             elements.participantsList.appendChild(list);
         }
 
@@ -627,15 +686,15 @@
         function updateLeadersList() {
             elements.leadersList.innerHTML = '';
             elements.leadersCount.textContent = `${data.leaders.length}人`;
-            
+
             if (data.leaders.length === 0) {
                 elements.leadersList.innerHTML = '<p class="text-gray-400 text-sm">暂无领导</p>';
                 return;
             }
-            
+
             const list = document.createElement('div');
             list.className = 'flex flex-wrap gap-2';
-            
+
             data.leaders.forEach((name, index) => {
                 const tag = document.createElement('div');
                 tag.className = 'bg-secondary/20 text-secondary text-sm px-2 py-1 rounded-full flex items-center gap-1 border border-secondary/30';
@@ -645,14 +704,14 @@
                 `;
                 list.appendChild(tag);
             });
-            
+
             elements.leadersList.appendChild(list);
         }
 
         // 更新中奖名单显示
         function updateWinnersList() {
             elements.winnersList.innerHTML = '';
-            
+
             if (data.winners.length === 0) {
                 elements.winnersList.innerHTML = `
                   <div class="col-span-full py-16 text-center text-gray-400">
@@ -662,13 +721,13 @@
                 `;
                 return;
             }
-            
+
             // 添加"恭喜"标题
             const congratulationTitle = document.createElement('div');
             congratulationTitle.className = 'col-span-full text-center mb-8';
             congratulationTitle.innerHTML = '<h3 class="text-3xl font-bold text-primary">恭喜中奖！</h3>';
             elements.winnersList.appendChild(congratulationTitle);
-            
+
             // 横向排列中奖名单
             data.winners.forEach((winner, index) => {
                 const isLeader = data.leaders.includes(winner.name);
@@ -694,7 +753,7 @@
                 alert('请先添加参与者名单！');
                 return;
             }
-            
+
             // 检查是否已经抽完所有参与者（仅适用于预设顺序抽奖）
             if (data.settings.lotteryMode === 'sequential' && state.hasDrawnAll) {
                 if (confirm('所有参与者已经抽完，是否重新开始？')) {
@@ -704,34 +763,34 @@
                     return;
                 }
             }
-            
+
             // 重置抽奖显示，确保第二次点击抽奖时能直接回到滚动效果
             resetLotteryDisplay();
-            
+
             state.isDrawing = true;
             elements.startButton.classList.add('hidden');
             elements.stopButton.classList.remove('hidden');
             elements.lotteryName.classList.add('lottery-animation');
-            
+
             // 停止获奖音效并重置其状态
             if (elements.winSound) {
                 elements.winSound.pause();
                 elements.winSound.currentTime = 0;
             }
-            
+
             // 播放抽奖音效
             if (data.settings.enableDrawSound && elements.drawSound) {
                 elements.drawSound.currentTime = 0;
                 elements.drawSound.play().catch(e => console.log('无法播放音效:', e));
             }
-            
+
             // 计算抽奖间隔时间（速度越快，间隔越小）
             const intervalTime = 300 - (data.settings.lotterySpeed * 15);
-            
+
             // 设置抽奖循环
             state.drawInterval = setInterval(() => {
                 let randomIndex;
-                
+
                 if (data.settings.lotteryMode === 'sequential') {
                     // 预设顺序抽奖模式
                     randomIndex = state.sequentialDrawIndex % data.participants.length;
@@ -740,7 +799,7 @@
                     // 单次循环抽奖模式
                     randomIndex = Math.floor(Math.random() * data.participants.length);
                 }
-                
+
                 elements.lotteryName.textContent = data.participants[randomIndex];
             }, intervalTime);
         }
@@ -748,36 +807,36 @@
         // 停止抽奖
         function stopLottery() {
             if (!state.isDrawing) return;
-            
+
             state.isDrawing = false;
             clearInterval(state.drawInterval);
             elements.startButton.classList.remove('hidden');
             elements.stopButton.classList.add('hidden');
             elements.lotteryName.classList.remove('lottery-animation');
-            
+
             // 停止抽奖音效
             if (elements.drawSound) {
                 elements.drawSound.pause();
             }
-            
+
             // 选择中奖者
             const winners = selectWinners();
-            
+
             // 显示中奖者
             displayWinners(winners);
-            
+
             // 播放中奖音效
             if (data.settings.enableWinSound && elements.winSound) {
                 elements.winSound.currentTime = 0;
                 elements.winSound.play().catch(e => console.log('无法播放音效:', e));
             }
-            
+
             // 添加特效
             if (data.settings.enableFireworks) {
                 createFireworks();
                 createConfetti();
             }
-            
+
             // 保存中奖记录
             saveWinners(winners);
         }
@@ -786,28 +845,28 @@
         function selectWinners() {
             const winners = [];
             let availableParticipants = [...data.participants];
-            
+
             // 计算领导必中人数 (50%的概率让领导必中，随机选择1-3名领导)
             const shouldLeadersWin = Math.random() > 0.5 && data.leaders.length > 0;
             let leadersToWin = [];
-            
+
             if (shouldLeadersWin) {
                 const leadersCount = Math.min(Math.floor(Math.random() * 3) + 1, data.leaders.length);
                 const shuffledLeaders = [...data.leaders].sort(() => Math.random() - 0.5);
-                
+
                 // 从打乱的领导名单中选择指定数量
                 leadersToWin = shuffledLeaders.slice(0, leadersCount);
-                
+
                 // 将选中的领导从可用参与者中移除
-                availableParticipants = availableParticipants.filter(participant => 
+                availableParticipants = availableParticipants.filter(participant =>
                     !leadersToWin.includes(participant)
                 );
             }
-            
+
             // 计算普通参与者中奖人数
             const normalWinnersCount = Math.max(0, data.settings.winnersCount - leadersToWin.length);
             const totalWinnersCount = Math.min(data.settings.winnersCount, leadersToWin.length + availableParticipants.length);
-            
+
             // 添加领导中奖者
             leadersToWin.forEach(name => {
                 winners.push({
@@ -815,20 +874,20 @@
                     isLeader: true
                 });
             });
-            
+
             // 添加普通参与者中奖者
             for (let i = 0; i < normalWinnersCount && availableParticipants.length > 0; i++) {
                 const randomIndex = Math.floor(Math.random() * availableParticipants.length);
                 const isLeader = data.leaders.includes(availableParticipants[randomIndex]);
-                
+
                 winners.push({
                     name: availableParticipants[randomIndex],
                     isLeader: isLeader
                 });
-                
+
                 availableParticipants.splice(randomIndex, 1);
             }
-            
+
             // 打乱中奖顺序（避免领导总是排在前面）
             return winners.sort(() => Math.random() - 0.5);
         }
@@ -837,31 +896,31 @@
         function displayWinners(winners) {
             // 清空当前显示
             elements.lotteryContainer.innerHTML = '';
-            
+
             // 创建中奖者显示容器
             const winnersContainer = document.createElement('div');
             winnersContainer.className = 'w-full h-full flex flex-col items-center justify-center p-6';
-            
+
             // 中奖标题
             const title = document.createElement('h2');
             title.className = 'text-3xl font-bold text-yellow-400 mb-8';
             title.textContent = '恭喜中奖！';
             winnersContainer.appendChild(title);
-            
+
             // 中奖者列表 - 横向排列
             const winnersList = document.createElement('div');
             winnersList.className = 'flex flex-wrap justify-center gap-6 w-full';
-            
+
             winners.forEach((winner, index) => {
                 const winnerCard = document.createElement('div');
                 winnerCard.className = `p-6 rounded-xl text-center ${winner.isLeader ? 'bg-black/20 border-2 border-white animate-float' : 'bg-white/80 border border-gray-200'} transition-all duration-300 max-w-[200px]`;
-                
+
                 const name = document.createElement('div');
                 name.className = `text-[clamp(1.5rem,5vw,2.5rem)] font-bold mb-3 ${winner.isLeader ? 'text-yellow-400' : 'text-gray-800'}`;
                 name.textContent = winner.name;
-                
+
                 winnerCard.appendChild(name);
-                
+
                 // 如果是领导，添加特殊标识
                 if (winner.isLeader) {
                     const badge = document.createElement('div');
@@ -869,12 +928,12 @@
                     badge.innerHTML = '<i class="fa fa-trophy mr-1"></i>特别奖';
                     winnerCard.appendChild(badge);
                 }
-                
+
                 winnersList.appendChild(winnerCard);
             });
-            
+
             winnersContainer.appendChild(winnersList);
-            
+
             // 返回按钮
             const backButton = document.createElement('button');
             backButton.className = 'mt-10 px-8 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition-colors text-lg';
@@ -882,9 +941,9 @@
             backButton.onclick = () => {
                 resetLotteryDisplay();
             };
-            
+
             winnersContainer.appendChild(backButton);
-            
+
             // 添加到容器
             elements.lotteryContainer.appendChild(winnersContainer);
         }
@@ -892,14 +951,14 @@
         // 重置抽奖显示
         function resetLotteryDisplay() {
             elements.lotteryContainer.innerHTML = '';
-            
+
             const nameElement = document.createElement('div');
             nameElement.id = 'lotteryName';
             nameElement.className = 'text-[clamp(3rem,10vw,6rem)] font-bold text-gray-800 text-center';
             nameElement.textContent = '准备开始';
-            
+
             elements.lotteryContainer.appendChild(nameElement);
-            
+
             // 重新获取DOM引用
             elements.lotteryName = document.getElementById('lotteryName');
         }
@@ -908,14 +967,14 @@
         function saveWinners(winners) {
             const now = new Date();
             const formattedTime = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-            
+
             winners.forEach(winner => {
                 data.winners.unshift({
                     name: winner.name,
                     time: formattedTime
                 });
             });
-            
+
             saveData();
             updateWinnersList();
         }
@@ -923,25 +982,25 @@
         // 创建烟花效果
         function createFireworks() {
             const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57', '#DDA0DD', '#98D8C8'];
-            
+
             for (let i = 0; i < 10; i++) {
                 setTimeout(() => {
                     const firework = document.createElement('div');
                     firework.className = 'firework';
-                    
+
                     // 随机位置
                     const x = Math.random() * window.innerWidth;
                     const y = Math.random() * window.innerHeight * 0.7;
-                    
+
                     firework.style.left = `${x}px`;
                     firework.style.top = `${y}px`;
-                    
+
                     // 随机颜色
                     const color = colors[Math.floor(Math.random() * colors.length)];
                     firework.style.backgroundColor = color;
-                    
+
                     document.body.appendChild(firework);
-                    
+
                     // 爆炸效果
                     setTimeout(() => {
                         createFireworkBurst(x, y, color);
@@ -954,35 +1013,35 @@
         // 创建烟花爆炸效果
         function createFireworkBurst(x, y, color) {
             const particleCount = 30;
-            
+
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'firework-burst';
-                
+
                 // 设置位置
                 particle.style.left = `${x}px`;
                 particle.style.top = `${y}px`;
                 particle.style.backgroundColor = color;
-                
+
                 // 计算随机方向和距离
                 const angle = Math.random() * Math.PI * 2;
                 const distance = Math.random() * 100 + 50;
                 const endX = Math.cos(angle) * distance;
                 const endY = Math.sin(angle) * distance;
-                
+
                 // 添加动画
                 particle.style.transition = `transform ${Math.random() * 2 + 1}s ease-out, opacity 2s ease-out`;
-                
+
                 // 添加到DOM
                 document.body.appendChild(particle);
-                
+
                 // 触发重排
                 particle.offsetWidth;
-                
+
                 // 应用变换
                 particle.style.transform = `translate(${endX}px, ${endY}px)`;
                 particle.style.opacity = '0';
-                
+
                 // 移除粒子
                 setTimeout(() => {
                     document.body.removeChild(particle);
@@ -994,35 +1053,35 @@
         function createConfetti() {
             const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57', '#DDA0DD', '#98D8C8'];
             const confettiCount = 200;
-            
+
             for (let i = 0; i < confettiCount; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
-                
+
                 // 随机位置
                 const x = Math.random() * window.innerWidth;
                 confetti.style.left = `${x}px`;
                 confetti.style.top = `${-20}px`;
-                
+
                 // 随机颜色
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 confetti.style.backgroundColor = color;
-                
+
                 // 随机大小
                 const size = Math.random() * 10 + 5;
                 confetti.style.width = `${size}px`;
                 confetti.style.height = `${size}px`;
-                
+
                 // 随机动画持续时间
                 const duration = Math.random() * 5 + 3;
                 confetti.style.animation = `falling ${duration}s linear forwards`;
-                
+
                 // 随机旋转
                 const rotation = Math.random() * 360;
                 confetti.style.transform = `rotate(${rotation}deg)`;
-                
+
                 document.body.appendChild(confetti);
-                
+
                 // 移除彩纸
                 setTimeout(() => {
                     document.body.removeChild(confetti);
@@ -1036,25 +1095,25 @@
                 alert('暂无中奖记录！');
                 return;
             }
-            
+
             // 清空当前显示
             elements.lotteryContainer.innerHTML = '';
-            
+
             // 创建播放容器
             const playContainer = document.createElement('div');
             playContainer.className = 'w-full h-full flex flex-col items-center justify-center p-6';
-            
+
             // 标题
             const title = document.createElement('h2');
             title.className = 'text-3xl font-bold text-primary mb-8';
             title.textContent = '中奖名单回放';
             playContainer.appendChild(title);
-            
+
             // 中奖者列表容器
             const winnersContainer = document.createElement('div');
             winnersContainer.className = 'flex flex-wrap justify-center gap-6 w-full';
             playContainer.appendChild(winnersContainer);
-            
+
             // 返回按钮
             const backButton = document.createElement('button');
             backButton.className = 'mt-10 px-8 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition-colors text-lg';
@@ -1063,33 +1122,33 @@
                 resetLotteryDisplay();
             };
             playContainer.appendChild(backButton);
-            
+
             // 添加到容器
             elements.lotteryContainer.appendChild(playContainer);
-            
+
             // 逐个显示中奖者
             let currentIndex = 0;
             const showNextWinner = () => {
                 if (currentIndex >= data.winners.length) return;
-                
+
                 const winner = data.winners[currentIndex];
                 const isLeader = data.leaders.includes(winner.name);
-                
+
                 const winnerCard = document.createElement('div');
                 winnerCard.className = `p-6 rounded-xl text-center ${isLeader ? 'bg-secondary/20 border-2 border-secondary animate-float' : 'bg-white/80 border border-gray-200'} transition-all duration-300 max-w-[200px] opacity-0`;
-                
+
                 const name = document.createElement('div');
                 name.className = `text-[clamp(1.5rem,5vw,2.5rem)] font-bold mb-3 ${isLeader ? 'text-yellow-400' : 'text-gray-800'}`;
                 name.textContent = winner.name;
-                
+
                 winnerCard.appendChild(name);
-                
+
                 // 时间
                 const time = document.createElement('div');
                 time.className = 'text-sm text-gray-500 mb-3';
                 time.textContent = winner.time;
                 winnerCard.appendChild(time);
-                
+
                 // 如果是领导，添加特殊标识
                 if (isLeader) {
                     const badge = document.createElement('div');
@@ -1097,25 +1156,25 @@
                     badge.innerHTML = '<i class="fa fa-trophy mr-1"></i>特别奖';
                     winnerCard.appendChild(badge);
                 }
-                
+
                 winnersContainer.appendChild(winnerCard);
-                
+
                 // 淡入动画
                 setTimeout(() => {
                     winnerCard.style.opacity = '1';
                     winnerCard.style.transition = 'opacity 0.5s';
-                    
+
                     // 播放音效
                     if (data.settings.enableWinSound) {
                         elements.winSound.currentTime = 0;
                         elements.winSound.play().catch(e => console.log('无法播放音效:', e));
                     }
-                    
+
                     currentIndex++;
                     setTimeout(showNextWinner, 1000);
                 }, 100);
             };
-            
+
             // 开始播放
             showNextWinner();
         }
@@ -1124,17 +1183,17 @@
         function addParticipants() {
             const input = elements.participantsInput.value.trim();
             if (!input) return;
-            
+
             // 支持顿号分隔或每行一个格式
             const names = input.split(/[、\n]+/).filter(name => name.trim());
-            
+
             // 去重添加
             names.forEach(name => {
                 if (!data.participants.includes(name.trim())) {
                     data.participants.push(name.trim());
                 }
             });
-            
+
             elements.participantsInput.value = '';
             updateParticipantsList();
             saveData();
@@ -1144,17 +1203,17 @@
         function addLeaders() {
             const input = elements.leadersInput.value.trim();
             if (!input) return;
-            
+
             // 支持顿号分隔或每行一个格式
             const names = input.split(/[、\n]+/).filter(name => name.trim());
-            
+
             // 去重添加
             names.forEach(name => {
                 if (!data.leaders.includes(name.trim())) {
                     data.leaders.push(name.trim());
                 }
             });
-            
+
             elements.leadersInput.value = '';
             updateLeadersList();
             saveData();
@@ -1189,7 +1248,7 @@
                 alert('暂无中奖记录！');
                 return;
             }
-            
+
             // 创建临时打印窗口
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
@@ -1215,8 +1274,8 @@
                     <div class="congrats">恭喜中奖！</div>
                     <div class="winners-grid">
                         ${data.winners.map((winner, index) => {
-                            const isLeader = data.leaders.includes(winner.name);
-                            return `
+                const isLeader = data.leaders.includes(winner.name);
+                return `
                                 <div class="winner-card ${isLeader ? 'leader-card' : ''}">
                                     <div class="winner-rank ${isLeader ? 'leader-rank' : ''}">${index + 1}</div>
                                     <div class="winner-name">${winner.name}</div>
@@ -1224,12 +1283,12 @@
                                     ${isLeader ? '<div class="leader-badge">特别奖</div>' : ''}
                                 </div>
                             `;
-                        }).join('')}
+            }).join('')}
                     </div>
                 </body>
                 </html>
             `);
-            
+
             printWindow.document.close();
             printWindow.print();
         }
@@ -1243,14 +1302,14 @@
         // 更新背景
         function updateBackground() {
             const body = document.body;
-            
+
             // 移除所有背景相关的类和样式
             body.className = body.className.replace(/bg-gradient-to-br.*?from-primary\/10 to-secondary\/10/, '');
             body.style.backgroundImage = '';
             body.style.backgroundSize = '';
             body.style.backgroundPosition = '';
             body.style.backgroundRepeat = '';
-            
+
             // 应用新背景
             if (data.settings.backgroundMode === 'solid') {
                 // 纯色渐变背景
@@ -1284,7 +1343,7 @@
                     console.error('加载参与者名单失败:', e);
                 }
             }
-            
+
             // 加载领导名单
             const savedLeaders = localStorage.getItem('lotteryLeaders');
             if (savedLeaders) {
@@ -1294,7 +1353,7 @@
                     console.error('加载领导名单失败:', e);
                 }
             }
-            
+
             // 加载中奖记录
             const savedWinners = localStorage.getItem('lotteryWinners');
             if (savedWinners) {
@@ -1304,7 +1363,7 @@
                     console.error('加载中奖记录失败:', e);
                 }
             }
-            
+
             // 加载设置
             const savedSettings = localStorage.getItem('lotterySettings');
             if (savedSettings) {
@@ -1346,7 +1405,7 @@
             // 抽奖控制
             elements.startButton.addEventListener('click', startLottery);
             elements.stopButton.addEventListener('click', stopLottery);
-            
+
             // 界面切换
             elements.viewWinnersButton.addEventListener('click', () => {
                 elements.winnersScreen.classList.remove('hidden');
@@ -1354,14 +1413,14 @@
             elements.backToMainButton.addEventListener('click', () => {
                 elements.winnersScreen.classList.add('hidden');
             });
-            
+
             elements.manageNamesButton.addEventListener('click', () => {
                 elements.namesManagementScreen.classList.remove('hidden');
             });
             elements.backFromNamesButton.addEventListener('click', () => {
                 elements.namesManagementScreen.classList.add('hidden');
             });
-            
+
             // 名单管理
             elements.addParticipantsButton.addEventListener('click', addParticipants);
             elements.addLeadersButton.addEventListener('click', addLeaders);
@@ -1374,34 +1433,34 @@
             elements.deleteAllParticipantsButton.addEventListener('click', deleteAllParticipants);
             elements.deleteAllLeadersButton.addEventListener('click', deleteAllLeaders);
             elements.loadExampleParticipantsButton.addEventListener('click', loadExampleParticipants);
-            
+
             // 中奖名单操作
             elements.clearWinnersButton.addEventListener('click', clearWinners);
             elements.printWinnersButton.addEventListener('click', printWinners);
-            
+
             // 设置操作
             elements.closeSettingsButton.addEventListener('click', () => {
                 elements.settingsScreen.classList.add('hidden');
             });
             elements.saveSettingsButton.addEventListener('click', saveSettings);
             elements.resetSettingsButton.addEventListener('click', resetSettings);
-            
+
             // 设置范围输入监听
             elements.winnersCount.addEventListener('input', (e) => {
                 elements.winnersCountValue.textContent = e.target.value;
             });
-            
+
             elements.lotterySpeed.addEventListener('input', (e) => {
                 elements.lotterySpeedValue.textContent = e.target.value;
             });
-            
+
             elements.fontSize.addEventListener('input', (e) => {
                 elements.fontSizeValue.textContent = e.target.value;
                 // 实时预览字体大小
                 const fontSizeMultiplier = 0.5 + (parseInt(e.target.value) * 0.05);
                 elements.lotteryName.style.fontSize = `clamp(${2 * fontSizeMultiplier}rem, ${8 * fontSizeMultiplier}vw, ${5 * fontSizeMultiplier}rem)`;
             });
-            
+
             // 背景模式变更监听
             document.querySelectorAll('input[name="backgroundMode"]').forEach(radio => {
                 radio.addEventListener('change', (e) => {
@@ -1416,7 +1475,7 @@
                     }
                 });
             });
-            
+
             // 右键菜单
             document.addEventListener('contextmenu', (e) => {
                 e.preventDefault();
@@ -1424,16 +1483,16 @@
                 elements.contextMenu.style.left = `${e.clientX}px`;
                 elements.contextMenu.classList.remove('hidden');
             });
-            
+
             document.addEventListener('click', () => {
                 elements.contextMenu.classList.add('hidden');
             });
-            
+
             document.querySelectorAll('.context-menu-item').forEach(item => {
                 item.addEventListener('click', (e) => {
                     elements.contextMenu.classList.add('hidden');
                     const action = e.currentTarget.getAttribute('data-action');
-                    
+
                     if (action === 'startLottery') startLottery();
                     else if (action === 'stopLottery') stopLottery();
                     else if (action === 'viewWinners') elements.winnersScreen.classList.remove('hidden');
@@ -1442,7 +1501,7 @@
                     else if (action === 'settings') elements.settingsScreen.classList.remove('hidden');
                 });
             });
-            
+
             // 键盘快捷键
             document.addEventListener('keydown', (e) => {
                 // F11 全屏
@@ -1458,7 +1517,7 @@
                         }
                     }
                 }
-                
+
                 // Enter 开始/停止抽奖
                 if (e.key === 'Enter') {
                     e.preventDefault();
@@ -1468,7 +1527,7 @@
                         startLottery();
                     }
                 }
-                
+
                 // Backspace 返回主窗口
                 if (e.key === 'Backspace') {
                     if (!elements.lotteryScreen.classList.contains('hidden')) {
@@ -1481,19 +1540,19 @@
                         elements.settingsScreen.classList.add('hidden');
                     }
                 }
-                
+
                 // Alt+P 中奖名单播放
                 if (e.altKey && e.key === 'p') {
                     e.preventDefault();
                     playWinners();
                 }
-                
+
                 // Alt+/ 呼出设置界面
                 if (e.altKey && e.key === '/') {
                     e.preventDefault();
                     elements.settingsScreen.classList.remove('hidden');
                 }
-                
+
                 // 空格键 回放中奖结果
                 if (e.key === ' ') {
                     e.preventDefault();
@@ -1513,13 +1572,13 @@
         function init() {
             // 加载数据
             loadData();
-            
+
             // 更新显示
             updateParticipantsList();
             updateLeadersList();
             updateWinnersList();
             updateSettingsDisplay();
-            
+
             // 绑定事件监听器
             bindEventListeners();
         }
@@ -1528,4 +1587,5 @@
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
+
 </html>
