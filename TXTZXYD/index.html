@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TXT在线文字转语音阅读器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 40px);
+            height: auto;
+        }
+
+        .ad-container-top {
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #fff;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        header h1 i {
+            font-size: 2rem;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: #f8fafc;
+            border-right: 1px solid #eaeef2;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .file-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #4299e1;
+        }
+
+        .file-input-area {
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+
+        .file-input-area:hover {
+            border-color: #4299e1;
+            background-color: #f0f9ff;
+        }
+
+        .file-input-area i {
+            font-size: 2.5rem;
+            color: #718096;
+            margin-bottom: 12px;
+        }
+
+        .file-input-area h3 {
+            font-size: 1.1rem;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        .file-input-area p {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .file-input-area input {
+            display: none;
+        }
+
+        .current-file {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .current-file h4 {
+            font-size: 0.95rem;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        .current-file p {
+            font-size: 0.85rem;
+            color: #718096;
+            word-break: break-all;
+        }
+
+        .encoding-controls {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .encoding-controls h4 {
+            font-size: 0.95rem;
+            color: #4a5568;
+            margin-bottom: 12px;
+        }
+
+        .encoding-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .encoding-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .encoding-option input {
+            margin: 0;
+        }
+
+        .encoding-option label {
+            font-size: 0.85rem;
+            color: #4a5568;
+            cursor: pointer;
+        }
+
+        .encoding-btn {
+            background-color: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .encoding-btn:hover {
+            background-color: #38a169;
+        }
+
+        .encoding-btn:disabled {
+            background-color: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        .reader-section {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chapters-sidebar {
+            width: 250px;
+            background-color: #f8fafc;
+            border-left: 1px solid #eaeef2;
+            padding: 25px;
+            overflow-y: auto;
+            max-height: 100%;
+        }
+
+        .chapters-section {
+            margin-bottom: 30px;
+        }
+
+        .chapter-list {
+            max-height: 100%;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background-color: white;
+        }
+
+        .chapter-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #edf2f7;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .chapter-item:hover {
+            background-color: #f7fafc;
+        }
+
+        .chapter-item.active {
+            background-color: #4299e1;
+            color: white;
+        }
+
+        .chapter-item:last-child {
+            border-bottom: none;
+        }
+
+        .chapter-title {
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .chapter-preview {
+            display: none;
+        }
+
+        .reader-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeef2;
+        }
+
+        .playback-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .control-btn {
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(66, 153, 225, 0.3);
+        }
+
+        .control-btn:hover {
+            background-color: #3182ce;
+            transform: translateY(-2px);
+        }
+
+        .control-btn:disabled {
+            background-color: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .control-btn i {
+            font-size: 1.1rem;
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #f8fafc;
+            padding: 8px 15px;
+            border-radius: 50px;
+        }
+
+        .speed-control label {
+            font-size: 0.9rem;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .speed-control select {
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            padding: 6px 10px;
+            background-color: white;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .text-display {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+            background-color: #f8fafc;
+            border-radius: 10px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #2d3748;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .text-display p {
+            margin-bottom: 1.2rem;
+        }
+
+        .highlight {
+            background-color: #ffeaa7;
+            padding: 2px 0;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .current-pos-indicator {
+            position: sticky;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            background-color: rgba(66, 153, 225, 0.9);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .current-pos-indicator.show {
+            display: block;
+        }
+
+
+
+        .footer-info {
+            text-align: center;
+            padding: 20px;
+            color: #718096;
+            font-size: 0.9rem;
+            border-top: 1px solid #eaeef2;
+            margin-top: 20px;
+        }
+
+        [url=home.php?mod=space&uid=945662]@media[/url] (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #eaeef2;
+            }
+
+            .reader-controls {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                height: auto;
+                min-height: calc(100vh - 40px);
+            }
+
+            .playback-controls {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .control-btn {
+                width: 100%;
+            }
+
+            .speed-control {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #718096;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #cbd5e0;
+        }
+
+        .voice-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #f8fafc;
+            padding: 8px 15px;
+            border-radius: 50px;
+        }
+
+        .voice-selector select {
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            padding: 6px 10px;
+            background-color: white;
+            color: #4a5568;
+            font-weight: 500;
+            min-width: 150px;
+        }
+
+        .encoding-status {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: 8px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book-reader"></i> TXT在线阅读器</h1>
+            <p>智能编码检测，解决中文乱码问题 | 文字转语音与自动滚动阅读</p>
+        </header>
+
+        <div class="ad-container-top">
+            <script async
+                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8251016534296673"
+                crossorigin="anonymous"></script>
+            <!-- iezyw自适应 -->
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8251016534296673"
+                data-ad-slot="8508409086" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="file-section">
+                    <div class="section-title">
+                        <i class="fas fa-file-import"></i>
+                        <span>导入TXT文件</span>
+                    </div>
+                    <div class="file-input-area" id="fileInputArea">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>点击或拖拽TXT文件到此处</h3>
+                        <p>支持任何纯文本格式文件(.txt, .md, .json等)</p>
+                        <input type="file" id="fileInput" accept=".txt,.md,.json,.html,.css,.js,.xml,.csv">
+                    </div>
+
+                    <div class="current-file">
+                        <h4>当前文件:</h4>
+                        <p id="currentFileName">尚未选择文件</p>
+                        <p id="fileInfo">文件大小: 0 KB | 字符数: 0</p>
+                    </div>
+                </div>
+
+                <div class="file-section">
+                    <div class="section-title">
+                        <i class="fas fa-file-code"></i>
+                        <span>编码设置</span>
+                    </div>
+                    <div class="encoding-controls">
+                        <h4>当前编码: <span id="currentEncoding">自动检测</span></h4>
+                        <div class="encoding-options">
+                            <div class="encoding-option">
+                                <input type="radio" id="autoEncode" name="encoding" value="auto" checked>
+                                <label for="autoEncode">自动检测编码</label>
+                            </div>
+                            <div class="encoding-option">
+                                <input type="radio" id="utf8Encode" name="encoding" value="UTF-8">
+                                <label for="utf8Encode">UTF-8 (推荐)</label>
+                            </div>
+                            <div class="encoding-option">
+                                <input type="radio" id="gbkEncode" name="encoding" value="GBK">
+                                <label for="gbkEncode">GBK / GB2312 (简体中文)</label>
+                            </div>
+                            <div class="encoding-option">
+                                <input type="radio" id="big5Encode" name="encoding" value="Big5">
+                                <label for="big5Encode">Big5 (繁体中文)</label>
+                            </div>
+                            <div class="encoding-option">
+                                <input type="radio" id="isoEncode" name="encoding" value="ISO-8859-1">
+                                <label for="isoEncode">ISO-8859-1 (西欧)</label>
+                            </div>
+                        </div>
+                        <button id="reloadBtn" class="encoding-btn" disabled>使用新编码重新加载</button>
+                        <div id="encodingStatus" class="encoding-status"></div>
+                    </div>
+                </div>
+
+                <div class="file-section">
+                    <div class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        <span>使用说明</span>
+                    </div>
+                    <div class="current-file">
+                        <p><strong>解决乱码问题:</strong></p>
+                        <p>1. 如果文本显示乱码，尝试在左侧选择不同的编码</p>
+                        <p>2. 中文文件通常使用UTF-8或GBK编码</p>
+                        <p>3. 点击"使用新编码重新加载"按钮应用设置</p>
+                        <p><strong>朗读功能:</strong></p>
+                        <p>4. 正确显示文本后，点击"开始朗读"按钮</p>
+                        <p>5. 播放时页面会自动滚动并高亮当前朗读内容</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reader-section">
+                <div class="reader-controls">
+                    <div class="playback-controls">
+                        <button id="playBtn" class="control-btn" disabled>
+                            <i class="fas fa-play"></i>
+                            <span>开始朗读</span>
+                        </button>
+                        <button id="pauseBtn" class="control-btn" disabled>
+                            <i class="fas fa-pause"></i>
+                            <span>暂停</span>
+                        </button>
+                        <button id="stopBtn" class="control-btn" disabled>
+                            <i class="fas fa-stop"></i>
+                            <span>停止</span>
+                        </button>
+                    </div>
+
+                    <div class="speed-control">
+                        <label for="speedSelect">语速:</label>
+                        <select id="speedSelect">
+                            <option value="0.5">0.5x</option>
+                            <option value="0.8">0.8x</option>
+                            <option value="1" selected>正常</option>
+                            <option value="1.2">1.2x</option>
+                            <option value="1.5">1.5x</option>
+                            <option value="2">2x</option>
+                        </select>
+                    </div>
+
+                    <div class="voice-selector">
+                        <label for="voiceSelect">语音:</label>
+                        <select id="voiceSelect"></select>
+                    </div>
+                </div>
+
+                <div class="text-display" id="textDisplay">
+                    <div class="empty-state">
+                        <i class="fas fa-book-open"></i>
+                        <h3>尚未加载文件</h3>
+                        <p>请从左侧导入TXT文件开始阅读</p>
+                        <p style="font-size: 0.9rem; margin-top: 15px; color: #718096;">
+                            如果文本显示乱码，请尝试在左侧选择不同的编码格式重新加载
+                        </p>
+                    </div>
+                </div>
+
+                <div class="current-pos-indicator" id="posIndicator">
+                    正在朗读: <span id="currentPosText">第 0 句 / 共 0 句</span>
+                </div>
+            </div>
+
+            <div class="chapters-sidebar" id="chaptersSidebar">
+                <div class="chapters-section">
+                    <div class="section-title">
+                        <i class="fas fa-list"></i>
+                        <span>章节列表</span>
+                    </div>
+                    <div class="chapter-list" id="chapterList">
+                        <div class="empty-state">
+                            <i class="fas fa-bookmark"></i>
+                            <p>章节列表将在此显示</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-info">
+            <p>本阅读器支持多种编码格式，解决中文TXT文件乱码问题 | 使用浏览器Web Speech API实现文字转语音功能</p>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let currentFileContent = '';
+        let sentences = [];
+        let currentSentenceIndex = 0;
+        let speechSynthesis = window.speechSynthesis;
+        let utterance = null;
+        let isPlaying = false;
+        let voices = [];
+        let autoScrollInterval = null;
+        let currentFile = null;
+        let currentEncoding = 'auto';
+
+        // DOM元素
+        const fileInput = document.getElementById('fileInput');
+        const fileInputArea = document.getElementById('fileInputArea');
+        const currentFileName = document.getElementById('currentFileName');
+        const fileInfo = document.getElementById('fileInfo');
+        const textDisplay = document.getElementById('textDisplay');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const speedSelect = document.getElementById('speedSelect');
+        const voiceSelect = document.getElementById('voiceSelect');
+        const posIndicator = document.getElementById('posIndicator');
+        const currentPosText = document.getElementById('currentPosText');
+        const reloadBtn = document.getElementById('reloadBtn');
+        const currentEncodingDisplay = document.getElementById('currentEncoding');
+        const encodingStatus = document.getElementById('encodingStatus');
+        const encodingRadios = document.querySelectorAll('input[name="encoding"]');
+        const chapterList = document.getElementById('chapterList');
+
+        // 编码映射表
+        const encodings = {
+            'UTF-8': 'utf-8',
+            'GBK': 'gbk',
+            'Big5': 'big5',
+            'ISO-8859-1': 'iso-8859-1'
+        };
+
+        // 初始化语音列表
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            voiceSelect.innerHTML = '';
+
+            // 过滤中文和英文语音
+            const chineseVoices = voices.filter(voice => voice.lang.startsWith('zh'));
+            const englishVoices = voices.filter(voice => voice.lang.startsWith('en'));
+            const otherVoices = voices.filter(voice => !voice.lang.startsWith('zh') && !voice.lang.startsWith('en'));
+
+            // 添加中文语音选项
+            if (chineseVoices.length > 0) {
+                const chineseGroup = document.createElement('optgroup');
+                chineseGroup.label = '中文语音';
+                chineseVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.voiceURI;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    chineseGroup.appendChild(option);
+                });
+                voiceSelect.appendChild(chineseGroup);
+            }
+
+            // 添加英文语音选项
+            if (englishVoices.length > 0) {
+                const englishGroup = document.createElement('optgroup');
+                englishGroup.label = '英语语音';
+                englishVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.voiceURI;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    englishGroup.appendChild(option);
+                });
+                voiceSelect.appendChild(englishGroup);
+            }
+
+            // 添加其他语音选项
+            if (otherVoices.length > 0) {
+                const otherGroup = document.createElement('optgroup');
+                otherGroup.label = '其他语音';
+                otherVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.voiceURI;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    otherGroup.appendChild(option);
+                });
+                voiceSelect.appendChild(otherGroup);
+            }
+
+            // 尝试恢复之前选择的语音
+            const savedVoice = localStorage.getItem('selectedVoice');
+            if (savedVoice && voices.some(voice => voice.voiceURI === savedVoice)) {
+                voiceSelect.value = savedVoice;
+            } else {
+                // 默认选择 Microsoft Xiaoxiao Online (Natural) - Chinese (Mainland) (zh-CN)
+                const xiaoxiaoVoice = voices.find(voice =>
+                    voice.name.includes('Microsoft Xiaoxiao Online') ||
+                    voice.name.includes('Xiaoxiao') ||
+                    voice.voiceURI.includes('Microsoft Xiaoxiao Online')
+                );
+
+                if (xiaoxiaoVoice) {
+                    voiceSelect.value = xiaoxiaoVoice.voiceURI;
+                } else if (chineseVoices.length > 0) {
+                    // 如果没有找到Xiaoxiao，选择第一个中文语音
+                    voiceSelect.value = chineseVoices[0].voiceURI;
+                } else if (voices.length > 0) {
+                    voiceSelect.value = voices[0].voiceURI;
+                }
+            }
+        }
+
+        // 语音列表加载
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        // 文件拖放功能
+        fileInputArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileInputArea.style.borderColor = '#4299e1';
+            fileInputArea.style.backgroundColor = '#f0f9ff';
+        });
+
+        fileInputArea.addEventListener('dragleave', () => {
+            fileInputArea.style.borderColor = '#cbd5e0';
+            fileInputArea.style.backgroundColor = '#fff';
+        });
+
+        fileInputArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileInputArea.style.borderColor = '#cbd5e0';
+            fileInputArea.style.backgroundColor = '#fff';
+
+            if (e.dataTransfer.files.length) {
+                const file = e.dataTransfer.files[0];
+                if (file.type === 'text/plain' || file.name.endsWith('.txt') ||
+                    file.name.endsWith('.md') || file.name.endsWith('.json')) {
+                    readFile(file);
+                } else {
+                    alert('请选择TXT文件或其他文本文件');
+                }
+            }
+        });
+
+        // 点击文件区域触发文件选择
+        fileInputArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // 文件选择变化
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                readFile(e.target.files[0]);
+            }
+        });
+
+        // 读取文件内容
+        function readFile(file, encoding = 'auto') {
+            currentFile = file;
+            currentFileName.textContent = file.name;
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                let content = e.target.result;
+
+                // 尝试检测编码
+                if (encoding === 'auto') {
+                    const detectedEncoding = detectEncoding(content, file);
+                    currentEncoding = detectedEncoding;
+                    currentEncodingDisplay.textContent = detectedEncoding;
+
+                    // 如果检测到的编码不是UTF-8，尝试转换
+                    if (detectedEncoding !== 'UTF-8' && detectedEncoding !== '自动检测') {
+                        content = convertEncoding(content, detectedEncoding);
+                    }
+                } else {
+                    // 使用指定的编码
+                    currentEncoding = encoding;
+                    currentEncodingDisplay.textContent = encoding;
+
+                    if (encoding !== 'UTF-8') {
+                        content = convertEncoding(content, encoding);
+                    }
+                }
+
+                currentFileContent = content;
+                fileInfo.textContent = `文件大小: ${(file.size / 1024).toFixed(2)} KB | 字符数: ${currentFileContent.length} | 编码: ${currentEncoding}`;
+
+                // 处理文本内容
+                processTextContent(currentFileContent);
+
+                // 启用播放按钮和重新加载按钮
+                playBtn.disabled = false;
+                pauseBtn.disabled = true;
+                stopBtn.disabled = true;
+                reloadBtn.disabled = false;
+
+                // 显示文本内容
+                displayTextContent(currentFileContent);
+
+                // 更新编码状态
+                encodingStatus.textContent = `使用 ${currentEncoding} 编码加载成功`;
+                encodingStatus.style.color = '#48bb78';
+
+                // 设置对应的编码单选按钮
+                setEncodingRadio(currentEncoding);
+            };
+
+            reader.onerror = function () {
+                encodingStatus.textContent = '文件读取失败，请尝试其他编码';
+                encodingStatus.style.color = '#f56565';
+            };
+
+            // 读取文件为二进制数组，以便后续编码检测
+            reader.readAsArrayBuffer(file);
+        }
+
+        // 简单的编码检测函数
+        function detectEncoding(buffer, file) {
+            // 将ArrayBuffer转换为Uint8Array
+            const uint8Array = new Uint8Array(buffer);
+
+            // 检测UTF-8 BOM (EF BB BF)
+            if (uint8Array.length >= 3 &&
+                uint8Array[0] === 0xEF &&
+                uint8Array[1] === 0xBB &&
+                uint8Array[2] === 0xBF) {
+                return 'UTF-8';
+            }
+
+            // 检测UTF-16 LE BOM (FF FE)
+            if (uint8Array.length >= 2 &&
+                uint8Array[0] === 0xFF &&
+                uint8Array[1] === 0xFE) {
+                return 'UTF-16LE';
+            }
+
+            // 检测UTF-16 BE BOM (FE FF)
+            if (uint8Array.length >= 2 &&
+                uint8Array[0] === 0xFE &&
+                uint8Array[1] === 0xFF) {
+                return 'UTF-16BE';
+            }
+
+            // 尝试使用TextDecoder检测
+            try {
+                // 尝试UTF-8解码
+                const utf8Decoder = new TextDecoder('utf-8');
+                const utf8Text = utf8Decoder.decode(uint8Array);
+
+                // 检查是否有乱码字符（常见的乱码字符）
+                const garbagePattern = /[&#226;?&#339;&#226;?&#65533;&#226;&#8222;&#162;&#226;?"&#65533;&#226;?&#166;&#194;&#174;&#195;&#169;&#195;¨&#195; &#195;&#180;&#195;&#170;&#195;&#174;&#195;&#187;&#195;§&#195;&#175;&#195;&#188;&#195;&#182;&#195;¤&#195;&#376;]/;
+                if (!garbagePattern.test(utf8Text)) {
+                    return 'UTF-8';
+                }
+            } catch (e) {
+                // UTF-8解码失败
+            }
+
+            // 基于文件名和常见中文编码猜测
+            const fileName = file.name.toLowerCase();
+
+            // 如果是中文文件，优先尝试GBK
+            if (fileName.includes('chinese') || fileName.includes('cn') ||
+                fileName.includes('zh') || fileName.includes('gb')) {
+                return 'GBK';
+            }
+
+            // 如果是繁体中文文件
+            if (fileName.includes('big5') || fileName.includes('tw') ||
+                fileName.includes('hk') || fileName.includes('traditional')) {
+                return 'Big5';
+            }
+
+            // 默认返回GBK（大多数中文TXT文件使用GBK编码）
+            return 'GBK';
+        }
+
+        // 编码转换函数
+        function convertEncoding(buffer, fromEncoding) {
+            try {
+                const uint8Array = new Uint8Array(buffer);
+
+                // 创建TextDecoder
+                let decoder;
+                if (fromEncoding === 'GBK') {
+                    // 尝试使用gbk解码，如果浏览器不支持则使用gb18030
+                    try {
+                        decoder = new TextDecoder('gbk');
+                    } catch (e) {
+                        decoder = new TextDecoder('gb18030');
+                    }
+                } else if (fromEncoding === 'Big5') {
+                    decoder = new TextDecoder('big5');
+                } else if (fromEncoding === 'ISO-8859-1') {
+                    decoder = new TextDecoder('iso-8859-1');
+                } else if (fromEncoding === 'UTF-16LE') {
+                    decoder = new TextDecoder('utf-16le');
+                } else if (fromEncoding === 'UTF-16BE') {
+                    decoder = new TextDecoder('utf-16be');
+                } else {
+                    // 默认使用UTF-8
+                    decoder = new TextDecoder('utf-8');
+                }
+
+                return decoder.decode(uint8Array);
+            } catch (error) {
+                console.error('编码转换失败:', error);
+                encodingStatus.textContent = `编码转换失败: ${error.message}`;
+                encodingStatus.style.color = '#f56565';
+
+                // 尝试使用纯JavaScript的编码转换（简单的GBK到UTF-8映射）
+                if (fromEncoding === 'GBK') {
+                    return trySimpleGBKConversion(buffer);
+                }
+
+                return '编码转换失败，请尝试其他编码格式';
+            }
+        }
+
+        // 简单的GBK到UTF-8转换（处理常见中文字符）
+        function trySimpleGBKConversion(buffer) {
+            const uint8Array = new Uint8Array(buffer);
+            let result = '';
+
+            // 常见GBK字符映射（这里只包含一部分，实际使用中需要完整的映射表）
+            const gbkToUnicode = {
+                '0xA1A1': '　', '0xA1A2': '、', '0xA1A3': '。', '0xA1A4': '·',
+                // 更多映射可以在这里添加
+            };
+
+            // 简单转换：将每个字节转换为字符
+            for (let i = 0; i < uint8Array.length; i++) {
+                const byte = uint8Array[i];
+                // 如果字节大于127，可能是双字节GBK字符
+                if (byte > 127 && i + 1 < uint8Array.length) {
+                    const nextByte = uint8Array[i + 1];
+                    const gbkCode = '0x' + byte.toString(16).toUpperCase() + nextByte.toString(16).toUpperCase();
+
+                    if (gbkToUnicode[gbkCode]) {
+                        result += gbkToUnicode[gbkCode];
+                    } else {
+                        // 无法识别，使用占位符
+                        result += '&#65533;';
+                    }
+                    i++; // 跳过下一个字节
+                } else if (byte < 32 && byte !== 10 && byte !== 13 && byte !== 9) {
+                    // 控制字符（除了换行、回车、制表符）
+                    continue;
+                } else {
+                    // ASCII字符
+                    result += String.fromCharCode(byte);
+                }
+            }
+
+            return result;
+        }
+
+        // 设置编码单选按钮
+        function setEncodingRadio(encoding) {
+            encodingRadios.forEach(radio => {
+                if (radio.value === encoding.toLowerCase()) {
+                    radio.checked = true;
+                } else if (encoding === '自动检测' && radio.value === 'auto') {
+                    radio.checked = true;
+                }
+            });
+        }
+
+        // 重新加载文件使用新编码
+        reloadBtn.addEventListener('click', () => {
+            if (!currentFile) return;
+
+            // 获取选中的编码
+            let selectedEncoding = 'auto';
+            encodingRadios.forEach(radio => {
+                if (radio.checked) {
+                    selectedEncoding = radio.value === 'auto' ? 'auto' : radio.value.toUpperCase();
+                }
+            });
+
+            encodingStatus.textContent = `正在使用 ${selectedEncoding} 编码重新加载...`;
+            encodingStatus.style.color = '#4299e1';
+
+            // 重新读取文件
+            readFile(currentFile, selectedEncoding);
+        });
+
+        // 处理文本内容，分割成句子和章节
+        function processTextContent(text) {
+            // 改进的句子分割逻辑，避免间隙问题
+            // 使用前瞻断言，保留标点符号在句子末尾
+            sentences = text.split(/(?<=[。！？；.!?;])\s*/);
+
+            // 过滤空句子和只包含空格的句子
+            sentences = sentences.filter(s => s.trim().length > 0);
+
+            // 如果句子太少，按换行符分割
+            if (sentences.length <= 1) {
+                sentences = text.split(/\n+/).filter(s => s.trim().length > 0);
+            }
+
+            // 检测章节
+            detectChapters(text);
+
+            console.log(`文本已分割为 ${sentences.length} 个句子`);
+        }
+
+        // 检测章节
+        function detectChapters(text) {
+            const chapterRegex = /^第.{1,5}章.+$/gm;
+            const chapters = [];
+            let match;
+
+            while ((match = chapterRegex.exec(text)) !== null) {
+                const chapterTitle = match[0].trim();
+                const startIndex = match.index;
+                const endIndex = chapterRegex.lastIndex;
+
+                chapters.push({
+                    title: chapterTitle,
+                    startIndex: startIndex,
+                    endIndex: endIndex
+                });
+            }
+
+            // 显示章节列表
+            displayChapterList(chapters);
+        }
+
+        // 显示章节列表
+        function displayChapterList(chapters) {
+            chapterList.innerHTML = '';
+
+            if (chapters.length === 0) {
+                chapterList.innerHTML = '<div class="empty-state"><i class="fas fa-bookmark"></i><p>未检测到章节</p></div>';
+                return;
+            }
+
+            chapters.forEach((chapter, index) => {
+                const chapterItem = document.createElement('div');
+                chapterItem.className = 'chapter-item';
+                chapterItem.innerHTML = `
+                    <div class="chapter-title">${chapter.title}</div>
+                `;
+
+                chapterItem.addEventListener('click', () => {
+                    // 跳转到章节位置
+                    scrollToChapter(chapter.startIndex);
+                    // 设置当前章节为活跃状态
+                    document.querySelectorAll('.chapter-item').forEach(item => item.classList.remove('active'));
+                    chapterItem.classList.add('active');
+                });
+
+                chapterList.appendChild(chapterItem);
+            });
+        }
+
+        // 跳转到章节位置
+        function scrollToChapter(startIndex) {
+            // 找到包含该位置的段落
+            const paragraphs = textDisplay.querySelectorAll('p');
+            let targetParagraph = null;
+
+            for (let i = 0; i < paragraphs.length; i++) {
+                const paragraph = paragraphs[i];
+                const paragraphText = paragraph.textContent;
+
+                // 检查章节标题是否在该段落中
+                if (currentFileContent.indexOf(paragraphText) <= startIndex &&
+                    currentFileContent.indexOf(paragraphText) + paragraphText.length > startIndex) {
+                    targetParagraph = paragraph;
+                    break;
+                }
+            }
+
+            if (targetParagraph) {
+                targetParagraph.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }
+
+        // 显示文本内容
+        function displayTextContent(text) {
+            // 清空现有内容
+            textDisplay.innerHTML = '';
+
+            // 将文本按段落分割并显示
+            const paragraphs = text.split(/\n\s*\n/);
+
+            if (paragraphs.length === 0 || (paragraphs.length === 1 && paragraphs[0] === '')) {
+                // 如果没有段落，直接显示整个文本
+                const p = document.createElement('p');
+                p.textContent = text;
+                textDisplay.appendChild(p);
+            } else {
+                paragraphs.forEach(paragraph => {
+                    if (paragraph.trim()) {
+                        const p = document.createElement('p');
+                        p.textContent = paragraph;
+                        textDisplay.appendChild(p);
+                    }
+                });
+            }
+        }
+
+        // 开始朗读
+        function startReading() {
+            // 从当前滚动位置开始，而不是从头开始
+            if (currentSentenceIndex >= sentences.length) {
+                currentSentenceIndex = 0;
+            }
+
+            // 如果没有在播放，则从当前可见位置开始
+            if (!isPlaying) {
+                currentSentenceIndex = getCurrentVisibleSentenceIndex();
+            }
+
+            // 更新UI状态
+            isPlaying = true;
+            playBtn.disabled = true;
+            pauseBtn.disabled = false;
+            stopBtn.disabled = false;
+
+            // 显示当前位置指示器
+            posIndicator.classList.add('show');
+            updatePositionIndicator();
+
+            // 开始连续朗读流程
+            startContinuousReading();
+        }
+
+        // 连续朗读（优化句子间衔接）
+        function startContinuousReading() {
+            if (!isPlaying || currentSentenceIndex >= sentences.length) {
+                stopReading();
+                return;
+            }
+
+            // 设置语音参数
+            utterance = new SpeechSynthesisUtterance(sentences[currentSentenceIndex]);
+            utterance.rate = parseFloat(speedSelect.value);
+
+            // 选择语音 - 确保使用用户选择的语音
+            const selectedVoice = voices.find(voice => voice.voiceURI === voiceSelect.value);
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            } else {
+                // 如果找不到用户选择的语音，使用默认语音
+                const xiaoxiaoVoice = voices.find(voice =>
+                    voice.name.includes('Microsoft Xiaoxiao Online') ||
+                    voice.name.includes('Xiaoxiao') ||
+                    voice.voiceURI.includes('Microsoft Xiaoxiao Online')
+                );
+                if (xiaoxiaoVoice) {
+                    utterance.voice = xiaoxiaoVoice;
+                } else if (voices.length > 0) {
+                    utterance.voice = voices[0];
+                }
+            }
+
+            // 高亮当前朗读的句子
+            highlightCurrentSentence();
+
+            // 语音合成事件处理
+            utterance.onboundary = function (event) {
+                // 在句子边界处预加载下一句，减少停顿
+                if (event.name === 'sentence' && currentSentenceIndex + 1 < sentences.length) {
+                    preloadNextSentence();
+                }
+            };
+
+            utterance.onend = function () {
+                // 清除当前高亮
+                clearHighlights();
+
+                // 移动到下一句
+                currentSentenceIndex++;
+
+                if (currentSentenceIndex < sentences.length) {
+                    // 延迟很短的时间后立即开始下一句，减少停顿
+                    setTimeout(() => {
+                        startContinuousReading();
+                    }, 50); // 仅50ms延迟，几乎无感知
+                } else {
+                    // 朗读完成
+                    currentSentenceIndex = 0;
+                    isPlaying = false;
+                    playBtn.disabled = false;
+                    pauseBtn.disabled = true;
+                    stopBtn.disabled = true;
+                    posIndicator.classList.remove('show');
+                }
+            };
+
+            utterance.onerror = function (event) {
+                console.error('语音合成错误:', event);
+                // 取消错误弹窗，静默处理错误
+                stopReading();
+            };
+
+            // 开始语音合成
+            speechSynthesis.speak(utterance);
+        }
+
+        // 预加载下一句，减少句子间停顿
+        function preloadNextSentence() {
+            if (currentSentenceIndex + 1 >= sentences.length) return;
+
+            const nextUtterance = new SpeechSynthesisUtterance(sentences[currentSentenceIndex + 1]);
+            nextUtterance.rate = parseFloat(speedSelect.value);
+
+            const selectedVoice = voices.find(voice => voice.voiceURI === voiceSelect.value);
+            if (selectedVoice) {
+                nextUtterance.voice = selectedVoice;
+            }
+
+            // 只是预加载，不播放
+            speechSynthesis.cancel(); // 先取消当前播放
+            speechSynthesis.speak(nextUtterance);
+            speechSynthesis.pause(); // 立即暂停，保持预加载状态
+        }
+
+        // 获取当前可见区域的句子索引
+        function getCurrentVisibleSentenceIndex() {
+            // 如果有鼠标选择的文本，从选择的位置开始
+            const selection = window.getSelection();
+            if (selection && selection.toString().trim().length > 0) {
+                // 从选择的文本位置开始
+                return getSentenceIndexFromSelection(selection);
+            }
+
+            // 从当前屏幕中央位置开始
+            const visibleTop = textDisplay.scrollTop;
+            const visibleCenter = visibleTop + textDisplay.clientHeight / 2;
+
+            // 找到当前屏幕中央位置对应的句子
+            const paragraphs = textDisplay.querySelectorAll('p');
+            let currentCharIndex = 0;
+
+            for (let i = 0; i < paragraphs.length; i++) {
+                const paragraph = paragraphs[i];
+                const paragraphTop = paragraph.offsetTop;
+                const paragraphHeight = paragraph.offsetHeight;
+
+                // 检查段落是否在屏幕中央附近
+                if (paragraphTop <= visibleCenter && paragraphTop + paragraphHeight >= visibleCenter) {
+                    // 找到段落中的中央位置
+                    const paragraphText = paragraph.textContent;
+
+                    // 在句子数组中查找包含该段落的句子
+                    for (let j = 0; j < sentences.length; j++) {
+                        if (paragraphText.includes(sentences[j])) {
+                            return j;
+                        }
+                    }
+                }
+            }
+
+            // 如果找不到精确匹配，使用百分比方法作为备选
+            const totalHeight = textDisplay.scrollHeight;
+            const scrollPercentage = visibleCenter / totalHeight;
+            const targetIndex = Math.floor(sentences.length * scrollPercentage);
+            return Math.max(0, Math.min(targetIndex, sentences.length - 1));
+        }
+
+
+
+        // 从选择的文本获取句子索引
+        function getSentenceIndexFromSelection(selection) {
+            const selectedText = selection.toString().trim();
+            if (selectedText.length === 0) return 0;
+
+            // 在句子数组中查找包含选择文本的句子
+            for (let i = 0; i < sentences.length; i++) {
+                if (sentences[i].includes(selectedText)) {
+                    return i;
+                }
+            }
+
+            // 如果找不到精确匹配，找到最接近的句子
+            const anchorNode = selection.anchorNode;
+            if (anchorNode && anchorNode.parentElement) {
+                const paragraph = anchorNode.parentElement;
+                const paragraphText = paragraph.textContent;
+
+                for (let i = 0; i < sentences.length; i++) {
+                    if (paragraphText.includes(sentences[i])) {
+                        return i;
+                    }
+                }
+            }
+
+            return 0;
+        }
+
+        // 暂停朗读
+        function pauseReading() {
+            if (speechSynthesis.speaking && !speechSynthesis.paused) {
+                speechSynthesis.pause();
+                isPlaying = false;
+                pauseBtn.disabled = true;
+                playBtn.disabled = false;
+                stopAutoScroll();
+            }
+        }
+
+        // 恢复朗读
+        function resumeReading() {
+            if (speechSynthesis.speaking && speechSynthesis.paused) {
+                speechSynthesis.resume();
+                isPlaying = true;
+                pauseBtn.disabled = false;
+                playBtn.disabled = true;
+                startAutoScroll();
+            }
+        }
+
+        // 停止朗读
+        function stopReading() {
+            speechSynthesis.cancel();
+            isPlaying = false;
+            currentSentenceIndex = 0;
+            playBtn.disabled = false;
+            pauseBtn.disabled = true;
+            stopBtn.disabled = true;
+            posIndicator.classList.remove('show');
+            clearHighlights();
+            stopAutoScroll();
+        }
+
+        // 高亮当前朗读的句子
+        function highlightCurrentSentence() {
+            clearHighlights();
+
+            // 获取当前句子
+            const currentSentence = sentences[currentSentenceIndex];
+            if (!currentSentence) return;
+
+            // 在文本显示区域查找并高亮当前句子
+            const paragraphs = textDisplay.querySelectorAll('p');
+
+            for (let i = 0; i < paragraphs.length; i++) {
+                const paragraph = paragraphs[i];
+                const paragraphText = paragraph.textContent;
+                const sentenceIndex = paragraphText.indexOf(currentSentence);
+
+                if (sentenceIndex !== -1) {
+                    // 创建范围并高亮
+                    const textNodes = getTextNodes(paragraph);
+                    let currentIndex = 0;
+
+                    for (let j = 0; j < textNodes.length; j++) {
+                        const textNode = textNodes[j];
+                        const nodeLength = textNode.textContent.length;
+
+                        if (currentIndex <= sentenceIndex && currentIndex + nodeLength > sentenceIndex) {
+                            const startOffset = sentenceIndex - currentIndex;
+                            const endOffset = Math.min(startOffset + currentSentence.length, nodeLength);
+
+                            const range = document.createRange();
+                            range.setStart(textNode, startOffset);
+                            range.setEnd(textNode, endOffset);
+
+                            const highlightSpan = document.createElement('span');
+                            highlightSpan.className = 'highlight';
+
+                            range.surroundContents(highlightSpan);
+                            break;
+                        }
+
+                        currentIndex += nodeLength;
+                    }
+
+                    // 滚动到高亮区域
+                    const highlightElement = paragraph.querySelector('.highlight');
+                    if (highlightElement) {
+                        highlightElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        // 获取元素中的所有文本节点
+        function getTextNodes(element) {
+            const textNodes = [];
+            const walker = document.createTreeWalker(
+                element,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+
+            let node;
+            while (node = walker.nextNode()) {
+                textNodes.push(node);
+            }
+
+            return textNodes;
+        }
+
+        // 清除所有高亮
+        function clearHighlights() {
+            const highlights = textDisplay.querySelectorAll('.highlight');
+            highlights.forEach(highlight => {
+                const parent = highlight.parentNode;
+                parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+                parent.normalize();
+            });
+        }
+
+        // 更新位置指示器
+        function updatePositionIndicator() {
+            currentPosText.textContent = `第 ${currentSentenceIndex + 1} 句 / 共 ${sentences.length} 句`;
+        }
+
+        // 开始自动滚动
+        function startAutoScroll() {
+            stopAutoScroll();
+
+            // 每100毫秒滚动一点点，实现平滑滚动
+            autoScrollInterval = setInterval(() => {
+                // 轻微向下滚动
+                textDisplay.scrollTop += 1;
+            }, 100);
+        }
+
+        // 停止自动滚动
+        function stopAutoScroll() {
+            if (autoScrollInterval) {
+                clearInterval(autoScrollInterval);
+                autoScrollInterval = null;
+            }
+        }
+
+        // 事件监听
+        playBtn.addEventListener('click', () => {
+            if (isPlaying && speechSynthesis.paused) {
+                resumeReading();
+            } else {
+                startReading();
+            }
+        });
+
+        pauseBtn.addEventListener('click', pauseReading);
+        stopBtn.addEventListener('click', stopReading);
+
+        speedSelect.addEventListener('change', () => {
+            if (utterance && speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+                utterance.rate = parseFloat(speedSelect.value);
+                startReading();
+            }
+        });
+
+        voiceSelect.addEventListener('change', () => {
+            // 保存当前选择的语音到本地存储，防止重置
+            localStorage.setItem('selectedVoice', voiceSelect.value);
+
+            if (utterance && speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+
+                const selectedVoice = voices.find(voice => voice.voiceURI === voiceSelect.value);
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+
+                startReading();
+            }
+        });
+
+        // 页面卸载前停止语音
+        window.addEventListener('beforeunload', () => {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+        });
+
+
+
+        // 初始化
+        loadVoices();
+
+        // 示例文本（如果用户没有上传文件，可以提供一个示例）
+        const sampleText = `欢迎使用TXT在线阅读器！
+ 
+这是一个示例文本，您可以点击左侧的"导入TXT文件"区域上传您自己的文本文件。
+ 
+功能特点：
+1. 智能编码检测，解决中文乱码问题
+2. 支持导入本地TXT文件
+3. 文字转语音朗读功能
+4. 自动滚动和高亮当前朗读内容
+5. 可调节朗读速度和选择不同语音
+ 
+常见中文编码问题解决方案：
+&#8226; 如果文本显示为"&#65533;&#65533;&#65533;&#65533;&#65533;&#65533;&#65533;&#65533;&#65533;&#65533;&#65533;蹫&#766;&#65533;&#65533;&#65533;&#65533;&#65533;&#65533;"等乱码，请尝试选择"GBK"编码
+&#8226; 如果文本显示为繁体中文乱码，请尝试选择"Big5"编码
+&#8226; 现代文本文件通常使用"UTF-8"编码
+&#8226; 如果还是出现问题自己转码
+&#8226; AI生成的有点拉但是能用。
+  
+请上传您的文本文件开始体验吧！`;
+
+        // 显示示例文本
+        displayTextContent(sampleText);
+    </script>
+</body>
+
+</html>
